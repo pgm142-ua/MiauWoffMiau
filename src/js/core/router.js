@@ -4,6 +4,7 @@
 
 import { $, put, show } from './dom.js';
 import { pages, state, uiState } from './state.js';
+import { onLanguageChange, t, translateCause, translateFeeling } from '../services/i18n.js';
 import { say } from '../services/speech.js';
 
 const STEP_LIST = [
@@ -26,6 +27,26 @@ export function registerPageHook(pageName, fn) {
 export function visiblePage() {
   return $('screen-' + uiState.page);
 }
+
+function updateProgressLabel() {
+  const vp = visiblePage();
+  const heading = vp?.querySelector('h1');
+  put('progress-label', vp?.querySelector('.step-badge')?.innerText || heading?.innerText || 'Contigo');
+}
+
+function renderAdaptedSummary() {
+  if (uiState.page !== 'adapted-3') return;
+  const roleLabel = t(state.branch === 'testigo' ? 'ad3_summary_witness' : 'ad3_summary_victim');
+  put(
+    'adapted-summary-box',
+    `📌 ${roleLabel} · ${translateFeeling(state.feeling)} · ${translateCause(state.cause)}`
+  );
+}
+
+onLanguageChange(() => {
+  updateProgressLabel();
+  renderAdaptedSummary();
+});
 
 export function background(inert) {
   document.querySelector('main').inert = inert;
@@ -71,7 +92,7 @@ export function go(target, push = true) {
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  put('progress-label', vp?.querySelector('.step-badge')?.innerText || heading?.innerText || 'Contigo');
+  updateProgressLabel();
   const step = STEP_LIST.indexOf(uiState.page) + 1;
   const progressFill = $('progress-fill');
   if (progressFill) {
@@ -83,8 +104,7 @@ export function go(target, push = true) {
   }
 
   if (uiState.page === 'adapted-3') {
-    const roleLabel = state.branch === 'testigo' ? 'Lo he visto (Testigo)' : 'Me pasa a mí';
-    put('adapted-summary-box', `📌 ${roleLabel} · ${state.feeling} · ${state.cause}`);
+    renderAdaptedSummary();
     show('adapted-sent-confirm', false);
   }
 

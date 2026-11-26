@@ -5,11 +5,15 @@
 import { $, all, on, put, show, submit, value } from '../core/dom.js';
 import { addNotice, pages, state, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
+import { t, translateCause, translateFeeling } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
 import { applyDisabilitySupport, applyPreferences, toggleDisabilityDetail } from './accessibility.js';
 import { addCaaWord } from './caa.js';
 import { selectFeedbackEmotion } from './feedback.js';
 import { setTeacherFilter } from './teacher-panel.js';
+
+const YES_TOKENS = new Set(['1', 'sí', 'si', 's', 'yes', 'y', 'oui', 'o', 'ja', 'j', 'sim', 'نعم', 'أجل', 'ايوه', 'اي']);
+const NO_TOKENS = new Set(['2', 'no', 'n', 'non', 'nein', 'não', 'nao', 'لا']);
 
 const DIRECT_ROUTES = {
   'btn-role-to-caa': 'caa',
@@ -89,10 +93,10 @@ export function initFlow() {
 
     if (data.text) {
       if ($('adapted-note')) $('adapted-note').value = data.text;
-      message('Frase añadida.');
+      message(t('ad3_phrase_added'));
     }
 
-    if (data.caa) addCaaWord(data.caa);
+    if (data.caaId || data.caa) addCaaWord(data.caaId || data.caa);
     if (data.teacherFilter) setTeacherFilter(data.teacherFilter);
     if (data.emotion) selectFeedbackEmotion(button);
 
@@ -112,45 +116,53 @@ export function initFlow() {
   ];
   for (const [formId, inputId, action] of quickYesNoForms) {
     submit(formId, () => {
-      const text = value(inputId).toLowerCase();
-      const answer = ['1', 'sí', 'si', 's'].some((w) => text.includes(w))
+      const normalized = value(inputId).toLowerCase().replace(/١/g, '1').replace(/٢/g, '2');
+      const tokens = normalized.split(/[\s,.;!?،]+/).filter(Boolean);
+      const answer = tokens.some((tok) => YES_TOKENS.has(tok))
         ? 'si'
-        : ['2', 'no', 'n'].some((w) => text.includes(w))
+        : tokens.some((tok) => NO_TOKENS.has(tok))
           ? 'no'
           : '';
-      if (!answer) return message('Escribe Sí, No, 1 o 2.');
+      if (!answer) return message(t('flow_yesno_error'));
       choose(document.querySelector(`[data-action="${action}"][data-value="${answer}"]`));
     });
   }
 
   submit('form-dis-detail-text', () => {
-    const parts = value('input-dis-detail').toLowerCase().split(/[\s,;]+/);
+    const normalized = value('input-dis-detail')
+      .toLowerCase()
+      .replace(/[١-٦]/g, (d) => String('١٢٣٤٥٦'.indexOf(d) + 1));
+    const parts = normalized.split(/[\s,;،]+/);
     const matches = all('[data-dis-type]').filter(
       (btn) => parts.includes(btn.dataset.key) || parts.includes(btn.dataset.disType)
     );
-    if (!matches.length) return message('Escribe un número del 1 al 6.');
+    if (!matches.length) return message(t('flow_dis_error'));
     matches.forEach((btn) => btn.setAttribute('aria-pressed', 'true'));
     applyDisabilitySupport();
   });
 
   // Pantalla Adaptado 3: envío al profesor
   on('btn-send-to-teacher', () => {
-    const roleStr = state.branch === 'testigo' ? 'Testigo' : 'Víctima';
-    uiState.lastReport = [state.feeling, state.cause, value('adapted-note')]
+    const roleStr = t(state.branch === 'testigo' ? 'role_witness' : 'role_victim');
+    uiState.lastReport = [
+      translateFeeling(state.feeling),
+      translateCause(state.cause),
+      value('adapted-note'),
+    ]
       .filter(Boolean)
       .join(' · ');
 
-    const code = addNotice(
-      uiState.lastReport,
-      state.place || 'Patio / Recreo',
-      'Profesor / Tutor',
-      value('adapted-school') ? `${value('adapted-school')} (${roleStr})` : `Alumno Anónimo (${roleStr})`
-    );
+    const school = value('adapted-school');
+    const sender = school
+      ? t('ad3_sender_named', { school, role: roleStr })
+      : t('ad3_sender_anon', { role: roleStr });
+
+    const code = addNotice(uiState.lastReport, state.place || 'patio', 'teacher_tutor', sender);
 
     put('adapted-safe-code', code);
     show('adapted-sent-confirm', true);
-    say('¡Muy bien! Tu aviso se ha enviado al profesor.');
+    say(t('ad3_sent_spoken'));
   });
 
-  on('btn-speak-for-me', () => say(uiState.lastReport || 'Necesito ayuda del profesor.'));
+  on('btn-speak-for-me', () => say(uiState.lastReport || t('ad3_speak_fallback')));
 }

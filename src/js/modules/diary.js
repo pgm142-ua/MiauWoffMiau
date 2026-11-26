@@ -6,6 +6,7 @@ import { $, localDate, node, on, put, show, stamp, submit, value } from '../core
 import { diary } from '../core/state.js';
 import { save } from '../core/storage.js';
 import { registerPageHook } from '../core/router.js';
+import { getLocale, onLanguageChange, t, translatePlace } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
 
 export function drawDiary() {
@@ -19,13 +20,15 @@ export function drawDiary() {
   }
 
   if (!diary.length) {
-    area.append(node('p', 'Tu diario está vacío.'));
+    area.append(node('p', t('diary_empty')));
     return;
   }
 
+  const locale = getLocale();
+
   for (const entry of diary.slice().sort((a, b) => b.date.localeCompare(a.date))) {
     const card = node('article', '', 'record');
-    const del = node('button', '🗑️ Eliminar', 'btn-mini');
+    const del = node('button', t('diary_delete_btn'), 'btn-mini');
     del.type = 'button';
     del.onclick = () => {
       diary.splice(diary.indexOf(entry), 1);
@@ -33,58 +36,69 @@ export function drawDiary() {
       drawDiary();
     };
     card.append(
-      node('strong', `📍 ${entry.place} · Nivel ${entry.level}`),
-      node('small', stamp(entry.date)),
-      node('p', entry.text),
+      node('strong', t('diary_entry_meta', { place: translatePlace(entry.place), level: entry.level })),
+      node('small', stamp(entry.date, locale)),
+      node('p', entry.textKey ? t(entry.textKey) : entry.text),
       del
     );
     area.append(card);
   }
 }
 
+function renderDiaryAnalysis(speak = false) {
+  const sorted = diary.slice().sort((a, b) => b.date.localeCompare(a.date));
+  const [latest, previous] = sorted;
+  let analysis = t('diary_analysis_empty');
+
+  if (latest) {
+    analysis = t('diary_analysis_summary', {
+      count: diary.length,
+      place: translatePlace(latest.place),
+      level: latest.level,
+    });
+    if (previous) {
+      analysis += t(latest.level >= previous.level ? 'diary_analysis_escalation' : 'diary_analysis_calmer');
+    }
+  }
+
+  put('diary-analysis-box', analysis);
+  show('diary-analysis-box', true);
+  if (speak) say(analysis);
+}
+
 export function initDiary() {
   registerPageHook('diary', drawDiary);
 
   submit('form-diary-entry', () => {
-    const text = value('diary-desc') || 'Incidente registrado en el diario.';
+    const rawText = value('diary-desc');
     diary.push({
-      text,
+      ...(rawText ? {} : { textKey: 'diary_default_text' }),
+      text: rawText || t('diary_default_text'),
       date: value('diary-date') || localDate(),
-      place: value('diary-place') || 'Patio / Recreo',
+      place: value('diary-place') || 'patio',
       level: value('diary-severity') || '2',
     });
     save('diario', diary);
     if ($('diary-desc')) $('diary-desc').value = '';
     drawDiary();
-    message('✅ Guardado en tu diario.');
+    message(t('diary_saved_toast'));
   });
 
   on('btn-diary-seed-demo', () => {
     if ($('diary-date')) $('diary-date').value = localDate();
     if ($('diary-desc')) {
-      $('diary-desc').value = 'Durante el recreo me dejaron fuera del grupo y se burlaron de cómo hablo.';
+      $('diary-desc').value = t('diary_demo_text');
       $('diary-desc').focus();
     }
   });
 
-  on('btn-analyze-diary', () => {
-    const sorted = diary.slice().sort((a, b) => b.date.localeCompare(a.date));
-    const [latest, previous] = sorted;
-    let analysis = 'Añade un registro para analizar la evolución.';
+  on('btn-analyze-diary', () => renderDiaryAnalysis(true));
 
-    if (latest) {
-      analysis = `📊 Análisis: Tienes ${diary.length} registro(s). El último fue en ${latest.place} (Nivel ${latest.level}/3).`;
-      if (previous) {
-        analysis +=
-          latest.level >= previous.level
-            ? ' ⚠️ Se observa repetición/escalada en momentos no estructurados. Recomendamos pulsar Enviar al Profesor.'
-            : ' Se observa menor intensidad respecto al registro anterior.';
-      }
+  onLanguageChange(() => {
+    drawDiary();
+    if ($('diary-analysis-box') && !$('diary-analysis-box').classList.contains('hidden')) {
+      renderDiaryAnalysis(false);
     }
-
-    put('diary-analysis-box', analysis);
-    show('diary-analysis-box', true);
-    say(analysis);
   });
 
   drawDiary();

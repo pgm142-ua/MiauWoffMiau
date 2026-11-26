@@ -3,19 +3,10 @@
  */
 
 import { $, on, put, show, value } from '../core/dom.js';
+import { getLocale, t } from './i18n.js';
 
 let toastTimer = null;
 let recognitionInstance = null;
-
-const LANG_MAP = {
-  es: 'es-ES',
-  ca: 'ca-ES',
-  en: 'en-US',
-  fr: 'fr-FR',
-  de: 'de-DE',
-  pt: 'pt-PT',
-  ar: 'ar-SA',
-};
 
 export function message(text) {
   put('toast', text);
@@ -42,7 +33,7 @@ export function say(text) {
   }
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = LANG_MAP[value('lang-select')] || 'es-ES';
+  utterance.lang = getLocale();
   utterance.rate = Number(value('gear-speech-rate') || 1);
   window.speechSynthesis.speak(utterance);
 }
@@ -51,27 +42,37 @@ export function abortSpeechRecognition() {
   recognitionInstance?.abort();
 }
 
+function getButtonLabelElement(btn) {
+  const span = btn.querySelector('span[data-i18n], span:not([aria-hidden="true"])');
+  return span || btn;
+}
+
 export function initSpeechRecognition() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const micMap = {
-    'btn-mic-step0': ['input-voice-answer', 'Sí'],
-    'btn-mic-has-dis': ['input-has-dis-answer', 'Sí'],
-    'btn-mic-dis-detail': ['input-dis-detail', '4'],
-    'btn-voice-adapted': ['adapted-note', 'En el recreo se ríen de mí y me dejan solo.'],
-    'btn-chat-mic': ['chat-input', 'En el recreo se meten con un compañero y me da miedo decirlo en clase.'],
-    'btn-voice-q': ['q-situation-text', 'Ocurre en el patio cuando no hay profesores cerca.'],
-    'btn-voice-diary': ['diary-desc', 'Hoy en el cambio de clase me han escondido la mochila.'],
+    'btn-mic-step0': ['input-voice-answer', 'mic_sample_step0'],
+    'btn-mic-has-dis': ['input-has-dis-answer', 'mic_sample_has_dis'],
+    'btn-mic-dis-detail': ['input-dis-detail', 'mic_sample_dis_detail'],
+    'btn-voice-adapted': ['adapted-note', 'mic_sample_adapted'],
+    'btn-chat-mic': ['chat-input', 'mic_sample_chat'],
+    'btn-voice-q': ['q-situation-text', 'mic_sample_q'],
+    'btn-voice-diary': ['diary-desc', 'mic_sample_diary'],
   };
 
-  Object.entries(micMap).forEach(([btnId, [inputId, sampleText]]) => {
+  Object.entries(micMap).forEach(([btnId, [inputId, sampleKey]]) => {
     on(btnId, () => {
       const btn = $(btnId);
       if (!btn) return;
-      const origText = btn.innerText;
-      btn.innerText = '🔴 Escuchando...';
+      const labelEl = getButtonLabelElement(btn);
+      const origText = labelEl.textContent;
+      const restoreLabel = () => {
+        const key = labelEl.dataset?.i18n;
+        labelEl.textContent = key ? t(key) : origText;
+      };
+      labelEl.textContent = t('mic_listening');
 
       const applyTranscript = (text, autoSendChat = false) => {
-        btn.innerText = origText;
+        restoreLabel();
         const inputEl = $(inputId);
         if (inputEl) {
           inputEl.value = text;
@@ -80,7 +81,7 @@ export function initSpeechRecognition() {
         if (btnId === 'btn-chat-mic' && autoSendChat) {
           $('form-chat')?.requestSubmit();
         } else {
-          message('🎙️ Voz capturada: "' + text + '"');
+          message(t('mic_captured', { text }));
         }
       };
 
@@ -88,18 +89,16 @@ export function initSpeechRecognition() {
         try {
           recognitionInstance?.abort();
           recognitionInstance = new Recognition();
-          recognitionInstance.lang = 'es-ES';
+          recognitionInstance.lang = getLocale();
           recognitionInstance.onresult = (e) => applyTranscript(e.results[0][0].transcript, true);
-          recognitionInstance.onerror = () => setTimeout(() => applyTranscript(sampleText, true), 900);
-          recognitionInstance.onend = () => {
-            btn.innerText = origText;
-          };
+          recognitionInstance.onerror = () => setTimeout(() => applyTranscript(t(sampleKey), true), 900);
+          recognitionInstance.onend = restoreLabel;
           recognitionInstance.start();
         } catch {
-          setTimeout(() => applyTranscript(sampleText, true), 900);
+          setTimeout(() => applyTranscript(t(sampleKey), true), 900);
         }
       } else {
-        setTimeout(() => applyTranscript(sampleText, true), 900);
+        setTimeout(() => applyTranscript(t(sampleKey), true), 900);
       }
     });
   });

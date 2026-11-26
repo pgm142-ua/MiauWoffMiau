@@ -12,9 +12,9 @@ export const state = {
   role: 'alumno',
   mode: 'adaptado',
   branch: 'victima',
-  feeling: 'Triste / Con miedo',
-  cause: 'Social (exclusión o burlas)',
-  place: 'Patio / Recreo',
+  feeling: 'sad',
+  cause: 'social',
+  place: 'patio',
 };
 
 export const uiState = {
@@ -28,28 +28,34 @@ export const uiState = {
 const defaultInbox = [
   {
     id: 'SAFE-104',
+    textKey: 'tp_seed_1_text',
     text: 'Modo Adaptado · Triste / Con miedo · Social (exclusión o burlas)',
-    place: 'Patio / Recreo',
+    place: 'patio',
+    contextKey: 'tp_seed_1_ctx',
     context: 'Alumno/a (Víctima)',
-    recipient: 'Tutor/a del grupo',
+    recipient: 'tutor',
     status: 'pendiente',
     date: new Date(Date.now() - 1800000).toISOString(),
   },
   {
     id: 'SAFE-103',
+    textKey: 'tp_seed_2_text',
     text: 'Aviso Anónimo por Voz: "En el cambio de clase varios compañeros han acorralado a un chico en el pasillo."',
-    place: 'Pasillos / Baños',
+    place: 'hallways',
+    contextKey: 'tp_seed_2_ctx',
     context: 'Testigo Anónimo',
-    recipient: 'Orientación y Bienestar',
+    recipient: 'guidance',
     status: 'pendiente',
     date: new Date(Date.now() - 5400000).toISOString(),
   },
   {
     id: 'SAFE-101',
+    textKey: 'tp_seed_3_text',
     text: 'Aviso Familia: No quiere ir al colegio por las mañanas y dice que en el recreo siempre está solo.',
-    place: 'Patio / Recreo',
+    place: 'patio',
+    contextKey: 'tp_seed_3_ctx',
     context: 'Familia de Mateo (1.º ESO A)',
-    recipient: 'Orientación y Bienestar',
+    recipient: 'guidance',
     status: 'seguimiento',
     date: new Date(Date.now() - 86400000).toISOString(),
   },
@@ -57,9 +63,10 @@ const defaultInbox = [
 
 const defaultDiary = [
   {
+    textKey: 'diary_seed_1',
     text: 'En el recreo no me dejaron jugar y se rieron cuando pregunté por qué.',
     date: new Date(Date.now() - 86400000).toISOString().slice(0, 16),
-    place: 'Patio / Recreo',
+    place: 'patio',
     level: '2',
   },
 ];
@@ -73,9 +80,10 @@ export function updateTeacherBadge() {
 
 export function addNotice(
   text,
-  place = 'Patio / Recreo',
-  recipient = 'Orientación y Bienestar',
-  context = 'Anónimo'
+  place = 'patio',
+  recipient = 'guidance',
+  context = '',
+  extra = {}
 ) {
   const code = 'SAFE-' + Math.floor(200 + Math.random() * 799);
   inbox.unshift({
@@ -86,6 +94,7 @@ export function addNotice(
     recipient,
     status: 'pendiente',
     date: new Date().toISOString(),
+    ...extra,
   });
   save('panel', inbox);
   updateTeacherBadge();

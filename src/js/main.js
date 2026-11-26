@@ -18,6 +18,7 @@ import { initQuestionnaire } from './modules/questionnaire.js';
 import { initTeacherPanel } from './modules/teacher-panel.js';
 
 function bootstrap() {
+  initI18n();
   initCaa();
   initDiary();
   initTeacherPanel();
@@ -29,7 +30,6 @@ function bootstrap() {
   initFlow();
   initAccessibility();
   initSpeechRecognition();
-  initI18n();
 
   go('home', false);
 }

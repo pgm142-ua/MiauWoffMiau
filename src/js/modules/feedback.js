@@ -5,32 +5,42 @@
 import { $, all, on, put, show } from '../core/dom.js';
 import { state, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
+import {
+  onLanguageChange,
+  t,
+  translateCause,
+  translateFeeling,
+  translatePlace,
+} from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
 
-export function selectFeedbackEmotion(button) {
-  all('[data-emotion]').forEach((el) => el.setAttribute('aria-checked', String(el === button)));
-  const label = button.querySelector('.emotion-label')?.innerText.replace(/^\d+\.\s*/, '') || '';
+let selectedEmotionButton = null;
 
-  put('explanation-emotion-title', 'Tu plan de apoyo personalizado');
-  put('explanation-emotion-meaning', '💛 Cómo te sientes hoy: ' + label);
-  put(
-    'explanation-summary',
-    '📋 Resumen del aviso enviado al profesor: ' +
-      (uiState.lastReport || `${state.feeling} · ${state.cause} en ${state.place}`)
-  );
-  put(
-    'explanation-plan',
-    '🛡️ Qué hará el centro: Tu profesor u orientador vigilará la zona (' +
-      (state.place || 'Patio / Recreo') +
-      ') de forma discreta sin exponerte delante de tus compañeros.'
-  );
-  put(
-    'explanation-resources',
-    '📞 Teléfono gratuito y confidencial contra el acoso escolar: 900 018 018 (funciona 24 horas).'
-  );
+function renderExplanation(button, speak = false) {
+  if (!button) return;
+  const label = button.querySelector('.emotion-label')?.innerText.replace(/^\d+\.\s*/, '') || '';
+  const fallbackReport = [
+    translateFeeling(state.feeling),
+    translateCause(state.cause),
+    translatePlace(state.place),
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
+  put('explanation-emotion-title', t('fb_plan_title'));
+  put('explanation-emotion-meaning', t('fb_meaning', { emotion: label }));
+  put('explanation-summary', t('fb_summary', { report: uiState.lastReport || fallbackReport }));
+  put('explanation-plan', t('fb_plan_body', { place: translatePlace(state.place || 'patio') }));
+  put('explanation-resources', t('fb_resources'));
 
   show('full-explanation-panel', true);
-  say('Gracias por contarlo. Tu profesor ya tiene el aviso para ayudarte.');
+  if (speak) say(t('fb_spoken_thanks'));
+}
+
+export function selectFeedbackEmotion(button) {
+  selectedEmotionButton = button;
+  all('[data-emotion]').forEach((el) => el.setAttribute('aria-checked', String(el === button)));
+  renderExplanation(button, true);
 }
 
 function reportText() {
@@ -50,12 +60,22 @@ export function initFeedback() {
   on('btn-copy-report', async () => {
     try {
       await navigator.clipboard.writeText(reportText());
-      message('📋 Resumen copiado al portapapeles.');
+      message(t('fb_copied_toast'));
     } catch {
-      message('Resumen listo.');
+      message(t('fb_copy_fallback'));
     }
   });
 
   on('btn-print-report', () => window.print());
   on('btn-restart', () => go('home'));
+
+  onLanguageChange(() => {
+    if (
+      selectedEmotionButton &&
+      $('full-explanation-panel') &&
+      !$('full-explanation-panel').classList.contains('hidden')
+    ) {
+      renderExplanation(selectedEmotionButton, false);
+    }
+  });
 }
