@@ -1,0 +1,143 @@
+/* ==========================================================================
+   ACCESSIBILITY: Alto contraste, lectura fácil, modo motor, sin animaciones y vista Figma
+   ========================================================================== */
+
+.contrast {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.contrast .app-header,
+.contrast .card,
+.contrast .modal-card,
+.contrast .safe-exit-card,
+.contrast .tile,
+.contrast .choice-card,
+.contrast .visual-card,
+.contrast .emotion-card,
+.contrast .toggle-dis-card,
+.contrast .caa-tile,
+.contrast .soft-box,
+.contrast .soft-note,
+.contrast .info-banner,
+.contrast .anon-box,
+.contrast .hotspot-box,
+.contrast .explanation-panel,
+.contrast .record,
+.contrast .question-block,
+.contrast .caa-builder-box,
+.contrast .chat-messages,
+.contrast .gear-toggle,
+.contrast .pill-option,
+.contrast .form-control,
+.contrast .lang-select,
+.contrast .tool-btn,
+.contrast .btn,
+.contrast .btn-mini,
+.contrast .quick-prompt-btn,
+.contrast .chip-btn,
+.contrast .link-pill {
+  background: #0d1117 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+.contrast .btn-primary,
+.contrast .btn-huge,
+.contrast .hero-cta {
+  background: #facc15 !important;
+  color: #000000 !important;
+  border: 3px solid #ffffff !important;
+}
+
+.contrast .step-badge,
+.contrast .status-pill,
+.contrast .adaptation-badge {
+  background: #1e293b !important;
+  color: #facc15 !important;
+  border: 1px solid #facc15 !important;
+}
+
+.contrast .bubble {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+.contrast .bubble.own {
+  background: #facc15 !important;
+  color: #000000 !important;
+}
+
+.contrast .selected,
+.contrast [aria-pressed="true"],
+.contrast [aria-checked="true"],
+.contrast .pill-option:has(:checked) {
+  background: #facc15 !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: inset 0 0 0 3px #000000 !important;
+}
+
+.contrast .selected *,
+.contrast [aria-pressed="true"] *,
+.contrast [aria-checked="true"] *,
+.contrast .pill-option:has(:checked) * {
+  color: #000000 !important;
+}
+
+.contrast .choice-title,
+.contrast .visual-title,
+.contrast .emotion-label,
+.contrast .check-title,
+.contrast .choice-desc,
+.contrast .check-desc,
+.contrast .visual-sub,
+.contrast .emotion-sub,
+.contrast .lead-text,
+.contrast .tile strong,
+.contrast .tile small,
+.contrast .shelf-head small,
+.contrast .app-footer,
+.contrast p,
+.contrast span,
+.contrast label,
+.contrast legend,
+.contrast h1,
+.contrast h2,
+.contrast h3 {
+  color: #ffffff !important;
+}
+
+.contrast .btn-primary *,
+.contrast .btn-huge *,
+.contrast .hero-cta * {
+  color: #000000 !important;
+}
+
+.contrast #teacher-hotspot-bars {
+  color: #facc15 !important;
+}
+
+.easy p,
+.easy .choice-desc {
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+}
+
+.motor button {
+  min-height: 58px;
+}
+
+.still *,
+.still .breathing-circle {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Vista Figma: despliega todas las pantallas para importar en 1 clic */
+body.figma-all-screens .step-section.hidden {
+  display: block !important;
+  margin-bottom: 48px;
+  border: 3px dashed #7c3aed;
+}
