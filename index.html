@@ -39,6 +39,8 @@
       <symbol id="i-lines" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M4 12h10M4 17.5h13"/></symbol>
       <symbol id="i-still" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></symbol>
       <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11.5m0-1a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.7-2.3L4.4 15.6a1.5 1.5 0 0 1 2.3-1.9L9 16"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.5"/><path d="M9.5 20.5v-6h5v6"/></symbol>
+      <symbol id="i-stop" viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></symbol>
 
       <!-- Caras de emociones (propias). Colores vía variables CSS: --face, --ink -->
       <symbol id="f-calm" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#F4D27A)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 46q7-6 14 0M57 46q7-6 14 0"/><path d="M37 63q13 10 26 0"/></g><circle cx="27" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/><circle cx="73" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/></symbol>
@@ -79,32 +81,40 @@
     </div>
   </div>
 
-  <!-- Cabecera limpia y funcional (Dirección C — Calma) -->
+  <!-- Cabecera delgada y navegación principal (Dirección C — Calma) -->
   <header class="app-header" role="banner">
     <div class="header-inner">
       <button type="button" class="brand" data-go="home" aria-label="Contigo · Ir al Inicio" data-i18n-aria-label="brand_aria">
         <svg aria-hidden="true"><use href="#logo"/></svg><span>contigo</span>
       </button>
 
-      <div class="toolbar" role="region" aria-label="Accesibilidad, idioma y controles rápidos" data-i18n-aria-label="toolbar_aria">
-        <!-- Controles de accesibilidad visibles y funcionales -->
-        <div id="gradual-a11y-bar" class="gradual-a11y-bar">
-          <button type="button" id="btn-read-page" class="tool-btn" title="Leer pantalla en voz alta" data-i18n-title="a11y_listen_title">
-            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="a11y_listen">Escuchar</span>
-          </button>
-          <button type="button" id="btn-font-size" class="tool-btn" aria-pressed="false" title="Cambiar tamaño de letra" data-i18n-title="a11y_size_title">
-            <svg class="i" aria-hidden="true"><use href="#i-text"/></svg> <span data-i18n="a11y_size">Tamaño</span>
-          </button>
-          <button type="button" id="btn-contrast" class="tool-btn" aria-pressed="false" title="Activar alto contraste" data-i18n-title="a11y_contrast_title">
-            <svg class="i" aria-hidden="true"><use href="#i-contrast"/></svg> <span data-i18n="a11y_contrast">Contraste</span>
-          </button>
-          <button type="button" id="btn-easy-read" class="tool-btn" aria-pressed="false" title="Activar espaciado de lectura fácil" data-i18n-title="a11y_easy_title">
-            <svg class="i" aria-hidden="true"><use href="#i-lines"/></svg> <span data-i18n="a11y_easy">Lectura fácil</span>
-          </button>
-        </div>
+      <nav class="primary-nav" aria-label="Navegación principal" data-i18n-aria-label="nav_aria">
+        <button type="button" class="nav-item" data-go="home" data-nav-tab="home">
+          <svg class="i" aria-hidden="true"><use href="#i-home"/></svg>
+          <span data-i18n="nav_home">Inicio</span>
+        </button>
+        <button type="button" class="nav-item" data-go="2-mode" data-nav-tab="talk">
+          <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span data-i18n="nav_talk">Contar</span>
+        </button>
+        <button type="button" class="nav-item" data-go="caa" data-nav-tab="caa">
+          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg>
+          <span data-i18n="nav_caa">Dibujos</span>
+        </button>
+        <button type="button" class="nav-item" data-go="diary" data-nav-tab="diary">
+          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg>
+          <span data-i18n="nav_diary">Diario</span>
+        </button>
+        <button type="button" class="nav-item nav-item-calm" data-go="calm" data-nav-tab="calm">
+          <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg>
+          <span data-i18n="nav_calm">Calma</span>
+        </button>
+      </nav>
 
-        <button type="button" id="btn-calm-corner" class="tool-btn tool-btn-calm" data-go="calm">
-          <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> <span data-i18n="nav_calm">Calma</span>
+      <div class="toolbar" role="region" aria-label="Accesibilidad, idioma y controles rápidos" data-i18n-aria-label="toolbar_aria">
+        <button type="button" id="btn-read-page" class="tool-btn tool-btn-listen" aria-pressed="false" aria-label="Leer pantalla en voz alta" data-i18n-aria-label="a11y_listen_title" data-i18n-title="a11y_listen_title">
+          <svg class="i" aria-hidden="true"><use id="read-page-icon" href="#i-speaker"/></svg>
+          <span class="tool-label" data-i18n="a11y_listen">Escuchar</span>
         </button>
 
         <label for="lang-select" class="sr-only" data-i18n="lang_label">Idioma</label>
@@ -118,26 +128,16 @@
           <option value="ar">AR</option>
         </select>
 
-        <button type="button" id="btn-gear-settings" class="tool-btn" aria-haspopup="dialog">
-          <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> <span data-i18n="nav_gear">Ajustes</span>
+        <button type="button" id="btn-gear-settings" class="tool-btn tool-btn-gear" aria-haspopup="dialog" aria-label="Ajustes" data-i18n-aria-label="nav_gear" data-i18n-title="nav_gear">
+          <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg>
+          <span class="tool-label" data-i18n="nav_gear">Ajustes</span>
+          <span id="a11y-active-count" class="a11y-count-badge hidden" aria-hidden="true">0</span>
         </button>
 
         <button type="button" id="btn-safe-exit" class="tool-btn tool-btn-exit" title="Salida rápida (Tecla Esc)" data-i18n-title="nav_exit_title">
-          <svg class="i" aria-hidden="true"><use href="#i-exit"/></svg> <span data-i18n="nav_exit">Salir</span> <kbd>Esc</kbd>
+          <svg class="i" aria-hidden="true"><use href="#i-exit"/></svg>
+          <span data-i18n="nav_exit">Salir</span> <kbd>Esc</kbd>
         </button>
-      </div>
-    </div>
-
-    <div class="progress-wrapper" aria-label="Progreso" data-i18n-aria-label="progress_aria">
-      <div class="progress-meta">
-        <span id="progress-label">Hola</span>
-        <div class="active-badges">
-          <span id="voice-status-badge" class="adaptation-badge hidden" data-i18n="badge_voice">Voz activa</span>
-          <span id="adaptation-badge" class="adaptation-badge hidden" data-i18n="badge_a11y">Apoyo activo</span>
-        </div>
-      </div>
-      <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1" id="progress-bar">
-        <div class="progress-fill" id="progress-fill" style="width: 12.5%;"></div>
       </div>
     </div>
 
@@ -147,6 +147,23 @@
   <main id="main-content" class="main-container" tabindex="-1">
     <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
+    <div id="flow-bar" class="flow-bar hidden" aria-label="Progreso" data-i18n-aria-label="progress_aria">
+      <div class="flow-bar-top">
+        <button type="button" class="flow-back-btn" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+          <span data-i18n="back">Volver</span>
+        </button>
+        <span id="progress-label" class="flow-step-label">Hola</span>
+        <div class="active-badges">
+          <span id="voice-status-badge" class="adaptation-badge hidden" data-i18n="badge_voice">Voz activa</span>
+          <span id="adaptation-badge" class="adaptation-badge hidden" data-i18n="badge_a11y">Apoyo activo</span>
+        </div>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
+      </div>
+    </div>
+
     <!-- ================================================================
          PORTADA: DIRECCIÓN C — CALMA CON NUBE
          ================================================================ -->
@@ -155,9 +172,15 @@
         <div class="home-copy">
           <h1 data-i18n="home_title">Hola. Me alegra que estés aquí.</h1>
           <p class="lead" data-i18n="home_lead">Este es un sitio tranquilo para contar cómo estás. Vamos despacio, una cosa cada vez.</p>
-          <button type="button" class="hero-cta" data-go="0-voice">
-            <span data-i18n="home_cta">Empezar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          </button>
+
+          <div class="home-cta-row">
+            <button type="button" class="hero-cta" data-go="0-voice">
+              <span data-i18n="home_cta">Empezar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </button>
+            <button type="button" class="hero-cta-secondary" data-go="2-mode">
+              <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> <span data-i18n="home_cta_direct">Contar ahora</span>
+            </button>
+          </div>
 
           <div class="home-chips" role="navigation" aria-label="Accesos directos" data-i18n-aria-label="home_chips_aria">
             <button type="button" class="chip" data-go="caa">
@@ -176,9 +199,15 @@
               <span class="d" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-steps"/></svg></span>
               <span data-i18n="home_chip_questionnaire">Cuestionario</span>
             </button>
-            <button type="button" class="chip" data-go="teacher-panel">
-              <span class="d" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-people"/></svg></span>
-              <span><span data-i18n="home_chip_teacher">Panel Profe</span> (<span id="home-teacher-count">3</span>)</span>
+          </div>
+
+          <div class="home-adults">
+            <span class="home-adults-label" data-i18n="home_adults_label">Docentes y familias</span>
+            <button type="button" class="adult-pill" data-go="parents">
+              <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> <span data-i18n="home_chip_parents">Familias</span>
+            </button>
+            <button type="button" class="adult-pill" data-go="teacher-panel">
+              <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span><span data-i18n="home_chip_teacher">Panel Profe</span> (<span id="home-teacher-count">3</span>)</span>
             </button>
           </div>
         </div>
@@ -219,12 +248,15 @@
         </button>
       </div>
 
-      <form id="form-voice-text-answer" class="quick-text-bar">
-        <label for="input-voice-answer" class="sr-only" data-i18n="quick_answer_label">Respuesta rápida</label>
-        <input type="text" id="input-voice-answer" class="form-control" placeholder="Escribe Sí o No (o 1 / 2)..." data-i18n-placeholder="s0_input_ph" autocomplete="off" />
-        <button type="button" id="btn-mic-step0" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
-        <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
-      </form>
+      <details class="quick-input-details">
+        <summary data-i18n="s0_quick_toggle">Responder escribiendo o por voz</summary>
+        <form id="form-voice-text-answer" class="quick-text-bar">
+          <label for="input-voice-answer" class="sr-only" data-i18n="quick_answer_label">Respuesta rápida</label>
+          <input type="text" id="input-voice-answer" class="form-control" placeholder="Escribe Sí o No (o 1 / 2)..." data-i18n-placeholder="s0_input_ph" autocomplete="off" />
+          <button type="button" id="btn-mic-step0" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
+          <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
+        </form>
+      </details>
 
       <div class="nav-actions">
         <button type="button" class="btn btn-ghost" data-action="go-back">
@@ -241,102 +273,72 @@
       <h1 id="title-screen-0b" data-i18n="s0b_title">¿Qué te ayuda a estar más cómodo?</h1>
       <p class="lead-text" data-i18n="s0b_desc">Adaptamos la pantalla para ti. Puedes elegir varios o ninguno.</p>
 
-      <div id="disability-yesno-panel">
-        <div class="choice-grid" role="group">
-          <button type="button" class="choice-card" data-action="has-disability" data-value="si" data-key="1">
-            <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-sliders"/></svg></span>
-            <span class="choice-title" data-i18n="s0b_yes_title">1. Sí</span>
-            <span class="choice-desc" data-i18n="s0b_yes_desc">Elegir mis apoyos</span>
-          </button>
+      <div class="sup-grid" role="group" aria-labelledby="title-screen-0b">
+        <button type="button" class="toggle-dis-card sc" data-dis-type="ciega" data-key="1" aria-pressed="false">
+          <span class="ic" style="background:var(--butter-t)" aria-hidden="true"><svg class="i"><use href="#i-eye"/></svg></span>
+          <div>
+            <span class="check-title" data-i18n="dis_ciega">1. Ver mejor / Voz</span>
+            <span class="check-desc" data-i18n="dis_ciega_d">Letra grande y voz</span>
+          </div>
+        </button>
 
-          <button type="button" class="choice-card" data-action="has-disability" data-value="no" data-key="2">
-            <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-arrow-right"/></svg></span>
-            <span class="choice-title" data-i18n="s0b_no_title">2. No</span>
-            <span class="choice-desc" data-i18n="s0b_no_desc">Seguir</span>
-          </button>
-        </div>
+        <button type="button" class="toggle-dis-card sc" data-dis-type="sorda" data-key="2" aria-pressed="false">
+          <span class="ic" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-sound-off"/></svg></span>
+          <div>
+            <span class="check-title" data-i18n="dis_sorda">2. Sin sonido</span>
+            <span class="check-desc" data-i18n="dis_sorda_d">Todo visual</span>
+          </div>
+        </button>
 
-        <form id="form-has-dis-text" class="quick-text-bar">
-          <label for="input-has-dis-answer" class="sr-only" data-i18n="quick_answer_label">Respuesta rápida</label>
-          <input type="text" id="input-has-dis-answer" class="form-control" placeholder="Escribe Sí o No..." data-i18n-placeholder="s0b_input_ph" autocomplete="off" />
-          <button type="button" id="btn-mic-has-dis" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
-          <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
-        </form>
+        <button type="button" class="toggle-dis-card sc" data-dis-type="muda" data-key="3" aria-pressed="false">
+          <span class="ic" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-picto"/></svg></span>
+          <div>
+            <span class="check-title" data-i18n="dis_muda">3. Hablar con dibujos</span>
+            <span class="check-desc" data-i18n="dis_muda_d">Pictogramas y voz prestada</span>
+          </div>
+        </button>
+
+        <button type="button" class="toggle-dis-card sc" data-dis-type="intelectual" data-key="4" aria-pressed="false">
+          <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-lines"/></svg></span>
+          <div>
+            <span class="check-title" data-i18n="dis_int">4. Lectura fácil</span>
+            <span class="check-desc" data-i18n="dis_int_d">Muy corto y claro</span>
+          </div>
+        </button>
+
+        <button type="button" class="toggle-dis-card sc" data-dis-type="tea" data-key="5" aria-pressed="false">
+          <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-still"/></svg></span>
+          <div>
+            <span class="check-title" data-i18n="dis_tea">5. TEA / Calma</span>
+            <span class="check-desc" data-i18n="dis_tea_d">Sin movimientos</span>
+          </div>
+        </button>
+
+        <button type="button" class="toggle-dis-card sc" data-dis-type="motora" data-key="6" aria-pressed="false">
+          <span class="ic" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-hand"/></svg></span>
+          <div>
+            <span class="check-title" data-i18n="dis_mot">6. Botones grandes</span>
+            <span class="check-desc" data-i18n="dis_mot_d">Fácil de tocar</span>
+          </div>
+        </button>
       </div>
 
-      <div id="disability-types-panel" class="hidden">
-        <p class="soft-note" data-i18n="s0b_ivr">Toca lo que necesites y pulsa Continuar:</p>
-
-        <div class="sup-grid" role="group">
-          <button type="button" class="toggle-dis-card sc" data-dis-type="ciega" data-key="1" aria-pressed="false">
-            <span class="ic" style="background:var(--butter-t)" aria-hidden="true"><svg class="i"><use href="#i-eye"/></svg></span>
-            <div>
-              <span class="check-title" data-i18n="dis_ciega">1. Ver mejor / Voz</span>
-              <span class="check-desc" data-i18n="dis_ciega_d">Letra grande y voz</span>
-            </div>
-          </button>
-
-          <button type="button" class="toggle-dis-card sc" data-dis-type="sorda" data-key="2" aria-pressed="false">
-            <span class="ic" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-sound-off"/></svg></span>
-            <div>
-              <span class="check-title" data-i18n="dis_sorda">2. Sin sonido</span>
-              <span class="check-desc" data-i18n="dis_sorda_d">Todo visual</span>
-            </div>
-          </button>
-
-          <button type="button" class="toggle-dis-card sc" data-dis-type="muda" data-key="3" aria-pressed="false">
-            <span class="ic" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-picto"/></svg></span>
-            <div>
-              <span class="check-title" data-i18n="dis_muda">3. Hablar con dibujos</span>
-              <span class="check-desc" data-i18n="dis_muda_d">Pictogramas y voz prestada</span>
-            </div>
-          </button>
-
-          <button type="button" class="toggle-dis-card sc" data-dis-type="intelectual" data-key="4" aria-pressed="false">
-            <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-lines"/></svg></span>
-            <div>
-              <span class="check-title" data-i18n="dis_int">4. Lectura fácil</span>
-              <span class="check-desc" data-i18n="dis_int_d">Muy corto y claro</span>
-            </div>
-          </button>
-
-          <button type="button" class="toggle-dis-card sc" data-dis-type="tea" data-key="5" aria-pressed="false">
-            <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-still"/></svg></span>
-            <div>
-              <span class="check-title" data-i18n="dis_tea">5. TEA / Calma</span>
-              <span class="check-desc" data-i18n="dis_tea_d">Sin movimientos</span>
-            </div>
-          </button>
-
-          <button type="button" class="toggle-dis-card sc" data-dis-type="motora" data-key="6" aria-pressed="false">
-            <span class="ic" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-hand"/></svg></span>
-            <div>
-              <span class="check-title" data-i18n="dis_mot">6. Botones grandes</span>
-              <span class="check-desc" data-i18n="dis_mot_d">Fácil de tocar</span>
-            </div>
-          </button>
-        </div>
-
+      <details class="quick-input-details">
+        <summary data-i18n="s0_quick_toggle">Responder escribiendo o por voz</summary>
         <form id="form-dis-detail-text" class="quick-text-bar">
           <label for="input-dis-detail" class="sr-only" data-i18n="s0b_detail_label">Escribir apoyo</label>
           <input type="text" id="input-dis-detail" class="form-control" placeholder="Escribe número 1 a 6..." data-i18n-placeholder="s0b_detail_ph" autocomplete="off" />
           <button type="button" id="btn-mic-dis-detail" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
           <button type="submit" class="btn btn-soft" data-i18n="btn_activate">Activar</button>
         </form>
-
-        <div class="nav-actions">
-          <button type="button" id="btn-back-dis-yesno" class="btn btn-ghost">
-            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="s0b_back_inner">Atrás</span>
-          </button>
-          <button type="button" id="btn-continue-from-dis" class="btn btn-primary" data-key="0">
-            <span data-i18n="s0b_continue">Continuar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          </button>
-        </div>
-      </div>
+      </details>
 
       <div class="nav-actions">
         <button type="button" class="btn btn-ghost" data-action="go-back">
           <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
+        </button>
+        <button type="button" id="btn-continue-from-dis" class="btn btn-primary" data-key="0">
+          <span data-i18n="s0b_continue">Continuar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
         </button>
       </div>
     </section>
@@ -366,21 +368,6 @@
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-phone"/></svg></span>
           <span class="choice-title" data-i18n="pad_title">3. Padres</span>
           <span class="choice-desc" data-i18n="pad_desc">Avisar desde casa</span>
-        </button>
-      </div>
-
-      <div class="subtle-links-row">
-        <button type="button" id="btn-role-to-caa" class="link-pill">
-          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> <span data-i18n="quick_caa">Pictogramas (CAA)</span>
-        </button>
-        <button type="button" id="btn-role-to-diary" class="link-pill">
-          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="quick_diary">Diario</span>
-        </button>
-        <button type="button" id="btn-role-to-teacher-panel" class="link-pill">
-          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="quick_teacher">Panel Profe</span>
-        </button>
-        <button type="button" id="btn-role-to-parents" class="link-pill">
-          <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> <span data-i18n="quick_parents">Formulario Padres</span>
         </button>
       </div>
 
@@ -649,6 +636,7 @@
         </div>
         <div class="gemini-status-box">
           <span id="gemini-status-pill" class="status-pill" data-i18n="chat_status_local">🔒 Modo Anónimo Local</span>
+          <button type="button" id="btn-toggle-auto-tts" class="btn-mini" aria-pressed="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
           <button type="button" id="btn-open-api-modal" class="btn-mini" data-i18n="chat_api_btn">IA Gemini</button>
         </div>
       </div>
@@ -670,7 +658,6 @@
         <button type="button" id="btn-chat-mic" class="btn btn-soft" data-i18n="chat_mic_btn">Hablar por voz</button>
         <label for="chat-input" class="sr-only" data-i18n="chat_input_label">Mensaje</label>
         <input type="text" id="chat-input" class="form-control" placeholder="Escribe aquí o pulsa «Hablar por voz»..." data-i18n-placeholder="chat_input_ph" autocomplete="off" />
-        <button type="button" id="btn-toggle-auto-tts" class="btn btn-ghost" aria-pressed="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
         <button type="submit" id="btn-send-chat" class="btn btn-primary">
           <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="chat_send">Enviar</span>
         </button>
@@ -1289,6 +1276,29 @@
     </section>
   </main>
 
+  <nav class="mobile-bottom-nav" aria-label="Navegación principal" data-i18n-aria-label="nav_aria">
+    <button type="button" class="mob-nav-item" data-go="home" data-nav-tab="home">
+      <svg class="i" aria-hidden="true"><use href="#i-home"/></svg>
+      <span data-i18n="nav_home">Inicio</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-go="2-mode" data-nav-tab="talk">
+      <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg>
+      <span data-i18n="nav_talk">Contar</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-go="caa" data-nav-tab="caa">
+      <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg>
+      <span data-i18n="nav_caa">Dibujos</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-go="diary" data-nav-tab="diary">
+      <svg class="i" aria-hidden="true"><use href="#i-book"/></svg>
+      <span data-i18n="nav_diary">Diario</span>
+    </button>
+    <button type="button" class="mob-nav-item mob-nav-calm" data-go="calm" data-nav-tab="calm">
+      <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg>
+      <span data-i18n="nav_calm">Calma</span>
+    </button>
+  </nav>
+
   <!-- ================================================================
        MODAL AJUSTES Y HERRAMIENTAS
        ================================================================ -->
@@ -1301,53 +1311,81 @@
         <button type="button" id="btn-close-gear-modal" class="modal-close" aria-label="Cerrar" data-i18n-aria-label="close">✕</button>
       </div>
 
-      <div class="gear-shortcuts">
-        <button type="button" id="btn-nav-caa" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> <span data-i18n="quick_caa">Pictogramas (CAA)</span>
-        </button>
-        <button type="button" id="btn-nav-diary" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="quick_diary">Diario</span>
-        </button>
-        <button type="button" id="btn-nav-teacher" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="quick_teacher">Panel Profe</span>
-        </button>
-        <button type="button" id="btn-nav-parents" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> <span data-i18n="gear_parents">Vista Padres</span>
-        </button>
-        <button type="button" id="btn-api-settings" class="btn btn-soft" data-i18n="gear_api">API Gemini</button>
-      </div>
+      <div class="modal-body">
+        <section class="gear-section" aria-labelledby="gear-sec-display">
+          <h3 id="gear-sec-display" class="gear-section-title" data-i18n="gear_sec_display">Visibilidad y pantalla</h3>
+          <span id="gear-font-heading" class="form-label" data-i18n="gear_font_label">Tamaño de letra</span>
+          <div class="font-seg" role="group" aria-labelledby="gear-font-heading">
+            <button type="button" class="font-seg-btn" data-font-level="0" aria-pressed="true">
+              <span class="seg-aa seg-aa-0" aria-hidden="true">Aa</span>
+              <span data-i18n="gear_font_0">Normal (16px)</span>
+            </button>
+            <button type="button" class="font-seg-btn" data-font-level="1" aria-pressed="false">
+              <span class="seg-aa seg-aa-1" aria-hidden="true">Aa</span>
+              <span data-i18n="gear_font_1">Grande (19px)</span>
+            </button>
+            <button type="button" class="font-seg-btn" data-font-level="2" aria-pressed="false">
+              <span class="seg-aa seg-aa-2" aria-hidden="true">Aa</span>
+              <span data-i18n="gear_font_2">Muy grande (22px)</span>
+            </button>
+          </div>
 
-      <div class="gear-grid">
-        <label class="gear-toggle"><input type="checkbox" id="gear-voice-guide" /><span><strong data-i18n="gear_voice_guide">Leer pantallas en voz alta</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-keyboard-menu" checked /><span><strong data-i18n="gear_keyboard_menu">Atajos teclas 1, 2, 3...</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-high-contrast" /><span><strong data-i18n="gear_high_contrast">Alto contraste</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-easy-read" /><span><strong data-i18n="gear_easy_read">Lectura fácil</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-motor-friendly" /><span><strong data-i18n="gear_motor_friendly">Botones grandes</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-reduced-motion" /><span><strong data-i18n="gear_reduced_motion">Sin animaciones (TEA)</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-deaf-mode" /><span><strong data-i18n="gear_deaf_mode">Modo persona sorda</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-mute-mode" /><span><strong data-i18n="gear_mute_mode">Modo sin habla</strong></span></label>
-      </div>
+          <div class="gear-grid">
+            <label class="gear-toggle"><input type="checkbox" id="gear-high-contrast" /><span><strong data-i18n="gear_high_contrast">Alto contraste</strong></span></label>
+            <label class="gear-toggle"><input type="checkbox" id="gear-easy-read" /><span><strong data-i18n="gear_easy_read">Lectura fácil</strong></span></label>
+            <label class="gear-toggle"><input type="checkbox" id="gear-motor-friendly" /><span><strong data-i18n="gear_motor_friendly">Botones grandes</strong></span></label>
+            <label class="gear-toggle"><input type="checkbox" id="gear-reduced-motion" /><span><strong data-i18n="gear_reduced_motion">Sin animaciones (TEA)</strong></span></label>
+          </div>
+        </section>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="gear-font-select" class="form-label" data-i18n="gear_font_label">Tamaño de letra</label>
-          <select id="gear-font-select" class="form-control">
-            <option value="0" data-i18n="gear_font_0">Normal (18px)</option>
-            <option value="1" data-i18n="gear_font_1">Grande (21px)</option>
-            <option value="2" data-i18n="gear_font_2">Muy grande (24px)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="gear-speech-rate" class="form-label" data-i18n="gear_rate_label">Velocidad de la voz</label>
-          <select id="gear-speech-rate" class="form-control">
-            <option value="0.85" data-i18n="gear_rate_slow">Lenta</option>
-            <option value="1" selected data-i18n="gear_rate_normal">Normal</option>
-            <option value="1.15" data-i18n="gear_rate_fast">Rápida</option>
-          </select>
-        </div>
+        <section class="gear-section" aria-labelledby="gear-sec-audio">
+          <h3 id="gear-sec-audio" class="gear-section-title" data-i18n="gear_sec_audio">Voz, sonido e idioma</h3>
+          <div class="gear-grid">
+            <label class="gear-toggle"><input type="checkbox" id="gear-voice-guide" /><span><strong data-i18n="gear_voice_guide">Leer pantallas en voz alta</strong></span></label>
+            <label class="gear-toggle"><input type="checkbox" id="gear-deaf-mode" /><span><strong data-i18n="gear_deaf_mode">Modo persona sorda</strong></span></label>
+            <label class="gear-toggle"><input type="checkbox" id="gear-mute-mode" /><span><strong data-i18n="gear_mute_mode">Modo sin habla</strong></span></label>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gear-speech-rate" class="form-label" data-i18n="gear_rate_label">Velocidad de la voz</label>
+              <select id="gear-speech-rate" class="form-control">
+                <option value="0.85" data-i18n="gear_rate_slow">Lenta</option>
+                <option value="1" selected data-i18n="gear_rate_normal">Normal</option>
+                <option value="1.15" data-i18n="gear_rate_fast">Rápida</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gear-lang-select" class="form-label" data-i18n="lang_label">Idioma</label>
+              <select id="gear-lang-select" class="form-control">
+                <option value="es">ES</option>
+                <option value="ca">CA/VA</option>
+                <option value="en">EN</option>
+                <option value="fr">FR</option>
+                <option value="de">DE</option>
+                <option value="pt">PT</option>
+                <option value="ar">AR</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="gear-section" aria-labelledby="gear-sec-tools">
+          <h3 id="gear-sec-tools" class="gear-section-title" data-i18n="gear_sec_tools">Teclado y accesos</h3>
+          <label class="gear-toggle"><input type="checkbox" id="gear-keyboard-menu" checked /><span><strong data-i18n="gear_keyboard_menu">Atajos teclas 1, 2, 3...</strong></span></label>
+          <div class="gear-shortcuts">
+            <button type="button" id="btn-nav-teacher" class="btn btn-soft">
+              <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="quick_teacher">Panel Profe</span>
+            </button>
+            <button type="button" id="btn-nav-parents" class="btn btn-soft">
+              <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> <span data-i18n="gear_parents">Vista Padres</span>
+            </button>
+            <button type="button" id="btn-api-settings" class="btn btn-soft" data-i18n="gear_api">API Gemini</button>
+          </div>
+        </section>
       </div>
 
       <div class="modal-actions">
+        <button type="button" id="btn-gear-reset" class="btn btn-ghost" data-i18n="gear_reset">Restablecer</button>
         <button type="button" id="btn-gear-done" class="btn btn-primary" data-i18n="gear_done">Listo</button>
       </div>
     </div>
@@ -1401,7 +1439,8 @@
   <footer class="app-footer" role="contentinfo">
     <span data-i18n-html="footer_danger">¿Peligro ahora? <b>112</b></span>
     <span data-i18n-html="footer_helpline">Acoso escolar: <b>900 018 018</b> · gratis, 24 h</span>
-    <button type="button" class="footer-link" data-go="1-role" data-i18n="footer_adult">Soy profe o familia</button>
+    <button type="button" class="footer-link" data-go="parents" data-i18n="footer_parents">Familias</button>
+    <button type="button" class="footer-link" data-go="teacher-panel" data-i18n="footer_teacher">Panel Profe</button>
   </footer>
 
   <div class="toast hidden" role="status" id="toast"></div>

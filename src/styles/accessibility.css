@@ -26,6 +26,13 @@
   border-bottom: 2px solid #FFFFFF !important;
 }
 
+.contrast .mobile-bottom-nav {
+  background: #000000 !important;
+  backdrop-filter: none !important;
+  border-top: 2px solid #FFFFFF !important;
+  box-shadow: none !important;
+}
+
 .contrast .brand {
   color: #FFD400 !important;
 }
@@ -33,6 +40,17 @@
 .contrast .brand b {
   background: #FFD400 !important;
   color: #000000 !important;
+}
+
+.contrast .primary-nav {
+  background: #0D0D0D !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+.contrast .nav-item,
+.contrast .mob-nav-item {
+  background: transparent !important;
+  color: #FFFFFF !important;
 }
 
 .contrast .card,
@@ -75,11 +93,22 @@
 .contrast .quick-prompt-btn,
 .contrast .chip-btn,
 .contrast .link-pill,
-.contrast .hero {
+.contrast .hero,
+.contrast .flow-back-btn,
+.contrast .hero-cta-secondary,
+.contrast .adult-pill,
+.contrast .quick-input-details,
+.contrast .font-seg-btn {
   background: #0D0D0D !important;
   color: #FFFFFF !important;
   border: 2px solid #FFFFFF !important;
   box-shadow: none !important;
+}
+
+.contrast .modal-gear .modal-header,
+.contrast .modal-gear .modal-actions {
+  background: #0D0D0D !important;
+  border-color: #FFFFFF !important;
 }
 
 .contrast .btn-primary,
@@ -91,6 +120,11 @@
 .contrast .visual-card .ok,
 .contrast .emotion-card .ok,
 .contrast .tool-btn[aria-pressed="true"],
+.contrast .font-seg-btn[aria-pressed="true"],
+.contrast .nav-item.active,
+.contrast .nav-item[aria-current="page"],
+.contrast .mob-nav-item.active,
+.contrast .mob-nav-item[aria-current="page"],
 .contrast .chip-btn.selected,
 .contrast .chip-btn[aria-pressed="true"],
 .contrast .caa-tab.on,
@@ -113,6 +147,11 @@
 .contrast .visual-card .ok *,
 .contrast .emotion-card .ok *,
 .contrast .tool-btn[aria-pressed="true"] *,
+.contrast .font-seg-btn[aria-pressed="true"] *,
+.contrast .nav-item.active *,
+.contrast .nav-item[aria-current="page"] *,
+.contrast .mob-nav-item.active *,
+.contrast .mob-nav-item[aria-current="page"] *,
 .contrast .chip-btn.selected *,
 .contrast .chip-btn[aria-pressed="true"] *,
 .contrast .caa-tab.on *,
@@ -120,6 +159,11 @@
 .contrast .caa-tab[aria-pressed="true"] *,
 .contrast .pill-option:has(:checked) *,
 .contrast .gear-toggle:has(:checked) * {
+  color: #000000 !important;
+}
+
+.contrast .a11y-count-badge {
+  background: #FFD400 !important;
   color: #000000 !important;
 }
 
@@ -177,7 +221,10 @@
 .contrast .skip,
 .contrast .app-footer a,
 .contrast .app-footer .footer-link,
-.contrast .calma-bubble b {
+.contrast .calma-bubble b,
+.contrast .gear-section-title,
+.contrast .home-adults-label,
+.contrast .flow-step-label {
   color: #FFD400 !important;
 }
 
@@ -246,6 +293,7 @@
 .contrast p,
 .contrast label,
 .contrast legend,
+.contrast summary,
 .contrast h1,
 .contrast h2,
 .contrast h3 {
@@ -266,12 +314,23 @@
 }
 
 /* Modo motor: botones más grandes */
-.motor button,
-.motor .tool-btn,
+.motor .header-inner {
+  flex-wrap: wrap;
+}
+
 .motor .btn,
 .motor .chip,
-.motor .caa-tab {
-  min-height: 58px;
+.motor .caa-tab,
+.motor .font-seg-btn,
+.motor .choice-card,
+.motor .mob-nav-item {
+  min-height: 50px;
+}
+
+.motor .tool-btn,
+.motor .nav-item,
+.motor .flow-back-btn {
+  min-height: 44px;
 }
 
 /* Sin movimiento (TEA) */

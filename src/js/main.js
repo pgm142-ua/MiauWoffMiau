@@ -3,7 +3,7 @@
  * Inicializa servicios y módulos funcionales en orden determinista.
  */
 
-import { go } from './core/router.js';
+import { go, initialPageFromHash } from './core/router.js';
 import { initI18n } from './services/i18n.js';
 import { initSpeechRecognition } from './services/speech.js';
 import { initAccessibility } from './modules/accessibility.js';
@@ -31,7 +31,7 @@ function bootstrap() {
   initAccessibility();
   initSpeechRecognition();
 
-  go('home', false);
+  go(initialPageFromHash(), false);
 }
 
 bootstrap();
