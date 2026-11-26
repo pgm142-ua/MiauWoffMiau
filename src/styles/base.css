@@ -27,11 +27,13 @@
 }
 
 html {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
   font-family: var(--font);
   color: var(--text);
   background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -42,6 +44,7 @@ body {
   font-family: var(--font);
   color: var(--text);
   background: var(--bg);
+  overflow-x: clip;
 }
 
 button,
@@ -77,8 +80,8 @@ summary:focus-visible,
 }
 
 svg.i {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   flex: none;
 }
 

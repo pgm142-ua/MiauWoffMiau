@@ -195,9 +195,11 @@ export function setLanguage(lang) {
   currentLang = nextLang;
   save('lang', nextLang);
 
-  const select = $('lang-select');
-  if (select && select.value !== nextLang) {
-    select.value = nextLang;
+  for (const selectId of ['lang-select', 'gear-lang-select']) {
+    const select = $(selectId);
+    if (select && select.value !== nextLang) {
+      select.value = nextLang;
+    }
   }
 
   applyTranslations(document);
@@ -208,11 +210,13 @@ export function initI18n() {
   const saved = read('lang');
   const initial = SUPPORTED_LANGS.includes(saved) ? saved : value('lang-select') || 'es';
 
-  const select = $('lang-select');
-  if (select) {
-    select.addEventListener('change', () => {
-      setLanguage(select.value);
-    });
+  for (const selectId of ['lang-select', 'gear-lang-select']) {
+    const select = $(selectId);
+    if (select) {
+      select.addEventListener('change', () => {
+        setLanguage(select.value);
+      });
+    }
   }
 
   setLanguage(initial);

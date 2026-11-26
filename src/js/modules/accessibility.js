@@ -3,45 +3,113 @@
  * y salida rápida (Esc).
  */
 
-import { $, all, on, show, value, visible } from '../core/dom.js';
+import { $, all, on, show, visible } from '../core/dom.js';
 import { background, closeModal, go, openModal, visiblePage } from '../core/router.js';
 import { abortGemini } from '../services/gemini.js';
-import { t } from '../services/i18n.js';
-import { abortSpeechRecognition, message, say } from '../services/speech.js';
+import { onLanguageChange, t } from '../services/i18n.js';
+import {
+  abortSpeechRecognition,
+  isSpeaking,
+  message,
+  onSpeechStateChange,
+  say,
+  stopSpeaking,
+} from '../services/speech.js';
+
+const FONT_SIZES = [16, 19, 22];
+const ADAPTATION_TOGGLE_IDS = [
+  'gear-high-contrast',
+  'gear-easy-read',
+  'gear-motor-friendly',
+  'gear-reduced-motion',
+  'gear-deaf-mode',
+  'gear-mute-mode',
+];
+const BODY_CLASS_TOGGLES = [
+  ['high-contrast', 'contrast'],
+  ['easy-read', 'easy'],
+  ['motor-friendly', 'motor'],
+  ['reduced-motion', 'still'],
+];
+
+let fontLevel = 0;
+
+function extractReadableText(section) {
+  if (!section) return '';
+  const chunks = [];
+  const pushText = (raw) => {
+    const clean = (raw || '').replace(/\s+/g, ' ').trim();
+    if (clean && !chunks.includes(clean)) chunks.push(clean);
+  };
+
+  const candidates = section.querySelectorAll(
+    'h1, .lead, .lead-text, .calma-bubble, .soft-note, #adapted-summary-box, .info-banner, .urgent-alert, .choice-card, .toggle-dis-card, .visual-card, .emotion-card, .question-block legend, #chat-messages .bubble, .record, #full-explanation-panel .soft-box'
+  );
+
+  for (const el of candidates) {
+    if (
+      el.closest('.hidden, [hidden], .nav-actions, .quick-input-details') ||
+      !visible(el)
+    ) {
+      continue;
+    }
+    if (el.matches('.choice-card, .toggle-dis-card, .visual-card, .emotion-card')) {
+      const title = el.querySelector('.choice-title, .check-title, .visual-title, .emotion-label')?.innerText;
+      const desc = el.querySelector('.choice-desc, .check-desc, .visual-sub, .emotion-sub')?.innerText;
+      pushText([title, desc].filter(Boolean).join('. '));
+    } else {
+      pushText(el.innerText);
+    }
+  }
+
+  return chunks.join('. ') || (section.innerText || '').trim();
+}
+
+function syncListenButton() {
+  const btn = $('btn-read-page');
+  if (!btn) return;
+  const active = isSpeaking();
+  btn.setAttribute('aria-pressed', String(active));
+
+  const iconUse = $('read-page-icon');
+  if (iconUse) iconUse.setAttribute('href', active ? '#i-stop' : '#i-speaker');
+
+  const label = btn.querySelector('.tool-label');
+  if (label) label.textContent = t(active ? 'a11y_stop' : 'a11y_listen');
+
+  const tip = t(active ? 'a11y_stop_title' : 'a11y_listen_title');
+  btn.title = tip;
+  btn.setAttribute('aria-label', tip);
+}
 
 export function applyPreferences() {
-  const toggles = [
-    ['high-contrast', 'contrast'],
-    ['easy-read', 'easy'],
-    ['motor-friendly', 'motor'],
-    ['reduced-motion', 'still'],
-  ];
-
-  for (const [id, cls] of toggles) {
+  for (const [id, cls] of BODY_CLASS_TOGGLES) {
     document.body.classList.toggle(cls, Boolean($('gear-' + id)?.checked));
   }
 
-  const fontSizes = [18, 21, 24];
-  document.documentElement.style.fontSize = fontSizes[Number(value('gear-font-select') || 0)] + 'px';
+  document.documentElement.style.fontSize = (FONT_SIZES[fontLevel] || FONT_SIZES[0]) + 'px';
 
-  $('btn-contrast')?.setAttribute('aria-pressed', String(Boolean($('gear-high-contrast')?.checked)));
-  $('btn-easy-read')?.setAttribute('aria-pressed', String(Boolean($('gear-easy-read')?.checked)));
-  $('btn-font-size')?.setAttribute('aria-pressed', String(Number(value('gear-font-select')) > 0));
+  all('.font-seg-btn').forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(Number(btn.dataset.fontLevel) === fontLevel));
+  });
 
   show('voice-status-badge', Boolean($('gear-voice-guide')?.checked && !$('gear-deaf-mode')?.checked));
   if ($('gear-deaf-mode')?.checked || !$('gear-voice-guide')?.checked) {
-    window.speechSynthesis?.cancel();
+    stopSpeaking();
   }
 
-  const anyA11y = all('.gear-toggle input:checked').some(
-    (el) => !['gear-keyboard-menu', 'gear-voice-guide'].includes(el.id)
-  );
+  const anyA11y =
+    ADAPTATION_TOGGLE_IDS.some((id) => Boolean($(id)?.checked)) || fontLevel > 0;
   show('adaptation-badge', anyA11y);
-}
 
-export function toggleDisabilityDetail(showDetails) {
-  show('disability-yesno-panel', !showDetails);
-  show('disability-types-panel', showDetails);
+  const activeCount =
+    [...ADAPTATION_TOGGLE_IDS, 'gear-voice-guide'].filter((id) => Boolean($(id)?.checked)).length +
+    (fontLevel > 0 ? 1 : 0);
+  const countBadge = $('a11y-active-count');
+  if (countBadge) {
+    countBadge.textContent = String(activeCount);
+  }
+  show('a11y-active-count', activeCount > 0);
 }
 
 export function applyDisabilitySupport() {
@@ -57,8 +125,8 @@ export function applyDisabilitySupport() {
   all('[data-dis-type][aria-pressed="true"]').forEach((btn) => {
     const targetId = 'gear-' + map[btn.dataset.disType];
     if ($(targetId)) $(targetId).checked = true;
-    if (btn.dataset.disType === 'ciega' && $('gear-font-select')) {
-      $('gear-font-select').value = '1';
+    if (btn.dataset.disType === 'ciega') {
+      fontLevel = Math.max(fontLevel, 1);
     }
   });
 
@@ -69,7 +137,7 @@ export function applyDisabilitySupport() {
 export function quickExit() {
   abortGemini();
   abortSpeechRecognition();
-  window.speechSynthesis?.cancel();
+  stopSpeaking();
   closeModal();
   show('toast', false);
   background(true);
@@ -79,7 +147,6 @@ export function quickExit() {
 }
 
 export function initAccessibility() {
-  // Salida rápida (tecla Esc y botón)
   on('btn-safe-exit', quickExit);
   on('return-from-safe-exit', () => {
     show('safe-exit-screen', false);
@@ -88,7 +155,6 @@ export function initAccessibility() {
     $('btn-safe-exit')?.focus();
   });
 
-  // Atajos de teclado (Esc y teclas numéricas 1..9)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !visible($('safe-exit-screen'))) {
       e.preventDefault();
@@ -108,12 +174,30 @@ export function initAccessibility() {
     }
   });
 
-  // Preferencias del modal de ajustes
-  all('#gear-modal input, #gear-modal select').forEach((el) =>
+  all('#gear-modal input, #gear-speech-rate').forEach((el) =>
     el.addEventListener('change', applyPreferences)
   );
 
-  // Modales
+  all('.font-seg-btn').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      fontLevel = Number(btn.dataset.fontLevel || 0);
+      applyPreferences();
+      const sizeLabel = btn.querySelector('[data-i18n]')?.textContent || '';
+      if (sizeLabel) message(t('a11y_font_toast', { size: sizeLabel }));
+    })
+  );
+
+  on('btn-gear-reset', () => {
+    fontLevel = 0;
+    [...ADAPTATION_TOGGLE_IDS, 'gear-voice-guide'].forEach((id) => {
+      if ($(id)) $(id).checked = false;
+    });
+    if ($('gear-keyboard-menu')) $('gear-keyboard-menu').checked = true;
+    if ($('gear-speech-rate')) $('gear-speech-rate').value = '1';
+    applyPreferences();
+    message(t('gear_reset_toast'));
+  });
+
   on('btn-gear-settings', () => openModal('gear-modal'));
   ['btn-close-gear-modal', 'btn-gear-done', 'btn-close-api-modal'].forEach((id) =>
     on(id, closeModal)
@@ -127,41 +211,23 @@ export function initAccessibility() {
     })
   );
 
-  // Controles rápidos en barra superior
-  on('btn-font-size', () => {
-    const select = $('gear-font-select');
-    if (!select) return;
-    select.selectedIndex = (select.selectedIndex + 1) % 3;
-    applyPreferences();
-    message(t('a11y_font_toast', { size: select.options[select.selectedIndex].text }));
-  });
-
-  on('btn-contrast', () => {
-    const checkbox = $('gear-high-contrast');
-    if (!checkbox) return;
-    checkbox.checked = !checkbox.checked;
-    applyPreferences();
-  });
-
-  on('btn-easy-read', () => {
-    const checkbox = $('gear-easy-read');
-    if (!checkbox) return;
-    checkbox.checked = !checkbox.checked;
-    applyPreferences();
-  });
-
   on('btn-read-page', () => {
-    const vp = visiblePage();
-    if (vp) say(vp.innerText);
+    if (isSpeaking()) {
+      stopSpeaking();
+      return;
+    }
+    const text = extractReadableText(visiblePage());
+    if (text) say(text);
   });
 
   on('btn-play-welcome-voice', () => {
     say(t('s0_welcome_spoken'));
   });
 
-  // Paso 0B: apoyos de discapacidad
   on('btn-continue-from-dis', applyDisabilitySupport);
-  on('btn-back-dis-yesno', () => toggleDisabilityDetail(false));
 
+  onSpeechStateChange(syncListenButton);
+  onLanguageChange(syncListenButton);
+  syncListenButton();
   applyPreferences();
 }

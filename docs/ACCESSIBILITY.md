@@ -6,12 +6,12 @@
 
 | Perfil / Necesidad | Activación | Adaptaciones aplicadas |
 | --- | --- | --- |
-| **Visión / Baja visión** | Paso 0B (`1`) o Ajustes (`⚙️`) | Guía de voz automática (TTS), incremento de tamaño de fuente (`18px` / `21px` / `24px`) y modo Alto Contraste. |
+| **Visión / Baja visión** | Paso 0B (`1`) o Ajustes (`⚙️`) | Guía de voz automática (TTS), botón persistente `Escuchar / Parar` en la barra superior, incremento de tamaño de fuente (`16px` / `19px` / `22px`) y modo Alto Contraste (consolidados en Ajustes). |
 | **Audición / Persona sorda** | Paso 0B (`2`) o Ajustes (`⚙️`) | Silencia la síntesis de voz y desvía los avisos a la franja visual superior (`#visual-alert-strip`). |
 | **Sin habla / Comunicación alternativa** | Paso 0B (`3`) o Tablero CAA | Tablero CAA («Voz Prestada») con pictogramas que construyen frases habladas y enviables al docente o chat. |
-| **Accesibilidad cognitiva / Lectura fácil** | Paso 0B (`4`) o barra superior | Frases ultra cortas, interlineado ampliado (`1.8`) y mayor espaciado entre caracteres (`0.03em`). |
-| **TEA / Regulación sensorial** | Paso 0B (`5`) o botón `🌿 Calma` | Desactivación total de animaciones y transiciones (`.still`), acceso inmediato al Rincón de Calma y pauta docente TEA. |
-| **Accesibilidad motora** | Paso 0B (`6`) o Ajustes (`⚙️`) | Botones de mayor área táctil (`min-height: 58px`) y atajos numéricos de teclado (`1`–`6`). |
+| **Accesibilidad cognitiva / Lectura fácil** | Paso 0B (`4`) o Ajustes (`⚙️`) | Frases ultra cortas, interlineado ampliado (`1.8`) y mayor espaciado entre caracteres (`0.03em`). |
+| **TEA / Regulación sensorial** | Paso 0B (`5`) o pestaña `🌿 Calma` | Desactivación total de animaciones y transiciones (`.still`), acceso inmediato al Rincón de Calma y pauta docente TEA. |
+| **Accesibilidad motora** | Paso 0B (`6`) o Ajustes (`⚙️`) | Botones de mayor área táctil (`min-height: 50px` / `44px` en barra superior) y atajos numéricos de teclado (`1`–`6`). |
 
 ---
 

@@ -7,6 +7,30 @@ import { getLocale, t } from './i18n.js';
 
 let toastTimer = null;
 let recognitionInstance = null;
+let speaking = false;
+const speechListeners = new Set();
+
+function setSpeaking(next) {
+  if (speaking === next) return;
+  speaking = next;
+  speechListeners.forEach((fn) => fn(speaking));
+}
+
+export function isSpeaking() {
+  return speaking;
+}
+
+export function onSpeechStateChange(listener) {
+  if (typeof listener === 'function') {
+    speechListeners.add(listener);
+  }
+  return () => speechListeners.delete(listener);
+}
+
+export function stopSpeaking() {
+  window.speechSynthesis?.cancel();
+  setSpeaking(false);
+}
 
 export function message(text) {
   put('toast', text);
@@ -35,6 +59,10 @@ export function say(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = getLocale();
   utterance.rate = Number(value('gear-speech-rate') || 1);
+  utterance.onstart = () => setSpeaking(true);
+  utterance.onend = () => setSpeaking(false);
+  utterance.onerror = () => setSpeaking(false);
+  setSpeaking(true);
   window.speechSynthesis.speak(utterance);
 }
 
@@ -51,7 +79,6 @@ export function initSpeechRecognition() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const micMap = {
     'btn-mic-step0': ['input-voice-answer', 'mic_sample_step0'],
-    'btn-mic-has-dis': ['input-has-dis-answer', 'mic_sample_has_dis'],
     'btn-mic-dis-detail': ['input-dis-detail', 'mic_sample_dis_detail'],
     'btn-voice-adapted': ['adapted-note', 'mic_sample_adapted'],
     'btn-chat-mic': ['chat-input', 'mic_sample_chat'],

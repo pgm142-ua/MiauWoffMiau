@@ -7,7 +7,7 @@ import { addNotice, pages, state, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
 import { t, translateCause, translateFeeling } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
-import { applyDisabilitySupport, applyPreferences, toggleDisabilityDetail } from './accessibility.js';
+import { applyDisabilitySupport, applyPreferences } from './accessibility.js';
 import { addCaaWord } from './caa.js';
 import { selectFeedbackEmotion } from './feedback.js';
 import { setTeacherFilter } from './teacher-panel.js';
@@ -16,11 +16,7 @@ const YES_TOKENS = new Set(['1', 'sí', 'si', 's', 'yes', 'y', 'oui', 'o', 'ja',
 const NO_TOKENS = new Set(['2', 'no', 'n', 'non', 'nein', 'não', 'nao', 'لا']);
 
 const DIRECT_ROUTES = {
-  'btn-role-to-caa': 'caa',
   'btn-open-caa-from-adapted': 'caa',
-  'btn-role-to-diary': 'diary',
-  'btn-role-to-teacher-panel': 'teacher-panel',
-  'btn-role-to-parents': 'parents',
   'btn-adapted-to-feedback': 'feedback',
   'btn-adapted-to-teacher-panel': 'teacher-panel',
   'btn-chat-to-diary': 'diary',
@@ -28,8 +24,6 @@ const DIRECT_ROUTES = {
   'btn-to-feedback': 'feedback',
   'btn-q-to-chat': 'no-adapted',
   'btn-go-chat-from-feedback': 'no-adapted',
-  'btn-nav-caa': 'caa',
-  'btn-nav-diary': 'diary',
   'btn-nav-teacher': 'teacher-panel',
   'btn-nav-parents': 'parents',
 };
@@ -44,10 +38,7 @@ function choose(button) {
     case 'choose-voice':
       if ($('gear-voice-guide')) $('gear-voice-guide').checked = val === 'si';
       applyPreferences();
-      toggleDisabilityDetail(false);
       return go('0-disability');
-    case 'has-disability':
-      return val === 'si' ? toggleDisabilityDetail(true) : go('1-role');
     case 'choose-user-type':
       state.role = val;
       if ($('q-user-type')) $('q-user-type').value = val;
@@ -109,24 +100,18 @@ export function initFlow() {
   // Rutas directas de botones
   Object.entries(DIRECT_ROUTES).forEach(([id, targetPage]) => on(id, () => go(targetPage)));
 
-  // Respuestas rápidas por texto en pasos 0 y 0B
-  const quickYesNoForms = [
-    ['form-voice-text-answer', 'input-voice-answer', 'choose-voice'],
-    ['form-has-dis-text', 'input-has-dis-answer', 'has-disability'],
-  ];
-  for (const [formId, inputId, action] of quickYesNoForms) {
-    submit(formId, () => {
-      const normalized = value(inputId).toLowerCase().replace(/١/g, '1').replace(/٢/g, '2');
-      const tokens = normalized.split(/[\s,.;!?،]+/).filter(Boolean);
-      const answer = tokens.some((tok) => YES_TOKENS.has(tok))
-        ? 'si'
-        : tokens.some((tok) => NO_TOKENS.has(tok))
-          ? 'no'
-          : '';
-      if (!answer) return message(t('flow_yesno_error'));
-      choose(document.querySelector(`[data-action="${action}"][data-value="${answer}"]`));
-    });
-  }
+  // Respuesta rápida por texto en paso 0
+  submit('form-voice-text-answer', () => {
+    const normalized = value('input-voice-answer').toLowerCase().replace(/١/g, '1').replace(/٢/g, '2');
+    const tokens = normalized.split(/[\s,.;!?،]+/).filter(Boolean);
+    const answer = tokens.some((tok) => YES_TOKENS.has(tok))
+      ? 'si'
+      : tokens.some((tok) => NO_TOKENS.has(tok))
+        ? 'no'
+        : '';
+    if (!answer) return message(t('flow_yesno_error'));
+    choose(document.querySelector(`[data-action="choose-voice"][data-value="${answer}"]`));
+  });
 
   submit('form-dis-detail-text', () => {
     const normalized = value('input-dis-detail')
