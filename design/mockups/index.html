@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contigo · Comparativa de 3 direcciones visuales</title>
+<style>
+  :root{--bg:#f5f6f8;--card:#fff;--ink:#131c2e;--muted:#4b5568;--line:#dce1ea;--acc:#1d56e0}
+  *{box-sizing:border-box;margin:0}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:32px}
+  .wrap{max-width:1360px;margin:auto}
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+  h1{font-size:2rem;letter-spacing:-.02em}
+  header p{color:var(--muted);max-width:720px;margin-top:6px}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:1040px){.cols{grid-template-columns:1fr}}
+  .dir{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+  .dir h2{font-size:1.3rem}
+  .tag{display:inline-block;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:99px;background:#eef2ff;color:#1e3a8a;width:max-content}
+  .dir p{color:var(--muted);font-size:.94rem}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .shots a{display:block;border:1px solid var(--line);border-radius:10px;overflow:hidden;text-decoration:none;color:var(--ink);background:#fafafa}
+  .shots img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover}
+  .shots span{display:block;padding:6px 8px;font-size:.78rem;font-weight:600}
+  .open{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;padding:12px 16px;border-radius:10px;background:var(--ink);color:#fff;text-decoration:none;font-weight:700}
+  .open:hover{background:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Contigo · 3 direcciones visuales profesionales y accesibles</h1>
+      <p>Cada dirección incluye 6 pantallas: Inicio, Apoyos (0B), Sentimientos, Modo Alto Contraste (WCAG AAA), Tablero CAA con pictogramas reales de ARASAAC y Rincón de Calma. Todos los pares de color pasan WCAG 2.1 AA/AAA.</p>
+    </div>
+  </header>
+  <div class="cols">
+    <article class="dir">
+      <span class="tag">Dirección A · Editorial infantil</span>
+      <h2>Cuaderno</h2>
+      <p>Papel cálido, tipografía Atkinson Hyperlegible + Fraunces, ilustración editorial y tarjetas limpias. Cercana sin ser infantilizada.</p>
+      <div class="shots">
+        <a href="a-cuaderno.html?s=home" target="_blank"><img src="png/a-cuaderno-home.png" alt="A Inicio"><span>1. Inicio</span></a>
+        <a href="a-cuaderno.html?s=sup" target="_blank"><img src="png/a-cuaderno-sup.png" alt="A Apoyos"><span>2. Apoyos (0B)</span></a>
+        <a href="a-cuaderno.html?s=feel" target="_blank"><img src="png/a-cuaderno-feel.png" alt="A Sentimientos"><span>3. Sentimientos</span></a>
+        <a href="a-cuaderno.html?s=feel-hc" target="_blank"><img src="png/a-cuaderno-feel-hc.png" alt="A Alto contraste"><span>4. Alto contraste AAA</span></a>
+        <a href="a-cuaderno.html?s=caa" target="_blank"><img src="png/a-cuaderno-caa.png" alt="A CAA"><span>5. Pictogramas CAA</span></a>
+        <a href="a-cuaderno.html?s=calm" target="_blank"><img src="png/a-cuaderno-calm.png" alt="A Calma"><span>6. Rincón de calma</span></a>
+      </div>
+      <a class="open" href="a-cuaderno.html" target="_blank">Abrir las 6 pantallas de A →</a>
+    </article>
+
+    <article class="dir">
+      <span class="tag">Dirección B · Wayfinding / NaviLens</span>
+      <h2>Señalética</h2>
+      <p>Inspirada en señalética accesible (metro/colegio): Lexend, bloques numerados 1–6, contraste muy alto y atajos de teclado visibles.</p>
+      <div class="shots">
+        <a href="b-senaletica.html?s=home" target="_blank"><img src="png/b-senaletica-home.png" alt="B Inicio"><span>1. Inicio</span></a>
+        <a href="b-senaletica.html?s=sup" target="_blank"><img src="png/b-senaletica-sup.png" alt="B Apoyos"><span>2. Apoyos (0B)</span></a>
+        <a href="b-senaletica.html?s=feel" target="_blank"><img src="png/b-senaletica-feel.png" alt="B Sentimientos"><span>3. Sentimientos</span></a>
+        <a href="b-senaletica.html?s=feel-hc" target="_blank"><img src="png/b-senaletica-feel-hc.png" alt="B Alto contraste"><span>4. Alto contraste AAA</span></a>
+        <a href="b-senaletica.html?s=caa" target="_blank"><img src="png/b-senaletica-caa.png" alt="B CAA"><span>5. Pictogramas CAA</span></a>
+        <a href="b-senaletica.html?s=calm" target="_blank"><img src="png/b-senaletica-calm.png" alt="B Calma"><span>6. Rincón de calma</span></a>
+      </div>
+      <a class="open" href="b-senaletica.html" target="_blank">Abrir las 6 pantallas de B →</a>
+    </article>
+
+    <article class="dir">
+      <span class="tag">Dirección C · Sensorial / TEA</span>
+      <h2>Calma</h2>
+      <p>Pensada para baja sobrecarga sensorial: Andika (diseñada para lectores iniciales), paleta salvia suave y mascota guía «Nube» neutra.</p>
+      <div class="shots">
+        <a href="c-calma.html?s=home" target="_blank"><img src="png/c-calma-home.png" alt="C Inicio"><span>1. Inicio</span></a>
+        <a href="c-calma.html?s=sup" target="_blank"><img src="png/c-calma-sup.png" alt="C Apoyos"><span>2. Apoyos (0B)</span></a>
+        <a href="c-calma.html?s=feel" target="_blank"><img src="png/c-calma-feel.png" alt="C Sentimientos"><span>3. Sentimientos</span></a>
+        <a href="c-calma.html?s=feel-hc" target="_blank"><img src="png/c-calma-feel-hc.png" alt="C Alto contraste"><span>4. Alto contraste AAA</span></a>
+        <a href="c-calma.html?s=caa" target="_blank"><img src="png/c-calma-caa.png" alt="C CAA"><span>5. Pictogramas CAA</span></a>
+        <a href="c-calma.html?s=calm" target="_blank"><img src="png/c-calma-calm.png" alt="C Calma"><span>6. Rincón de calma</span></a>
+      </div>
+      <a class="open" href="c-calma.html" target="_blank">Abrir las 6 pantallas de C →</a>
+    </article>
+  </div>
+</div>
+</body>
+</html>

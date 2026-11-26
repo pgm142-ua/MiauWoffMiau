@@ -4,9 +4,66 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contigo · Espacio Seguro y Accesible</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./src/styles/main.css" />
 </head>
 <body class="theme-calm">
+  <!-- Sprite SVG oculto: Iconos de línea + Caras de emoción + Nube y Logo (Dirección C — Calma) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <defs>
+      <!-- Iconos de línea · 24×24 · trazo 2 · extremos redondeados -->
+      <symbol id="i-speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path d="M18.2 6.5a8 8 0 0 1 0 11"/></symbol>
+      <symbol id="i-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 18 7.5 6l5 12"/><path d="M4.3 13.8h6.4"/><circle cx="17.6" cy="15.2" r="2.8"/><path d="M20.4 12v6"/></symbol>
+      <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-exit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4H6.5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h7"/><path d="M10 12h10"/><path d="m16.5 8.5 3.5 3.5-3.5 3.5"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 19.5C5 11 9.5 5 19.5 4.5 19.5 14 14 19 6 19.5"/><path d="M5.5 19.5C8 15.5 11 13 14.5 11"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-7.5L6.5 20v-3.5H5A1.5 1.5 0 0 1 3.5 15V6A1.5 1.5 0 0 1 5 4.5z"/></symbol>
+      <symbol id="i-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.8"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.8"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.8"/><path d="M14.5 16.7h4.5M16.7 14.5v4.5"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5V5.5A1.5 1.5 0 0 1 6.5 4H19v13H6.5A1.5 1.5 0 0 0 5 18.5 1.5 1.5 0 0 0 6.5 20H19"/><path d="M9 8h6"/></symbol>
+      <symbol id="i-steps" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="m8 8.5 1.3 1.3L11.5 7.5M8 14.5l1.3 1.3 2.2-2.3M14 8.7h2.5M14 14.7h2.5"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 3.5 3.5 10.5l7 3 3 7z"/><path d="m10.5 13.5 10-10"/></symbol>
+      <symbol id="i-backspace" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10.5A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5H9l-6-7z"/><path d="m12.5 9.5 5 5M17.5 9.5l-5 5"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.6 2.6 2.6 14.4 0 17M12 3.5c-2.6 2.6-2.6 14.4 0 17"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h3l1.8 4.6-2.3 1.4a11 11 0 0 0 5.5 5.5l1.4-2.3L20 15v3a2 2 0 0 1-2 2A15 15 0 0 1 4 6a2 2 0 0 1 2-2z"/></symbol>
+      <symbol id="i-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></symbol>
+      <symbol id="i-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.4a5.5 5.5 0 0 1 3 5.1"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-lines" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M4 12h10M4 17.5h13"/></symbol>
+      <symbol id="i-still" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></symbol>
+      <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11.5m0-1a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.7-2.3L4.4 15.6a1.5 1.5 0 0 1 2.3-1.9L9 16"/></symbol>
+
+      <!-- Caras de emociones (propias). Colores vía variables CSS: --face, --ink -->
+      <symbol id="f-calm" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#F4D27A)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 46q7-6 14 0M57 46q7-6 14 0"/><path d="M37 63q13 10 26 0"/></g><circle cx="27" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/><circle cx="73" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/></symbol>
+      <symbol id="f-sad" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#A9CBDD)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 36l12-5M71 36l-12-5"/><path d="M38 70q12-10 24 0"/></g><circle cx="37" cy="47" r="4.5" fill="var(--ink,#1F2A37)"/><circle cx="63" cy="47" r="4.5" fill="var(--ink,#1F2A37)"/><path d="M66 54q3 6 0 9q-3-3 0-9z" fill="var(--tear,#5C8FB0)"/></symbol>
+      <symbol id="f-scared" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#C9B8DA)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M28 34q8-6 14-2M72 34q-8-6-14-2"/></g><circle cx="37" cy="46" r="6" fill="#fff" stroke="var(--ink,#1F2A37)" stroke-width="4"/><circle cx="63" cy="46" r="6" fill="#fff" stroke="var(--ink,#1F2A37)" stroke-width="4"/><circle cx="37" cy="47" r="2.4" fill="var(--ink,#1F2A37)"/><circle cx="63" cy="47" r="2.4" fill="var(--ink,#1F2A37)"/><path d="M38 68q4-5 8 0t8 0t8 0" fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="f-angry" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#EE9C80)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 33l13 6M71 33l-13 6"/><path d="M39 68q11-7 22 0"/></g><circle cx="37" cy="48" r="4.5" fill="var(--ink,#1F2A37)"/><circle cx="63" cy="48" r="4.5" fill="var(--ink,#1F2A37)"/></symbol>
+
+      <!-- Nube (compañero propio, forma suave) y Logo Contigo -->
+      <symbol id="buddy" viewBox="0 0 200 200">
+        <ellipse cx="100" cy="182" rx="62" ry="9" fill="#25332D" opacity=".08"/>
+        <path d="M44 150c-22 0-32-18-28-36 4-16 18-24 30-22 0-30 24-54 54-54s54 24 54 54c14-2 28 8 30 24 3 20-10 34-30 34z" fill="#fff" stroke="#25332D" stroke-width="5" stroke-linejoin="round"/>
+        <circle cx="80" cy="104" r="6.5" fill="#25332D"/><circle cx="120" cy="104" r="6.5" fill="#25332D"/>
+        <path d="M88 122q12 9 24 0" fill="none" stroke="#25332D" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="66" cy="120" r="8" fill="#F0C3AA" opacity=".8"/><circle cx="134" cy="120" r="8" fill="#F0C3AA" opacity=".8"/>
+      </symbol>
+      <symbol id="buddy-calm" viewBox="0 0 200 200">
+        <path d="M44 150c-22 0-32-18-28-36 4-16 18-24 30-22 0-30 24-54 54-54s54 24 54 54c14-2 28 8 30 24 3 20-10 34-30 34z" fill="#fff" stroke="#25332D" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M72 104q8-7 16 0M112 104q8-7 16 0" fill="none" stroke="#25332D" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="100" cy="126" r="7" fill="none" stroke="#25332D" stroke-width="5"/>
+        <circle cx="66" cy="120" r="8" fill="#F0C3AA" opacity=".8"/><circle cx="134" cy="120" r="8" fill="#F0C3AA" opacity=".8"/>
+      </symbol>
+      <symbol id="logo" viewBox="0 0 36 36"><rect width="36" height="36" rx="12" fill="#3F6E5A"/><g transform="translate(2 3) scale(.16)"><path d="M44 150c-22 0-32-18-28-36 4-16 18-24 30-22 0-30 24-54 54-54s54 24 54 54c14-2 28 8 30 24 3 20-10 34-30 34z" fill="#fff" stroke="#25332D" stroke-width="7" stroke-linejoin="round"/><circle cx="80" cy="104" r="7.5" fill="#25332D"/><circle cx="120" cy="104" r="7.5" fill="#25332D"/><path d="M88 122q12 9 24 0" fill="none" stroke="#25332D" stroke-width="7" stroke-linecap="round"/><circle cx="66" cy="120" r="10" fill="#F0C3AA" opacity=".8"/><circle cx="134" cy="120" r="10" fill="#F0C3AA" opacity=".8"/></g></symbol>
+    </defs>
+  </svg>
+
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
   <!-- Pantalla de salida rápida (Tecla Esc) -->
@@ -22,55 +79,51 @@
     </div>
   </div>
 
-  <!-- Cabecera limpia y funcional -->
+  <!-- Cabecera limpia y funcional (Dirección C — Calma) -->
   <header class="app-header" role="banner">
     <div class="header-inner">
       <button type="button" class="brand" data-go="home" aria-label="Contigo · Ir al Inicio">
-        <b aria-hidden="true">♥</b>Contigo
+        <svg aria-hidden="true"><use href="#logo"/></svg><span>contigo</span>
       </button>
 
       <div class="toolbar" role="region" aria-label="Accesibilidad, idioma y controles rápidos">
         <!-- Controles de accesibilidad visibles y funcionales -->
         <div id="gradual-a11y-bar" class="gradual-a11y-bar">
           <button type="button" id="btn-read-page" class="tool-btn" title="Leer pantalla en voz alta">
-            <span aria-hidden="true">🔊</span> <span data-i18n="a11y_listen">Escuchar</span>
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="a11y_listen">Escuchar</span>
           </button>
           <button type="button" id="btn-font-size" class="tool-btn" aria-pressed="false" title="Cambiar tamaño de letra">
-            <span aria-hidden="true">Aa</span> <span data-i18n="a11y_size">Tamaño</span>
+            <svg class="i" aria-hidden="true"><use href="#i-text"/></svg> <span data-i18n="a11y_size">Tamaño</span>
           </button>
           <button type="button" id="btn-contrast" class="tool-btn" aria-pressed="false" title="Activar alto contraste">
-            <span aria-hidden="true">◐</span> <span data-i18n="a11y_contrast">Contraste</span>
+            <svg class="i" aria-hidden="true"><use href="#i-contrast"/></svg> <span data-i18n="a11y_contrast">Contraste</span>
           </button>
           <button type="button" id="btn-easy-read" class="tool-btn" aria-pressed="false" title="Activar espaciado de lectura fácil">
-            <span aria-hidden="true">📖</span> <span data-i18n="a11y_easy">Lectura fácil</span>
+            <svg class="i" aria-hidden="true"><use href="#i-lines"/></svg> <span data-i18n="a11y_easy">Lectura fácil</span>
           </button>
         </div>
 
         <button type="button" id="btn-calm-corner" class="tool-btn tool-btn-calm" data-go="calm">
-          <span aria-hidden="true">🌿</span> <span>Calma</span>
-        </button>
-
-        <button type="button" id="btn-figma-canvas" class="tool-btn tool-btn-figma" aria-pressed="false" title="Desplegar todas las pantallas juntas para exportar a Figma">
-          <span aria-hidden="true">🎨</span> <span id="figma-btn-label">Vista Figma</span>
+          <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> <span>Calma</span>
         </button>
 
         <label for="lang-select" class="sr-only">Idioma</label>
         <select id="lang-select" class="lang-select" aria-label="Idioma">
-          <option value="es">🇪🇸 ES</option>
-          <option value="ca">🟡 CA/VA</option>
-          <option value="en">🇬🇧 EN</option>
-          <option value="fr">🇫🇷 FR</option>
-          <option value="de">🇩🇪 DE</option>
-          <option value="pt">🇵🇹 PT</option>
-          <option value="ar">🇸🇦 AR</option>
+          <option value="es">ES</option>
+          <option value="ca">CA/VA</option>
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
+          <option value="de">DE</option>
+          <option value="pt">PT</option>
+          <option value="ar">AR</option>
         </select>
 
         <button type="button" id="btn-gear-settings" class="tool-btn" aria-haspopup="dialog">
-          <span aria-hidden="true">⚙️</span> <span data-i18n="nav_gear">Ajustes</span>
+          <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> <span data-i18n="nav_gear">Ajustes</span>
         </button>
 
         <button type="button" id="btn-safe-exit" class="tool-btn tool-btn-exit" title="Salida rápida (Tecla Esc)">
-          <span aria-hidden="true">🛡️</span> <span data-i18n="nav_exit">Salir</span>
+          <svg class="i" aria-hidden="true"><use href="#i-exit"/></svg> <span data-i18n="nav_exit">Salir</span> <kbd>Esc</kbd>
         </button>
       </div>
     </div>
@@ -79,8 +132,8 @@
       <div class="progress-meta">
         <span id="progress-label">Hola</span>
         <div class="active-badges">
-          <span id="voice-status-badge" class="adaptation-badge hidden" data-i18n="badge_voice">🔊 Voz activa</span>
-          <span id="adaptation-badge" class="adaptation-badge hidden" data-i18n="badge_a11y">♿ Apoyo activo</span>
+          <span id="voice-status-badge" class="adaptation-badge hidden" data-i18n="badge_voice">Voz activa</span>
+          <span id="adaptation-badge" class="adaptation-badge hidden" data-i18n="badge_a11y">Apoyo activo</span>
         </div>
       </div>
       <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1" id="progress-bar">
@@ -95,48 +148,46 @@
     <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <!-- ================================================================
-         PORTADA: SALUDO CORTO ("¡Hola!") Y FÁCIL LECTURA
+         PORTADA: DIRECCIÓN C — CALMA CON NUBE
          ================================================================ -->
     <section id="screen-home" class="step-section">
-      <div class="hero">
-        <img alt="" src="./assets/images/hero-illustration.webp">
-        <div class="hero-copy">
-          <div class="eyebrow">Espacio Seguro</div>
-          <h1>¡Hola! 👋<br><em>Contigo.</em></h1>
-          <p>Estamos aquí para ayudarte.</p>
-          <button type="button" class="hero-cta" data-go="0-voice">Empezar <span>➔</span></button>
-        </div>
-      </div>
+      <div class="home-calma">
+        <div class="home-copy">
+          <h1>Hola. Me alegra que estés aquí.</h1>
+          <p class="lead">Este es un sitio tranquilo para contar cómo estás. Vamos despacio, una cosa cada vez.</p>
+          <button type="button" class="hero-cta" data-go="0-voice">
+            Empezar <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </button>
 
-      <div class="shelf-head">
-        <div>
-          <small>Accesos directos</small>
-          <h2>Herramientas rápidas</h2>
+          <div class="home-chips" role="navigation" aria-label="Accesos directos">
+            <button type="button" class="chip" data-go="caa">
+              <span class="d" style="background:var(--butter-t)" aria-hidden="true"><svg class="i"><use href="#i-picto"/></svg></span>
+              <span>Dibujos</span>
+            </button>
+            <button type="button" class="chip" data-go="diary">
+              <span class="d" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-book"/></svg></span>
+              <span>Mi diario</span>
+            </button>
+            <button type="button" class="chip" data-go="calm">
+              <span class="d" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-leaf"/></svg></span>
+              <span>Calma</span>
+            </button>
+            <button type="button" class="chip" data-go="questionnaire">
+              <span class="d" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-steps"/></svg></span>
+              <span>Cuestionario</span>
+            </button>
+            <button type="button" class="chip" data-go="teacher-panel">
+              <span class="d" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-people"/></svg></span>
+              <span>Panel Profe (<span id="home-teacher-count">3</span>)</span>
+            </button>
+          </div>
         </div>
-        <button type="button" class="textbtn" data-go="teacher-panel">👩‍🏫 Panel Profe (<span id="home-teacher-count">3</span>) ↗</button>
-      </div>
 
-      <div class="home-tools">
-        <button type="button" data-go="caa" class="tile">
-          <span class="art talk" aria-hidden="true">🗣️</span>
-          <strong>Pictogramas (CAA)</strong>
-          <small>Toca dibujos para hablar.</small>
-        </button>
-        <button type="button" data-go="diary" class="tile">
-          <span class="art book" aria-hidden="true">📒</span>
-          <strong>Mi diario</strong>
-          <small>Guarda qué pasa y dónde.</small>
-        </button>
-        <button type="button" data-go="questionnaire" class="tile">
-          <span class="art sheet" aria-hidden="true">📝</span>
-          <strong>Cuestionario</strong>
-          <small>Preguntas fáciles paso a paso.</small>
-        </button>
-        <button type="button" data-go="calm" class="tile">
-          <span class="art calm-art" aria-hidden="true">🌿</span>
-          <strong>Rincón de Calma</strong>
-          <small>Respira despacio sin ruido.</small>
-        </button>
+        <div class="calma-stage">
+          <span class="calma-blob" aria-hidden="true"></span>
+          <svg class="buddy" aria-hidden="true"><use href="#buddy"/></svg>
+          <div class="calma-bubble">Soy <b>Nube</b>. Te acompaño. Puedes parar cuando quieras.</div>
+        </div>
       </div>
     </section>
 
@@ -145,22 +196,24 @@
          ================================================================ -->
     <section id="screen-0-voice" class="card step-section hidden" aria-labelledby="title-screen-0">
       <div class="step-badge" data-i18n="s0_badge">Hola</div>
-      <h1 id="title-screen-0" data-i18n="s0_title">¡Hola! 👋 ¿Quieres voz?</h1>
+      <h1 id="title-screen-0" data-i18n="s0_title">Hola. ¿Quieres voz?</h1>
       <p class="lead-text" data-i18n="s0_desc">Elige una opción:</p>
 
       <div class="inline-voice-action">
-        <button type="button" id="btn-play-welcome-voice" class="btn btn-soft" data-i18n="s0_listen">🔊 Escuchar</button>
+        <button type="button" id="btn-play-welcome-voice" class="btn btn-soft" data-i18n="s0_listen">
+          <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Escuchar
+        </button>
       </div>
 
       <div class="choice-grid" role="group" aria-label="Elegir si quieres voz">
         <button type="button" class="choice-card" data-action="choose-voice" data-value="si" data-key="1">
-          <span class="choice-emoji" aria-hidden="true">🔊</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-speaker"/></svg></span>
           <span class="choice-title" data-i18n="s0_yes_title">1. Sí, con voz</span>
           <span class="choice-desc" data-i18n="s0_yes_desc">Te leo todo en voz alta</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-voice" data-value="no" data-key="2">
-          <span class="choice-emoji" aria-hidden="true">🔇</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-sound-off"/></svg></span>
           <span class="choice-title" data-i18n="s0_no_title">2. No, en silencio</span>
           <span class="choice-desc" data-i18n="s0_no_desc">Sin sonido</span>
         </button>
@@ -169,33 +222,35 @@
       <form id="form-voice-text-answer" class="quick-text-bar">
         <label for="input-voice-answer" class="sr-only">Respuesta rápida</label>
         <input type="text" id="input-voice-answer" class="form-control" placeholder="Escribe Sí o No (o 1 / 2)..." autocomplete="off" />
-        <button type="button" id="btn-mic-step0" class="btn btn-soft" data-i18n="btn_speak">🎙️ Hablar</button>
+        <button type="button" id="btn-mic-step0" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
         <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
       </form>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
     <!-- ================================================================
-         PASO 0B: ¿NECESITAS APOYO? (TEXTO MÍNIMO)
+         PASO 0B: ¿NECESITAS APOYO? (TARJETAS .sup-grid / .sc PASTEL)
          ================================================================ -->
     <section id="screen-0-disability" class="card step-section hidden" aria-labelledby="title-screen-0b">
       <div class="step-badge" data-i18n="s0b_badge">Apoyo</div>
-      <h1 id="title-screen-0b" data-i18n="s0b_title">¿Necesitas algún apoyo?</h1>
-      <p class="lead-text" data-i18n="s0b_desc">Adaptamos la pantalla para ti.</p>
+      <h1 id="title-screen-0b" data-i18n="s0b_title">¿Qué te ayuda a estar más cómodo?</h1>
+      <p class="lead-text" data-i18n="s0b_desc">Adaptamos la pantalla para ti. Puedes elegir varios o ninguno.</p>
 
       <div id="disability-yesno-panel">
         <div class="choice-grid" role="group">
           <button type="button" class="choice-card" data-action="has-disability" data-value="si" data-key="1">
-            <span class="choice-emoji" aria-hidden="true">♿</span>
+            <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-sliders"/></svg></span>
             <span class="choice-title" data-i18n="s0b_yes_title">1. Sí</span>
             <span class="choice-desc" data-i18n="s0b_yes_desc">Elegir mis apoyos</span>
           </button>
 
           <button type="button" class="choice-card" data-action="has-disability" data-value="no" data-key="2">
-            <span class="choice-emoji" aria-hidden="true">➡️</span>
+            <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-arrow-right"/></svg></span>
             <span class="choice-title" data-i18n="s0b_no_title">2. No</span>
             <span class="choice-desc" data-i18n="s0b_no_desc">Seguir</span>
           </button>
@@ -204,7 +259,7 @@
         <form id="form-has-dis-text" class="quick-text-bar">
           <label for="input-has-dis-answer" class="sr-only">Respuesta rápida</label>
           <input type="text" id="input-has-dis-answer" class="form-control" placeholder="Escribe Sí o No..." autocomplete="off" />
-          <button type="button" id="btn-mic-has-dis" class="btn btn-soft" data-i18n="btn_speak">🎙️ Hablar</button>
+          <button type="button" id="btn-mic-has-dis" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
           <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
         </form>
       </div>
@@ -212,59 +267,77 @@
       <div id="disability-types-panel" class="hidden">
         <p class="soft-note" data-i18n="s0b_ivr">Toca lo que necesites y pulsa Continuar:</p>
 
-        <div class="checkbox-grid" role="group">
-          <button type="button" class="toggle-dis-card" data-dis-type="ciega" data-key="1" aria-pressed="false">
-            <span class="choice-emoji" aria-hidden="true">👁️</span>
-            <span class="check-title" data-i18n="dis_ciega">1. Ver mejor / Voz</span>
-            <span class="check-desc" data-i18n="dis_ciega_d">Letra grande y voz</span>
+        <div class="sup-grid" role="group">
+          <button type="button" class="toggle-dis-card sc" data-dis-type="ciega" data-key="1" aria-pressed="false">
+            <span class="ic" style="background:var(--butter-t)" aria-hidden="true"><svg class="i"><use href="#i-eye"/></svg></span>
+            <div>
+              <span class="check-title" data-i18n="dis_ciega">1. Ver mejor / Voz</span>
+              <span class="check-desc" data-i18n="dis_ciega_d">Letra grande y voz</span>
+            </div>
           </button>
 
-          <button type="button" class="toggle-dis-card" data-dis-type="sorda" data-key="2" aria-pressed="false">
-            <span class="choice-emoji" aria-hidden="true">👂</span>
-            <span class="check-title" data-i18n="dis_sorda">2. Sin sonido</span>
-            <span class="check-desc" data-i18n="dis_sorda_d">Todo visual</span>
+          <button type="button" class="toggle-dis-card sc" data-dis-type="sorda" data-key="2" aria-pressed="false">
+            <span class="ic" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-sound-off"/></svg></span>
+            <div>
+              <span class="check-title" data-i18n="dis_sorda">2. Sin sonido</span>
+              <span class="check-desc" data-i18n="dis_sorda_d">Todo visual</span>
+            </div>
           </button>
 
-          <button type="button" class="toggle-dis-card" data-dis-type="muda" data-key="3" aria-pressed="false">
-            <span class="choice-emoji" aria-hidden="true">🗣️</span>
-            <span class="check-title" data-i18n="dis_muda">3. Hablar con dibujos</span>
-            <span class="check-desc" data-i18n="dis_muda_d">Pictogramas y voz prestada</span>
+          <button type="button" class="toggle-dis-card sc" data-dis-type="muda" data-key="3" aria-pressed="false">
+            <span class="ic" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-picto"/></svg></span>
+            <div>
+              <span class="check-title" data-i18n="dis_muda">3. Hablar con dibujos</span>
+              <span class="check-desc" data-i18n="dis_muda_d">Pictogramas y voz prestada</span>
+            </div>
           </button>
 
-          <button type="button" class="toggle-dis-card" data-dis-type="intelectual" data-key="4" aria-pressed="false">
-            <span class="choice-emoji" aria-hidden="true">📖</span>
-            <span class="check-title" data-i18n="dis_int">4. Lectura fácil</span>
-            <span class="check-desc" data-i18n="dis_int_d">Muy corto y claro</span>
+          <button type="button" class="toggle-dis-card sc" data-dis-type="intelectual" data-key="4" aria-pressed="false">
+            <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-lines"/></svg></span>
+            <div>
+              <span class="check-title" data-i18n="dis_int">4. Lectura fácil</span>
+              <span class="check-desc" data-i18n="dis_int_d">Muy corto y claro</span>
+            </div>
           </button>
 
-          <button type="button" class="toggle-dis-card" data-dis-type="tea" data-key="5" aria-pressed="false">
-            <span class="choice-emoji" aria-hidden="true">🧩</span>
-            <span class="check-title" data-i18n="dis_tea">5. TEA / Calma</span>
-            <span class="check-desc" data-i18n="dis_tea_d">Sin movimientos</span>
+          <button type="button" class="toggle-dis-card sc" data-dis-type="tea" data-key="5" aria-pressed="false">
+            <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-still"/></svg></span>
+            <div>
+              <span class="check-title" data-i18n="dis_tea">5. TEA / Calma</span>
+              <span class="check-desc" data-i18n="dis_tea_d">Sin movimientos</span>
+            </div>
           </button>
 
-          <button type="button" class="toggle-dis-card" data-dis-type="motora" data-key="6" aria-pressed="false">
-            <span class="choice-emoji" aria-hidden="true">🖐️</span>
-            <span class="check-title" data-i18n="dis_mot">6. Botones grandes</span>
-            <span class="check-desc" data-i18n="dis_mot_d">Fácil de tocar</span>
+          <button type="button" class="toggle-dis-card sc" data-dis-type="motora" data-key="6" aria-pressed="false">
+            <span class="ic" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-hand"/></svg></span>
+            <div>
+              <span class="check-title" data-i18n="dis_mot">6. Botones grandes</span>
+              <span class="check-desc" data-i18n="dis_mot_d">Fácil de tocar</span>
+            </div>
           </button>
         </div>
 
         <form id="form-dis-detail-text" class="quick-text-bar">
           <label for="input-dis-detail" class="sr-only">Escribir apoyo</label>
           <input type="text" id="input-dis-detail" class="form-control" placeholder="Escribe número 1 a 6..." autocomplete="off" />
-          <button type="button" id="btn-mic-dis-detail" class="btn btn-soft" data-i18n="btn_speak">🎙️ Hablar</button>
+          <button type="button" id="btn-mic-dis-detail" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
           <button type="submit" class="btn btn-soft" data-i18n="btn_answer">Activar</button>
         </form>
 
         <div class="nav-actions">
-          <button type="button" id="btn-back-dis-yesno" class="btn btn-ghost">← Atrás</button>
-          <button type="button" id="btn-continue-from-dis" class="btn btn-primary" data-key="0" data-i18n="s0b_continue">Continuar →</button>
+          <button type="button" id="btn-back-dis-yesno" class="btn btn-ghost">
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Atrás
+          </button>
+          <button type="button" id="btn-continue-from-dis" class="btn btn-primary" data-key="0" data-i18n="s0b_continue">
+            Continuar <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </button>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -273,38 +346,48 @@
          ================================================================ -->
     <section id="screen-1-role" class="card step-section hidden" aria-labelledby="title-screen-1">
       <div class="step-badge" data-i18n="s1_badge">Pantalla 1</div>
-      <h1 id="title-screen-1" data-i18n="s1_title">¡Hola! ¿Quién eres?</h1>
-      <p class="lead-text" data-i18n="s1_desc">Toca tu dibujo:</p>
+      <h1 id="title-screen-1" data-i18n="s1_title">Hola. ¿Quién eres?</h1>
+      <p class="lead-text" data-i18n="s1_desc">Toca tu opción:</p>
 
       <div class="choice-grid" role="group">
         <button type="button" class="choice-card" data-action="choose-user-type" data-value="profesor" data-key="1">
-          <span class="choice-emoji" aria-hidden="true">👩‍🏫</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-people"/></svg></span>
           <span class="choice-title" data-i18n="prof_title">1. Profesor / a</span>
           <span class="choice-desc" data-i18n="prof_desc">Ver avisos y ayudar</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-user-type" data-value="alumno" data-key="2">
-          <span class="choice-emoji" aria-hidden="true">🎒</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-chat"/></svg></span>
           <span class="choice-title" data-i18n="alum_title">2. Alumno / a</span>
           <span class="choice-desc" data-i18n="alum_desc">Contar qué me pasa</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-user-type" data-value="padres" data-key="3">
-          <span class="choice-emoji" aria-hidden="true">🏡</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-phone"/></svg></span>
           <span class="choice-title" data-i18n="pad_title">3. Padres</span>
           <span class="choice-desc" data-i18n="pad_desc">Avisar desde casa</span>
         </button>
       </div>
 
       <div class="subtle-links-row">
-        <button type="button" id="btn-role-to-caa" class="link-pill" data-i18n="quick_caa">🗣️ Pictogramas (CAA)</button>
-        <button type="button" id="btn-role-to-diary" class="link-pill" data-i18n="quick_diary">📒 Diario</button>
-        <button type="button" id="btn-role-to-teacher-panel" class="link-pill" data-i18n="quick_teacher">👩‍🏫 Panel Profe</button>
-        <button type="button" id="btn-role-to-parents" class="link-pill">🏡 Formulario Padres</button>
+        <button type="button" id="btn-role-to-caa" class="link-pill" data-i18n="quick_caa">
+          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> Pictogramas (CAA)
+        </button>
+        <button type="button" id="btn-role-to-diary" class="link-pill" data-i18n="quick_diary">
+          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Diario
+        </button>
+        <button type="button" id="btn-role-to-teacher-panel" class="link-pill" data-i18n="quick_teacher">
+          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Panel Profe
+        </button>
+        <button type="button" id="btn-role-to-parents" class="link-pill">
+          <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> Formulario Padres
+        </button>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -318,20 +401,22 @@
 
       <div class="choice-grid" role="group">
         <button type="button" class="choice-card" data-action="choose-mode" data-value="adaptado" data-key="1">
-          <span class="choice-emoji" aria-hidden="true">🖼️</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-picto"/></svg></span>
           <span class="choice-title" data-i18n="mode_ad_title">1. Adaptado</span>
           <span class="choice-desc" data-i18n="mode_ad_desc">Con dibujos fáciles</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-mode" data-value="no_adaptado" data-key="2">
-          <span class="choice-emoji" aria-hidden="true">🎙️</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-chat"/></svg></span>
           <span class="choice-title" data-i18n="mode_no_title">2. No adaptado</span>
           <span class="choice-desc" data-i18n="mode_no_desc">Chat con voz y anónimo</span>
         </button>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -345,86 +430,75 @@
 
       <div class="choice-grid" role="group">
         <button type="button" class="choice-card" data-action="choose-branch" data-value="victima" data-key="1">
-          <span class="choice-emoji" aria-hidden="true">🙋</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-hand"/></svg></span>
           <span class="choice-title" data-i18n="br_vic_title">1. Víctima</span>
           <span class="choice-desc" data-i18n="br_vic_desc">Me pasa a mí</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-branch" data-value="testigo" data-key="2">
-          <span class="choice-emoji" aria-hidden="true">👀</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-eye"/></svg></span>
           <span class="choice-title" data-i18n="br_tes_title">2. Testigo</span>
           <span class="choice-desc" data-i18n="br_tes_desc">Lo he visto</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-branch" data-value="cuestionario" data-key="3">
-          <span class="choice-emoji" aria-hidden="true">📝</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-steps"/></svg></span>
           <span class="choice-title" data-i18n="br_cue_title">3. Cuestionario</span>
           <span class="choice-desc" data-i18n="br_cue_desc">Hazme preguntas</span>
         </button>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
     <!-- ================================================================
-         PANTALLA DE ADAPTADO 1: TRES BOTONES CON IMÁGENES SOBRE SENTIMIENTOS
+         PANTALLA DE ADAPTADO 1: SENTIMIENTOS CON NUBE Y 4 CARAS CALMA
          ================================================================ -->
     <section id="screen-adapted-1" class="card step-section hidden" aria-labelledby="title-adapted-1">
       <div class="step-badge" data-i18n="ad1_badge">Adaptado · 1 de 3</div>
-      <h1 id="title-adapted-1" data-i18n="ad1_title">¿Cómo te sientes?</h1>
-      <p class="lead-text" data-i18n="ad1_desc">Toca una cara:</p>
 
-      <div class="image-choice-grid" role="group">
-        <button type="button" class="visual-card visual-happy" data-action="adapted-feeling" data-value="Tranquilo / Bien" data-key="1">
-          <span class="visual-art" aria-hidden="true">
-            <svg viewBox="0 0 120 120" width="98" height="98">
-              <rect x="6" y="6" width="108" height="108" rx="26" fill="#E6F3F0" stroke="#1F7A6B" stroke-width="3.5" />
-              <circle cx="60" cy="60" r="32" fill="#FFF9E8" stroke="#1F7A6B" stroke-width="3" />
-              <circle cx="48" cy="53" r="4.5" fill="#164E45" />
-              <circle cx="72" cy="53" r="4.5" fill="#164E45" />
-              <path d="M46 66 Q60 78 74 66" fill="none" stroke="#164E45" stroke-width="4.5" stroke-linecap="round" />
-            </svg>
-          </span>
-          <span class="visual-title" data-i18n="feel_1">1. Tranquilo</span>
+      <div class="calma-ask">
+        <svg class="buddy" aria-hidden="true"><use href="#buddy"/></svg>
+        <div class="say">
+          <h1 id="title-adapted-1" data-i18n="ad1_title">¿Cómo te sientes ahora?</h1>
+          <p class="lead-text" data-i18n="ad1_desc">Elige una cara. Todas están bien.</p>
+        </div>
+      </div>
+
+      <div class="image-choice-grid feel" role="group" aria-label="Elegir cómo te sientes">
+        <button type="button" class="visual-card fc" style="--face:#F1DE9C" data-action="adapted-feeling" data-value="Tranquilo / Bien" data-key="1">
+          <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-calm"/></svg></span>
+          <span class="visual-title" data-i18n="feel_1">1. Tranquilo/a</span>
           <span class="visual-sub" data-i18n="feel_1_sub">Quiero hablar con calma</span>
         </button>
 
-        <button type="button" class="visual-card visual-sad" data-action="adapted-feeling" data-value="Triste / Con miedo" data-key="2">
-          <span class="visual-art" aria-hidden="true">
-            <svg viewBox="0 0 120 120" width="98" height="98">
-              <rect x="6" y="6" width="108" height="108" rx="26" fill="#EDF5FB" stroke="#2D6E9E" stroke-width="3.5" />
-              <circle cx="60" cy="60" r="32" fill="#FFF9E8" stroke="#2D6E9E" stroke-width="3" />
-              <circle cx="48" cy="54" r="4.5" fill="#1B4666" />
-              <circle cx="72" cy="54" r="4.5" fill="#1B4666" />
-              <path d="M46 72 Q60 61 74 72" fill="none" stroke="#1B4666" stroke-width="4.5" stroke-linecap="round" />
-              <path d="M75 60 C75 60 79 65 79 68 A4 4 0 1 1 71 68 C71 65 75 60 75 60 Z" fill="#5CA6D8" />
-            </svg>
-          </span>
-          <span class="visual-title" data-i18n="feel_2">2. Triste / Miedo</span>
-          <span class="visual-sub" data-i18n="feel_2_sub">Me siento solo o asustado</span>
+        <button type="button" class="visual-card fc" style="--face:#B6D3E2" data-action="adapted-feeling" data-value="Triste" data-key="2">
+          <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-sad"/></svg></span>
+          <span class="visual-title" data-i18n="feel_2">2. Triste</span>
+          <span class="visual-sub" data-i18n="feel_2_sub">Me siento triste o solo/a</span>
         </button>
 
-        <button type="button" class="visual-card visual-angry" data-action="adapted-feeling" data-value="Enfadado / Molesto" data-key="3">
-          <span class="visual-art" aria-hidden="true">
-            <svg viewBox="0 0 120 120" width="98" height="98">
-              <rect x="6" y="6" width="108" height="108" rx="26" fill="#FDF2E9" stroke="#C86D3B" stroke-width="3.5" />
-              <circle cx="60" cy="60" r="32" fill="#FFF9E8" stroke="#C86D3B" stroke-width="3" />
-              <path d="M41 47 L52 52" stroke="#6E3314" stroke-width="4" stroke-linecap="round" />
-              <path d="M79 47 L68 52" stroke="#6E3314" stroke-width="4" stroke-linecap="round" />
-              <circle cx="48" cy="56" r="4.5" fill="#6E3314" />
-              <circle cx="72" cy="56" r="4.5" fill="#6E3314" />
-              <path d="M46 72 Q60 64 74 72" fill="none" stroke="#6E3314" stroke-width="4.5" stroke-linecap="round" />
-            </svg>
-          </span>
-          <span class="visual-title" data-i18n="feel_3">3. Enfadado</span>
-          <span class="visual-sub" data-i18n="feel_3_sub">Me molestan o me bloqueo</span>
+        <button type="button" class="visual-card fc" style="--face:#CFC7EA" data-action="adapted-feeling" data-value="Con miedo" data-key="3">
+          <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-scared"/></svg></span>
+          <span class="visual-title" data-i18n="feel_3">3. Con miedo</span>
+          <span class="visual-sub" data-i18n="feel_3_sub">Me siento asustado/a</span>
+        </button>
+
+        <button type="button" class="visual-card fc" style="--face:#F0C3AA" data-action="adapted-feeling" data-value="Enfadado / Molesto" data-key="4">
+          <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-angry"/></svg></span>
+          <span class="visual-title" data-i18n="feel_4">4. Enfadado/a</span>
+          <span class="visual-sub" data-i18n="feel_4_sub">Me molestan o me bloqueo</span>
         </button>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -438,44 +512,46 @@
 
       <div class="cause-grid" role="group" aria-label="Elegir causa">
         <button type="button" class="choice-card" data-action="adapted-cause" data-value="Social (exclusión o burlas)" data-key="1">
-          <span class="choice-emoji" aria-hidden="true">👥</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-people"/></svg></span>
           <span class="choice-title" data-i18n="c_soc">1. Social</span>
           <span class="choice-desc" data-i18n="c_soc_d">Burlas o me dejan solo</span>
         </button>
 
         <button type="button" class="choice-card" data-action="adapted-cause" data-value="Interno (miedo o bloqueo)" data-key="2">
-          <span class="choice-emoji" aria-hidden="true">💭</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-chat"/></svg></span>
           <span class="choice-title" data-i18n="c_int">2. Interno</span>
           <span class="choice-desc" data-i18n="c_int_d">Miedo o bloqueo por dentro</span>
         </button>
 
         <button type="button" class="choice-card" data-action="adapted-cause" data-value="Físico (empujones o cosas)" data-key="3">
-          <span class="choice-emoji" aria-hidden="true">✋</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-hand"/></svg></span>
           <span class="choice-title" data-i18n="c_fis">3. Físico</span>
           <span class="choice-desc" data-i18n="c_fis_d">Empujones o rompen cosas</span>
         </button>
 
         <button type="button" class="choice-card" data-action="adapted-cause" data-value="Digital / Móvil" data-key="4">
-          <span class="choice-emoji" aria-hidden="true">📱</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-phone"/></svg></span>
           <span class="choice-title" data-i18n="c_dig">4. Móvil / Redes</span>
           <span class="choice-desc" data-i18n="c_dig_d">Mensajes o fotos</span>
         </button>
 
         <button type="button" class="choice-card" data-action="adapted-cause" data-value="Mucho ruido / Recreo" data-key="5">
-          <span class="choice-emoji" aria-hidden="true">🌳</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-leaf"/></svg></span>
           <span class="choice-title" data-i18n="c_esc">5. Patio / Ruido</span>
           <span class="choice-desc" data-i18n="c_esc_d">Recreo, pasillos o clase</span>
         </button>
 
         <button type="button" class="choice-card" data-action="adapted-cause" data-value="Otra causa" data-key="6">
-          <span class="choice-emoji" aria-hidden="true">✨</span>
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-steps"/></svg></span>
           <span class="choice-title" data-i18n="c_otr">6. Otra cosa</span>
           <span class="choice-desc" data-i18n="c_otr_d">Otro motivo</span>
         </button>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -487,24 +563,24 @@
       <h1 id="title-adapted-3" data-i18n="ad3_title">Enviar al profesor</h1>
       <p class="lead-text" data-i18n="ad3_desc">Tu mensaje está listo:</p>
 
-      <div id="adapted-summary-box" class="soft-box" style="font-size: 1.35rem; font-weight: 800;"></div>
+      <div id="adapted-summary-box" class="soft-box" style="font-size: 1.35rem; font-weight: 700;"></div>
 
       <div class="soft-box">
         <span class="form-label">¿Dónde ha pasado? (Toca uno):</span>
         <div class="chip-grid" id="adapted-place-pills">
-          <button type="button" class="chip-btn selected" data-adapted-place="Patio / Recreo">🌳 Patio / Recreo</button>
-          <button type="button" class="chip-btn" data-adapted-place="Pasillos / Baños">🚪 Pasillos / Baños</button>
-          <button type="button" class="chip-btn" data-adapted-place="En clase">🏫 En clase</button>
-          <button type="button" class="chip-btn" data-adapted-place="Entrada / Salida">🎒 Entrada / Salida</button>
+          <button type="button" class="chip-btn selected" data-adapted-place="Patio / Recreo">Patio / Recreo</button>
+          <button type="button" class="chip-btn" data-adapted-place="Pasillos / Baños">Pasillos / Baños</button>
+          <button type="button" class="chip-btn" data-adapted-place="En clase">En clase</button>
+          <button type="button" class="chip-btn" data-adapted-place="Entrada / Salida">Entrada / Salida</button>
         </div>
       </div>
 
       <div id="mute-quick-phrases-adapted" class="quick-phrases-box">
         <span class="form-label">Frases rápidas (opcional):</span>
         <div class="chip-grid">
-          <button type="button" class="chip-btn quick-fill-adapted" data-text="No puedo hablar ahora, necesito ayuda.">💬 No puedo hablar ahora</button>
-          <button type="button" class="chip-btn quick-fill-adapted" data-text="Quiero hablar en privado.">🤫 Hablar en privado</button>
-          <button type="button" class="chip-btn quick-fill-adapted" data-text="Me pasa en el recreo.">🌳 Pasa en el recreo</button>
+          <button type="button" class="chip-btn quick-fill-adapted" data-text="No puedo hablar ahora, necesito ayuda.">No puedo hablar ahora</button>
+          <button type="button" class="chip-btn quick-fill-adapted" data-text="Quiero hablar en privado.">Hablar en privado</button>
+          <button type="button" class="chip-btn quick-fill-adapted" data-text="Me pasa en el recreo.">Pasa en el recreo</button>
         </div>
       </div>
 
@@ -517,8 +593,12 @@
           <div class="label-with-action">
             <label for="adapted-note" class="form-label">Nota o pictogramas (opcional)</label>
             <div>
-              <button type="button" id="btn-open-caa-from-adapted" class="btn-mini">🗣️ Pictogramas CAA</button>
-              <button type="button" id="btn-voice-adapted" class="btn-mini">🎙️ Dictar</button>
+              <button type="button" id="btn-open-caa-from-adapted" class="btn-mini">
+                <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> Pictogramas CAA
+              </button>
+              <button type="button" id="btn-voice-adapted" class="btn-mini">
+                <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Dictar
+              </button>
             </div>
           </div>
           <input type="text" id="adapted-note" class="form-control" placeholder="Pulsa Dictar o una frase rápida..." />
@@ -527,22 +607,34 @@
 
       <div class="send-teacher-cta" style="margin: 22px 0;">
         <button type="button" id="btn-send-to-teacher" class="btn btn-primary btn-huge" data-key="1" data-i18n="btn_send_prof">
-          📨 ENVIAR AL PROFESOR
+          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> ENVIAR AL PROFESOR
         </button>
       </div>
 
       <div id="adapted-sent-confirm" class="info-banner hidden" role="status">
-        <strong style="font-size: 1.25rem;">✅ ¡Enviado al profesor! Código: <span id="adapted-safe-code">SAFE-108</span></strong>
+        <strong style="font-size: 1.25rem;">
+          <svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Enviado al profesor. Código: <span id="adapted-safe-code">SAFE-108</span>
+        </strong>
         <div class="report-actions">
-          <button type="button" id="btn-speak-for-me" class="btn btn-soft">🔊 Leer en voz alta al profesor</button>
-          <button type="button" id="btn-adapted-to-calm" class="btn btn-soft" data-go="calm">🌿 Ir al Rincón de Calma</button>
-          <button type="button" id="btn-adapted-to-feedback" class="btn btn-primary">Ver Feedback (4 caras) →</button>
-          <button type="button" id="btn-adapted-to-teacher-panel" class="btn btn-soft">👩‍🏫 Ver en Panel Profe</button>
+          <button type="button" id="btn-speak-for-me" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Leer en voz alta al profesor
+          </button>
+          <button type="button" id="btn-adapted-to-calm" class="btn btn-soft" data-go="calm">
+            <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> Ir al Rincón de Calma
+          </button>
+          <button type="button" id="btn-adapted-to-feedback" class="btn btn-primary">
+            Ver Feedback (4 caras) <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </button>
+          <button type="button" id="btn-adapted-to-teacher-panel" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Ver en Panel Profe
+          </button>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -556,8 +648,8 @@
           <h1 id="title-no-adapted" data-i18n="chat_title">Chat con Voz y Envío Anónimo</h1>
         </div>
         <div class="gemini-status-box">
-          <span id="gemini-status-pill" class="status-pill">🔒 100% Anónimo</span>
-          <button type="button" id="btn-open-api-modal" class="btn-mini">✨ IA Gemini</button>
+          <span id="gemini-status-pill" class="status-pill">100% Anónimo</span>
+          <button type="button" id="btn-open-api-modal" class="btn-mini">IA Gemini</button>
         </div>
       </div>
 
@@ -568,26 +660,30 @@
       <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
 
       <div class="quick-prompts">
-        <button type="button" class="quick-prompt-btn" data-prompt="Se están metiendo con un compañero en el recreo y lo dejan solo.">👀 Lo he visto en el recreo</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Se burlan de mí y no sé cómo pedir ayuda sin que se enteren.">😔 Se burlan de mí</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Hay problemas en los pasillos cuando cambiamos de clase.">🚪 Problema en pasillos</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Ayúdame a calmarme ahora mismo.">🌿 Calmarme ahora</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Se están metiendo con un compañero en el recreo y lo dejan solo.">Lo he visto en el recreo</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Se burlan de mí y no sé cómo pedir ayuda sin que se enteren.">Se burlan de mí</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Hay problemas en los pasillos cuando cambiamos de clase.">Problema en pasillos</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Ayúdame a calmarme ahora mismo.">Calmarme ahora</button>
       </div>
 
       <form id="form-chat" class="chat-input-row">
-        <button type="button" id="btn-chat-mic" class="btn btn-soft">🎙️ Hablar por voz</button>
+        <button type="button" id="btn-chat-mic" class="btn btn-soft">Hablar por voz</button>
         <label for="chat-input" class="sr-only">Mensaje</label>
-        <input type="text" id="chat-input" class="form-control" placeholder="Escribe aquí o pulsa «🎙️ Hablar por voz»..." autocomplete="off" />
-        <button type="button" id="btn-toggle-auto-tts" class="btn btn-ghost" aria-pressed="true">🔊 Voz bot: Sí</button>
-        <button type="submit" id="btn-send-chat" class="btn btn-primary" data-i18n="chat_send">Enviar</button>
+        <input type="text" id="chat-input" class="form-control" placeholder="Escribe aquí o pulsa «Hablar por voz»..." autocomplete="off" />
+        <button type="button" id="btn-toggle-auto-tts" class="btn btn-ghost" aria-pressed="true">Voz bot: Sí</button>
+        <button type="submit" id="btn-send-chat" class="btn btn-primary" data-i18n="chat_send">
+          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar
+        </button>
       </form>
 
       <!-- SERVICIO DE ENVÍO ANÓNIMO DIRECTO -->
       <div class="anon-box">
         <div class="anon-header">
           <div>
-            <h2 style="margin: 0 0 4px;">🕵️ Servicio de Envío Anónimo al Centro</h2>
-            <p style="margin: 0; color: #485c51;">Envía tu aviso al profesorado u orientación sin mostrar tu nombre.</p>
+            <h2 style="margin: 0 0 4px;">
+              <svg class="i" aria-hidden="true"><use href="#i-lock"/></svg> Servicio de Envío Anónimo al Centro
+            </h2>
+            <p style="margin: 0; color: var(--muted);">Envía tu aviso al profesorado u orientación sin mostrar tu nombre.</p>
           </div>
           <button type="button" id="btn-open-anon-panel" class="btn btn-soft">Configurar envío</button>
         </div>
@@ -605,11 +701,11 @@
             <div class="form-group">
               <label for="anon-place" class="form-label">¿Dónde ocurre?</label>
               <select id="anon-place" class="form-control">
-                <option value="Patio / Recreo">🌳 Patio / Recreo</option>
-                <option value="Pasillos / Baños">🚪 Pasillos / Baños</option>
-                <option value="En clase">🏫 En clase</option>
-                <option value="Móvil / Redes">📱 Móvil / Redes</option>
-                <option value="Entrada / Salida">🎒 Entrada / Salida</option>
+                <option value="Patio / Recreo">Patio / Recreo</option>
+                <option value="Pasillos / Baños">Pasillos / Baños</option>
+                <option value="En clase">En clase</option>
+                <option value="Móvil / Redes">Móvil / Redes</option>
+                <option value="Entrada / Salida">Entrada / Salida</option>
               </select>
             </div>
             <div class="form-group">
@@ -617,17 +713,27 @@
               <input type="text" id="anon-extra" class="form-control" placeholder="Escribe qué ocurre (o se enviará lo hablado en el chat)" />
             </div>
           </div>
-          <button type="button" id="btn-submit-anon" class="btn btn-primary">📨 Enviar aviso 100% anónimo al profesor</button>
+          <button type="button" id="btn-submit-anon" class="btn btn-primary">
+            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar aviso 100% anónimo al profesor
+          </button>
           <div id="anon-confirm-msg" class="info-banner hidden" role="status"></div>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
         <div class="nav-right-group">
-          <button type="button" id="btn-chat-to-diary" class="btn btn-ghost">📒 Diario</button>
-          <button type="button" id="btn-chat-to-questionnaire" class="btn btn-soft">📝 Cuestionario</button>
-          <button type="button" id="btn-to-feedback" class="btn btn-primary" data-i18n="chat_to_fb">Ver Feedback Final →</button>
+          <button type="button" id="btn-chat-to-diary" class="btn btn-ghost">
+            <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Diario
+          </button>
+          <button type="button" id="btn-chat-to-questionnaire" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> Cuestionario
+          </button>
+          <button type="button" id="btn-to-feedback" class="btn btn-primary" data-i18n="chat_to_fb">
+            Ver Feedback Final <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -688,20 +794,20 @@
         <fieldset class="question-block">
           <legend class="form-label">1. ¿En el recreo te dejan solo/a o se ríen de ti aunque te moleste?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="Sí, muchas veces" checked /><span>😟 Sí, muchas veces</span></label>
-            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="A veces" /><span>😐 A veces</span></label>
-            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="No" /><span>🙂 No</span></label>
+            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="Sí, muchas veces" checked /><span>Sí, muchas veces</span></label>
+            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="A veces" /><span>A veces</span></label>
+            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="No" /><span>No</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
           <legend class="form-label">2. ¿Dónde ocurre?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_place" value="Patio / Recreo" checked /><span>🌳 Patio / Recreo</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="Pasillos / Baños" /><span>🚪 Pasillos / Baños</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="En clase" /><span>🏫 En clase</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="Móvil / Redes" /><span>📱 Móvil / Redes</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="Entrada / Salida" /><span>🎒 Entrada / Salida</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="Patio / Recreo" checked /><span>Patio / Recreo</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="Pasillos / Baños" /><span>Pasillos / Baños</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="En clase" /><span>En clase</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="Móvil / Redes" /><span>Móvil / Redes</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="Entrada / Salida" /><span>Entrada / Salida</span></label>
           </div>
         </fieldset>
 
@@ -726,29 +832,29 @@
         <fieldset class="question-block">
           <legend class="form-label">5. ¿Se lo has podido contar a alguien?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_told" value="A nadie todavía" checked /><span>🤫 A nadie todavía</span></label>
-            <label class="pill-option"><input type="radio" name="qq_told" value="A mi familia" /><span>🏡 A mi familia</span></label>
-            <label class="pill-option"><input type="radio" name="qq_told" value="A un profesor" /><span>👩‍🏫 A un profesor</span></label>
-            <label class="pill-option"><input type="radio" name="qq_told" value="A un amigo/a" /><span>🧑‍🤝‍🧑 A un amigo/a</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="A nadie todavía" checked /><span>A nadie todavía</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="A mi familia" /><span>A mi familia</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="A un profesor" /><span>A un profesor</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="A un amigo/a" /><span>A un amigo/a</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
           <legend class="form-label">6. ¿Cómo te sientes de seguro/a ahora?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_safety" value="Estoy seguro/a ahora" checked /><span>✅ Estoy seguro/a ahora</span></label>
-            <label class="pill-option"><input type="radio" name="qq_safety" value="Tengo miedo de ir mañana" /><span>😰 Tengo miedo por mañana</span></label>
-            <label class="pill-option"><input type="radio" name="qq_safety" value="Siento peligro inmediato" /><span>🆘 Peligro inmediato</span></label>
+            <label class="pill-option"><input type="radio" name="qq_safety" value="Estoy seguro/a ahora" checked /><span>Estoy seguro/a ahora</span></label>
+            <label class="pill-option"><input type="radio" name="qq_safety" value="Tengo miedo de ir mañana" /><span>Tengo miedo por mañana</span></label>
+            <label class="pill-option"><input type="radio" name="qq_safety" value="Siento peligro inmediato" /><span>Peligro inmediato</span></label>
           </div>
           <div id="urgent-help-alert" class="urgent-alert hidden" role="alert">
-            <strong>⚠️ Importante:</strong> Si estás en peligro ahora mismo, acude a un adulto cercano o llama al <strong>112</strong> / <strong>900 018 018</strong>.
+            <strong>Importante:</strong> Si estás en peligro ahora mismo, acude a un adulto cercano o llama al <strong>112</strong> / <strong>900 018 018</strong>.
           </div>
         </fieldset>
 
         <div class="form-group">
           <div class="label-with-action">
             <label for="q-situation-text" class="form-label">7. ¿Quieres añadir algo más con tus palabras o con voz? (Opcional)</label>
-            <button type="button" id="btn-voice-q" class="btn-mini">🎙️ Dictar por voz</button>
+            <button type="button" id="btn-voice-q" class="btn-mini">Dictar por voz</button>
           </div>
           <textarea id="q-situation-text" class="form-control" rows="2" placeholder="Puedes escribir o pulsar Dictar por voz..."></textarea>
         </div>
@@ -756,16 +862,22 @@
         <fieldset class="question-block">
           <legend class="form-label">8. ¿Cómo quieres enviarlo?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_delivery" value="anonimo" checked /><span>🕵️ Enviar Anónimo al Profesor</span></label>
-            <label class="pill-option"><input type="radio" name="qq_delivery" value="profesor" /><span>👩‍🏫 Enviar con mi nombre al Profesor</span></label>
+            <label class="pill-option"><input type="radio" name="qq_delivery" value="anonimo" checked /><span>Enviar Anónimo al Profesor</span></label>
+            <label class="pill-option"><input type="radio" name="qq_delivery" value="profesor" /><span>Enviar con mi nombre al Profesor</span></label>
           </div>
         </fieldset>
 
         <div class="nav-actions">
-          <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+          <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+          </button>
           <div class="nav-right-group">
-            <button type="button" id="btn-q-to-chat" class="btn btn-soft">💬 Ir al Chatbot</button>
-            <button type="submit" class="btn btn-primary" style="padding: 14px 28px; font-size: 1.15rem;">📨 Enviar Cuestionario al Profesor →</button>
+            <button type="button" id="btn-q-to-chat" class="btn btn-soft">
+              <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> Ir al Chatbot
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar Cuestionario al Profesor
+            </button>
           </div>
         </div>
       </form>
@@ -775,31 +887,39 @@
          PANTALLA DE PADRES / TUTORES: DETECCIÓN TEMPRANA DESDE CASA
          ================================================================ -->
     <section id="screen-parents" class="card step-section hidden" aria-labelledby="title-parents">
-      <div class="step-badge">🏡 Espacio Familias · Padres y Tutores</div>
+      <div class="step-badge">Espacio Familias · Padres y Tutores</div>
       <h1 id="title-parents">Avisar desde Casa</h1>
       <p class="lead-text">Marca las señales que has visto en tu hijo/a al volver del colegio:</p>
 
       <form id="form-parents" novalidate>
-        <div class="checkbox-grid" role="group" aria-label="Señales observadas en casa">
-          <button type="button" class="toggle-dis-card parent-signal-btn" data-signal="No quiere ir al colegio o llora por la mañana" aria-pressed="false">
-            <span class="choice-emoji">😟</span>
-            <span class="check-title">No quiere ir al cole</span>
-            <span class="check-desc">Ansiedad o llanto por la mañana</span>
+        <div class="sup-grid" role="group" aria-label="Señales observadas en casa">
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="No quiere ir al colegio o llora por la mañana" aria-pressed="false">
+            <span class="ic" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-chat"/></svg></span>
+            <div>
+              <span class="check-title">No quiere ir al cole</span>
+              <span class="check-desc">Ansiedad o llanto por la mañana</span>
+            </div>
           </button>
-          <button type="button" class="toggle-dis-card parent-signal-btn" data-signal="Llega a casa con bloqueo o sobrecarga emocional" aria-pressed="false">
-            <span class="choice-emoji">⚡</span>
-            <span class="check-title">Llega bloqueado/a</span>
-            <span class="check-desc">Mucho agotamiento o enfado</span>
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Llega a casa con bloqueo o sobrecarga emocional" aria-pressed="false">
+            <span class="ic" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-still"/></svg></span>
+            <div>
+              <span class="check-title">Llega bloqueado/a</span>
+              <span class="check-desc">Mucho agotamiento o enfado</span>
+            </div>
           </button>
-          <button type="button" class="toggle-dis-card parent-signal-btn" data-signal="Dice que en el recreo siempre está solo/a" aria-pressed="false">
-            <span class="choice-emoji">🌳</span>
-            <span class="check-title">Solo/a en el recreo</span>
-            <span class="check-desc">Aislamiento en el patio</span>
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Dice que en el recreo siempre está solo/a" aria-pressed="false">
+            <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-people"/></svg></span>
+            <div>
+              <span class="check-title">Solo/a en el recreo</span>
+              <span class="check-desc">Aislamiento en el patio</span>
+            </div>
           </button>
-          <button type="button" class="toggle-dis-card parent-signal-btn" data-signal="Vuelve con material roto o perdido" aria-pressed="false">
-            <span class="choice-emoji">🎒</span>
-            <span class="check-title">Material roto</span>
-            <span class="check-desc">Mochila o cosas dañadas</span>
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Vuelve con material roto o perdido" aria-pressed="false">
+            <span class="ic" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-hand"/></svg></span>
+            <div>
+              <span class="check-title">Material roto</span>
+              <span class="check-desc">Mochila o cosas dañadas</span>
+            </div>
           </button>
         </div>
 
@@ -815,99 +935,83 @@
         </div>
 
         <div class="nav-actions">
-          <button type="button" class="btn btn-ghost" data-action="go-back">← Volver</button>
+          <button type="button" class="btn btn-ghost" data-action="go-back">
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+          </button>
           <div class="nav-right-group">
             <button type="button" class="btn btn-soft" data-go="2-mode">Usar asistente con mi hijo/a</button>
-            <button type="submit" class="btn btn-primary">📨 Enviar aviso al Tutor/Orientación →</button>
+            <button type="submit" class="btn btn-primary">
+              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar aviso al Tutor/Orientación
+            </button>
           </div>
         </div>
       </form>
     </section>
 
     <!-- ================================================================
-         RINCÓN DE CALMA (PAUSA SENSORIAL TEA)
+         RINCÓN DE CALMA (PAUSA SENSORIAL TEA CON NUBE)
          ================================================================ -->
     <section id="screen-calm" class="card step-section hidden" aria-labelledby="title-calm">
       <div class="calm-box">
-        <div class="step-badge">🌿 Accesibilidad Emocional · Pausa Sensorial</div>
-        <h1 id="title-calm">Rincón de Calma</h1>
-        <p class="lead-text">Respira despacio siguiendo el círculo. Estás en un lugar seguro.</p>
+        <span id="title-calm" class="step-badge">Rincón de Calma</span>
 
-        <div class="breathing-wrap">
-          <div class="breathing-circle" id="breathing-circle">
-            <span id="breathing-text">Inspira...</span>
-          </div>
+        <div class="calm-orb" id="breathing-circle">
+          <span class="o1" aria-hidden="true"></span>
+          <span class="o2" aria-hidden="true"></span>
+          <span class="o3" aria-hidden="true"></span>
+          <svg class="buddy" aria-hidden="true"><use href="#buddy-calm"/></svg>
         </div>
 
-        <div class="report-actions" style="justify-content: center;">
-          <button type="button" id="btn-calm-sound" class="btn btn-soft">🔊 Guía de respiración por voz</button>
-          <button type="button" class="btn btn-primary" data-action="go-back">← Volver donde estaba</button>
+        <h1 id="breathing-text">Coge aire despacio…</h1>
+        <p class="lead-text">Nube se hace grande cuando coges aire y pequeña cuando lo sueltas.</p>
+
+        <div class="calm-prog" aria-hidden="true">
+          <i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i>
+        </div>
+
+        <div class="calm-ctrl report-actions" style="justify-content: center;">
+          <button type="button" class="btn btn-ghost" data-action="go-back">
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Ya estoy mejor
+          </button>
+          <button type="button" id="btn-calm-sound" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Guía de respiración por voz
+          </button>
+          <button type="button" id="btn-calm-pause" class="btn btn-ghost" aria-pressed="false">
+            <svg class="i" aria-hidden="true"><use href="#i-pause"/></svg> <span>Pausa</span>
+          </button>
         </div>
       </div>
     </section>
 
     <!-- ================================================================
-         FEEDBACK FINAL: 4 CARAS + EXPLICACIÓN COMPLETA
+         FEEDBACK FINAL: 4 CARAS CALMA + EXPLICACIÓN COMPLETA
          ================================================================ -->
     <section id="screen-feedback" class="card step-section hidden" aria-labelledby="title-feedback">
-      <div class="step-badge" data-i18n="fb_badge">¡Aviso Recibido! · Feedback</div>
+      <div class="step-badge" data-i18n="fb_badge">Aviso Recibido · Feedback</div>
       <h1 id="title-feedback" data-i18n="fb_title">¿Cómo te sientes ahora?</h1>
       <p class="lead-text" data-i18n="fb_desc">Toca una de las 4 caras para ver tu plan de ayuda:</p>
 
       <div class="emotion-grid" role="radiogroup">
-        <button type="button" class="emotion-card emotion-happy" data-emotion="feliz" data-key="1" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true">
-            <svg viewBox="0 0 100 100" width="76" height="76">
-              <circle cx="50" cy="50" r="44" fill="#E6F3F0" stroke="#1F7A6B" stroke-width="4" />
-              <circle cx="35" cy="40" r="4.8" fill="#164E45" />
-              <circle cx="65" cy="40" r="4.8" fill="#164E45" />
-              <path d="M32 58 Q50 75 68 58" fill="none" stroke="#164E45" stroke-width="5" stroke-linecap="round" />
-            </svg>
-          </span>
+        <button type="button" class="emotion-card emotion-happy" style="--face:#F1DE9C" data-emotion="feliz" data-key="1" aria-checked="false" role="radio">
+          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-calm"/></svg></span>
           <span class="emotion-label" data-i18n="fb_happy">1. Aliviado/a</span>
           <span class="emotion-sub" data-i18n="fb_happy_s">Me siento escuchado/a</span>
         </button>
 
-        <button type="button" class="emotion-card emotion-sad" data-emotion="triste" data-key="2" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true">
-            <svg viewBox="0 0 100 100" width="76" height="76">
-              <circle cx="50" cy="50" r="44" fill="#EDF5FB" stroke="#2D6E9E" stroke-width="4" />
-              <circle cx="35" cy="42" r="4.8" fill="#1B4666" />
-              <circle cx="65" cy="42" r="4.8" fill="#1B4666" />
-              <path d="M34 68 Q50 54 66 68" fill="none" stroke="#1B4666" stroke-width="5" stroke-linecap="round" />
-              <path d="M69 50 C69 50 74 57 74 61 A5 5 0 1 1 64 61 C64 57 69 50 69 50 Z" fill="#5CA6D8" />
-            </svg>
-          </span>
+        <button type="button" class="emotion-card emotion-sad" style="--face:#B6D3E2" data-emotion="triste" data-key="2" aria-checked="false" role="radio">
+          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-sad"/></svg></span>
           <span class="emotion-label" data-i18n="fb_sad">2. Triste</span>
           <span class="emotion-sub" data-i18n="fb_sad_s">Todavía me duele</span>
         </button>
 
-        <button type="button" class="emotion-card emotion-angry" data-emotion="enfadada" data-key="3" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true">
-            <svg viewBox="0 0 100 100" width="76" height="76">
-              <circle cx="50" cy="50" r="44" fill="#FDF2E9" stroke="#C86D3B" stroke-width="4" />
-              <path d="M28 34 L42 40" stroke="#6E3314" stroke-width="4.5" stroke-linecap="round" />
-              <path d="M72 34 L58 40" stroke="#6E3314" stroke-width="4.5" stroke-linecap="round" />
-              <circle cx="36" cy="44" r="4.8" fill="#6E3314" />
-              <circle cx="64" cy="44" r="4.8" fill="#6E3314" />
-              <path d="M34 67 Q50 57 66 67" fill="none" stroke="#6E3314" stroke-width="5" stroke-linecap="round" />
-            </svg>
-          </span>
+        <button type="button" class="emotion-card emotion-angry" style="--face:#F0C3AA" data-emotion="enfadada" data-key="3" aria-checked="false" role="radio">
+          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-angry"/></svg></span>
           <span class="emotion-label" data-i18n="fb_angry">3. Enfadado/a</span>
           <span class="emotion-sub" data-i18n="fb_angry_s">Siento rabia</span>
         </button>
 
-        <button type="button" class="emotion-card emotion-surprised" data-emotion="sorprendida" data-key="4" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true">
-            <svg viewBox="0 0 100 100" width="76" height="76">
-              <circle cx="50" cy="50" r="44" fill="#F1EFFA" stroke="#5E5494" stroke-width="4" />
-              <path d="M28 31 Q35 25 42 31" fill="none" stroke="#3B3363" stroke-width="3.5" stroke-linecap="round" />
-              <path d="M58 31 Q65 25 72 31" fill="none" stroke="#3B3363" stroke-width="3.5" stroke-linecap="round" />
-              <circle cx="35" cy="42" r="5" fill="#3B3363" />
-              <circle cx="65" cy="42" r="5" fill="#3B3363" />
-              <ellipse cx="50" cy="64" rx="7.5" ry="10.5" fill="#3B3363" />
-            </svg>
-          </span>
+        <button type="button" class="emotion-card emotion-surprised" style="--face:#CFC7EA" data-emotion="sorprendida" data-key="4" aria-checked="false" role="radio">
+          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-scared"/></svg></span>
           <span class="emotion-label" data-i18n="fb_surp">4. Con más calma</span>
           <span class="emotion-sub" data-i18n="fb_surp_s">Ya sé cómo pedir apoyo</span>
         </button>
@@ -916,7 +1020,9 @@
       <div id="full-explanation-panel" class="explanation-panel hidden" aria-live="polite">
         <div class="explanation-header">
           <h2 id="explanation-emotion-title" style="margin: 0;">Tu resumen y plan de apoyo</h2>
-          <button type="button" id="btn-read-explanation" class="btn-mini">🔊 Escuchar</button>
+          <button type="button" id="btn-read-explanation" class="btn-mini">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Escuchar
+          </button>
         </div>
 
         <div id="explanation-emotion-meaning" class="soft-box"></div>
@@ -925,74 +1031,156 @@
         <div id="explanation-resources" class="soft-box resources-card"></div>
 
         <div class="report-actions">
-          <button type="button" id="btn-copy-report" class="btn btn-soft">📋 Copiar resumen</button>
-          <button type="button" id="btn-print-report" class="btn btn-soft">🖨️ Guardar PDF</button>
-          <button type="button" class="btn btn-soft" data-go="teacher-panel">👩‍🏫 Ver aviso en Panel Profe</button>
-          <button type="button" id="btn-go-chat-from-feedback" class="btn btn-ghost">💬 Ir al Chatbot</button>
-          <button type="button" id="btn-restart" class="btn btn-ghost">🏠 Volver al inicio</button>
+          <button type="button" id="btn-copy-report" class="btn btn-soft">Copiar resumen</button>
+          <button type="button" id="btn-print-report" class="btn btn-soft">Guardar PDF</button>
+          <button type="button" class="btn btn-soft" data-go="teacher-panel">
+            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Ver aviso en Panel Profe
+          </button>
+          <button type="button" id="btn-go-chat-from-feedback" class="btn btn-ghost">
+            <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> Ir al Chatbot
+          </button>
+          <button type="button" id="btn-restart" class="btn btn-ghost">Volver al inicio</button>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
     <!-- ================================================================
-         TABLERO CAA («VOZ PRESTADA»)
+         TABLERO CAA («VOZ PRESTADA» CON PICTOGRAMAS ARASAAC)
          ================================================================ -->
     <section id="screen-caa" class="card step-section hidden" aria-labelledby="title-caa">
-      <div class="step-badge">🗣️ Voz Prestada · Tablero CAA</div>
+      <div class="step-badge">Voz Prestada · Tablero CAA</div>
       <h1 id="title-caa">Habla tocando dibujos</h1>
       <p class="lead-text">Toca los pictogramas para formar tu frase:</p>
 
-      <div class="caa-builder-box">
-        <div id="caa-sentence-chips" class="caa-sentence-chips" style="font-size: 1.35rem; font-weight: 850;" aria-live="polite">
+      <div class="caa-strip">
+        <div id="caa-sentence-chips" class="caa-sentence-chips" aria-live="polite">
           Toca un dibujo abajo...
         </div>
         <div id="caa-sentence-text" class="sr-only"></div>
-        <div class="report-actions">
-          <button type="button" id="btn-caa-speak" class="btn btn-primary">🔊 Hablar por mí</button>
-          <button type="button" id="btn-caa-send-teacher" class="btn btn-soft">📨 Enviar al Profesor</button>
-          <button type="button" id="btn-caa-use-chat" class="btn btn-ghost">💬 Llevar al Chat</button>
-          <button type="button" id="btn-caa-backspace" class="btn btn-ghost">⌫ Borrar último</button>
-          <button type="button" id="btn-caa-clear" class="btn btn-ghost">🗑️ Limpiar</button>
-        </div>
-        <div id="caa-sent-feedback" class="info-banner hidden" role="status"></div>
-      </div>
-
-      <div class="caa-categories">
-        <h2>1. Quién</h2>
-        <div class="caa-grid">
-          <button type="button" class="caa-tile" data-caa="Yo"><span class="caa-pic">🙋</span><span>Yo</span></button>
-          <button type="button" class="caa-tile" data-caa="Un compañero"><span class="caa-pic">🧑</span><span>Compañero/a</span></button>
-          <button type="button" class="caa-tile" data-caa="Un grupo"><span class="caa-pic">👥</span><span>Un grupo</span></button>
-          <button type="button" class="caa-tile" data-caa="Profesor"><span class="caa-pic">👩‍🏫</span><span>Profesor/a</span></button>
-        </div>
-
-        <h2>2. Qué pasa</h2>
-        <div class="caa-grid">
-          <button type="button" class="caa-tile" data-caa="se ríen de mí"><span class="caa-pic">💬</span><span>Se ríen de mí</span></button>
-          <button type="button" class="caa-tile" data-caa="me dejan solo"><span class="caa-pic">🚫</span><span>Me dejan solo</span></button>
-          <button type="button" class="caa-tile" data-caa="me empujan"><span class="caa-pic">✋</span><span>Me empujan</span></button>
-          <button type="button" class="caa-tile" data-caa="tengo miedo"><span class="caa-pic">😰</span><span>Tengo miedo</span></button>
-          <button type="button" class="caa-tile" data-caa="estoy triste"><span class="caa-pic">😢</span><span>Estoy triste</span></button>
-          <button type="button" class="caa-tile" data-caa="estoy bloqueado"><span class="caa-pic">⚡</span><span>Me bloqueo</span></button>
-        </div>
-
-        <h2>3. Dónde y qué necesito</h2>
-        <div class="caa-grid">
-          <button type="button" class="caa-tile" data-caa="en el patio"><span class="caa-pic">🌳</span><span>En el patio</span></button>
-          <button type="button" class="caa-tile" data-caa="en los pasillos"><span class="caa-pic">🚪</span><span>En pasillos</span></button>
-          <button type="button" class="caa-tile" data-caa="en clase"><span class="caa-pic">🏫</span><span>En clase</span></button>
-          <button type="button" class="caa-tile" data-caa="necesito ayuda"><span class="caa-pic">🆘</span><span>Necesito ayuda</span></button>
-          <button type="button" class="caa-tile" data-caa="hablar en privado"><span class="caa-pic">🤫</span><span>En privado</span></button>
-          <button type="button" class="caa-tile" data-caa="necesito calma"><span class="caa-pic">🌿</span><span>Necesito calma</span></button>
+        <div class="acts caa-acts">
+          <button type="button" id="btn-caa-clear" class="btn btn-ghost" title="Limpiar frase">Limpiar</button>
+          <button type="button" id="btn-caa-use-chat" class="btn btn-ghost">
+            <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> Llevar al Chat
+          </button>
+          <button type="button" id="btn-caa-send-teacher" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar al Profesor
+          </button>
+          <button type="button" id="btn-caa-speak" class="caa-speak">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Decirlo por mí
+          </button>
         </div>
       </div>
+      <div id="caa-sent-feedback" class="info-banner hidden" role="status"></div>
+
+      <div class="caa-tabs" role="tablist" aria-label="Categorías de pictogramas">
+        <button type="button" class="caa-tab on" data-caa-tab="todos" role="tab" aria-selected="true" aria-pressed="true"><i style="background:var(--primary)"></i>Todos</button>
+        <button type="button" class="caa-tab" data-caa-tab="quien" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--butter)"></i>Quién</button>
+        <button type="button" class="caa-tab" data-caa-tab="que" role="tab" aria-selected="false" aria-pressed="false"><i style="background:#9CC3AE"></i>Qué pasa</button>
+        <button type="button" class="caa-tab" data-caa-tab="sentir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--sky)"></i>Cómo me siento</button>
+        <button type="button" class="caa-tab" data-caa-tab="donde" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--peach)"></i>Dónde</button>
+        <button type="button" class="caa-tab" data-caa-tab="pedir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--lav)"></i>Pedir</button>
+      </div>
+
+      <div class="caa-grid">
+        <!-- Quién (.tone-y) -->
+        <button type="button" class="caa-tile tone-y" data-caa="Yo" data-caa-cat="quien" data-caa-img="./assets/arasaac/yo.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/yo.png" alt="" loading="lazy" /></span>
+          <span>Yo</span>
+        </button>
+        <button type="button" class="caa-tile tone-y" data-caa="Un compañero" data-caa-cat="quien" data-caa-img="./assets/arasaac/companero.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/companero.png" alt="" loading="lazy" /></span>
+          <span>Compañero/a</span>
+        </button>
+        <button type="button" class="caa-tile tone-y" data-caa="Un grupo" data-caa-cat="quien" data-caa-img="./assets/arasaac/grupo.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/grupo.png" alt="" loading="lazy" /></span>
+          <span>Un grupo</span>
+        </button>
+        <button type="button" class="caa-tile tone-y" data-caa="Profesor" data-caa-cat="quien" data-caa-img="./assets/arasaac/profesor.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/profesor.png" alt="" loading="lazy" /></span>
+          <span>Profe</span>
+        </button>
+
+        <!-- Qué pasa (.tone-g) -->
+        <button type="button" class="caa-tile tone-g" data-caa="se ríen de mí" data-caa-cat="que" data-caa-img="./assets/arasaac/insultar.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/insultar.png" alt="" loading="lazy" /></span>
+          <span>Se ríen de mí</span>
+        </button>
+        <button type="button" class="caa-tile tone-g" data-caa="me dejan solo" data-caa-cat="que" data-caa-img="./assets/arasaac/solo.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/solo.png" alt="" loading="lazy" /></span>
+          <span>Me dejan solo</span>
+        </button>
+        <button type="button" class="caa-tile tone-g" data-caa="me empujan" data-caa-cat="que" data-caa-img="./assets/arasaac/empujar.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/empujar.png" alt="" loading="lazy" /></span>
+          <span>Me empujan</span>
+        </button>
+
+        <!-- Cómo me siento (.tone-b) -->
+        <button type="button" class="caa-tile tone-b" data-caa="tengo miedo" data-caa-cat="sentir" data-caa-img="./assets/arasaac/miedo.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/miedo.png" alt="" loading="lazy" /></span>
+          <span>Tengo miedo</span>
+        </button>
+        <button type="button" class="caa-tile tone-b" data-caa="estoy triste" data-caa-cat="sentir" data-caa-img="./assets/arasaac/triste.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/triste.png" alt="" loading="lazy" /></span>
+          <span>Estoy triste</span>
+        </button>
+        <button type="button" class="caa-tile tone-b" data-caa="estoy bloqueado" data-caa-cat="sentir" data-caa-img="./assets/arasaac/bloqueado.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/bloqueado.png" alt="" loading="lazy" /></span>
+          <span>Me bloqueo</span>
+        </button>
+        <button type="button" class="caa-tile tone-b" data-caa="estoy enfadado" data-caa-cat="sentir" data-caa-img="./assets/arasaac/enfadado.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/enfadado.png" alt="" loading="lazy" /></span>
+          <span>Enfadado/a</span>
+        </button>
+        <button type="button" class="caa-tile tone-b" data-caa="estoy tranquilo" data-caa-cat="sentir" data-caa-img="./assets/arasaac/calma.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/calma.png" alt="" loading="lazy" /></span>
+          <span>Tranquilo/a</span>
+        </button>
+        <button type="button" class="caa-tile tone-b" data-caa="estoy contento" data-caa-cat="sentir" data-caa-img="./assets/arasaac/contento.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/contento.png" alt="" loading="lazy" /></span>
+          <span>Contento/a</span>
+        </button>
+
+        <!-- Dónde (.tone-o) -->
+        <button type="button" class="caa-tile tone-o" data-caa="en el patio" data-caa-cat="donde" data-caa-img="./assets/arasaac/patio.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/patio.png" alt="" loading="lazy" /></span>
+          <span>En el patio</span>
+        </button>
+        <button type="button" class="caa-tile tone-o" data-caa="en los pasillos" data-caa-cat="donde" data-caa-img="./assets/arasaac/pasillo.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/pasillo.png" alt="" loading="lazy" /></span>
+          <span>En pasillos</span>
+        </button>
+        <button type="button" class="caa-tile tone-o" data-caa="en clase" data-caa-cat="donde" data-caa-img="./assets/arasaac/clase.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/clase.png" alt="" loading="lazy" /></span>
+          <span>En clase</span>
+        </button>
+
+        <!-- Pedir (.tone-p) -->
+        <button type="button" class="caa-tile tone-p" data-caa="necesito ayuda" data-caa-cat="pedir" data-caa-img="./assets/arasaac/ayuda.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/ayuda.png" alt="" loading="lazy" /></span>
+          <span>Necesito ayuda</span>
+        </button>
+        <button type="button" class="caa-tile tone-p" data-caa="hablar en privado" data-caa-cat="pedir" data-caa-img="./assets/arasaac/privado.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/privado.png" alt="" loading="lazy" /></span>
+          <span>En privado</span>
+        </button>
+        <button type="button" class="caa-tile tone-p" data-caa="gracias" data-caa-cat="pedir" data-caa-img="./assets/arasaac/gracias.png">
+          <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/gracias.png" alt="" loading="lazy" /></span>
+          <span>Gracias</span>
+        </button>
+      </div>
+
+      <p class="credit">Pictogramas: S. Palao · ARASAAC (Gobierno de Aragón) · CC BY-NC-SA</p>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -1000,7 +1188,7 @@
          DIARIO DE EVIDENCIAS + DETECTOR DE ESCALADA
          ================================================================ -->
     <section id="screen-diary" class="card step-section hidden" aria-labelledby="title-diary">
-      <div class="step-badge">📒 Diario de Situaciones</div>
+      <div class="step-badge">Diario de Situaciones</div>
       <h1 id="title-diary">Mi diario</h1>
       <p class="lead-text">Guarda qué pasó y dónde para no olvidarlo.</p>
 
@@ -1013,11 +1201,11 @@
           <div class="form-group">
             <label for="diary-place" class="form-label">Lugar</label>
             <select id="diary-place" class="form-control">
-              <option value="Patio / Recreo">🌳 Patio / Recreo</option>
-              <option value="Pasillos / Baños">🚪 Pasillos / Baños</option>
-              <option value="En clase">🏫 En clase</option>
-              <option value="Entrada / Salida">🎒 Entrada / Salida</option>
-              <option value="Móvil / Redes">📱 Móvil / Redes</option>
+              <option value="Patio / Recreo">Patio / Recreo</option>
+              <option value="Pasillos / Baños">Pasillos / Baños</option>
+              <option value="En clase">En clase</option>
+              <option value="Entrada / Salida">Entrada / Salida</option>
+              <option value="Móvil / Redes">Móvil / Redes</option>
             </select>
           </div>
           <div class="form-group">
@@ -1033,27 +1221,29 @@
         <div class="form-group">
           <div class="label-with-action">
             <label for="diary-desc" class="form-label">¿Qué pasó?</label>
-            <button type="button" id="btn-voice-diary" class="btn-mini">🎙️ Dictar</button>
+            <button type="button" id="btn-voice-diary" class="btn-mini">Dictar</button>
           </div>
           <textarea id="diary-desc" class="form-control" rows="2" placeholder="Escribe o dicta qué ocurrió..."></textarea>
         </div>
 
         <div class="report-actions">
-          <button type="submit" class="btn btn-primary">➕ Guardar en mi diario</button>
-          <button type="button" id="btn-diary-seed-demo" class="btn btn-ghost">✨ Cargar ejemplo</button>
+          <button type="submit" class="btn btn-primary">Guardar en mi diario</button>
+          <button type="button" id="btn-diary-seed-demo" class="btn btn-ghost">Cargar ejemplo</button>
         </div>
       </form>
 
       <div class="diary-list-header">
         <h2>Registros guardados (<span id="diary-count">0</span>)</h2>
-        <button type="button" id="btn-analyze-diary" class="btn btn-soft">📊 Analizar evolución</button>
+        <button type="button" id="btn-analyze-diary" class="btn btn-soft">Analizar evolución</button>
       </div>
 
       <div id="diary-analysis-box" class="soft-box hidden" aria-live="polite"></div>
       <div id="diary-entries-list" class="diary-entries-list" aria-live="polite"></div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
 
@@ -1063,22 +1253,22 @@
     <section id="screen-teacher-panel" class="card step-section hidden" aria-labelledby="title-teacher-panel">
       <div class="chat-header">
         <div>
-          <div class="step-badge">👩‍🏫 Panel Docente y Orientación</div>
+          <div class="step-badge">Panel Docente y Orientación</div>
           <h1 id="title-teacher-panel">Alertas Tempranas Recibidas</h1>
         </div>
         <div class="report-actions">
-          <button type="button" id="btn-teacher-seed-demo" class="btn btn-soft">✨ Añadir ejemplo</button>
-          <button type="button" id="btn-teacher-clear-resolved" class="btn btn-ghost">🗑️ Limpiar resueltos</button>
+          <button type="button" id="btn-teacher-seed-demo" class="btn btn-soft">Añadir ejemplo</button>
+          <button type="button" id="btn-teacher-clear-resolved" class="btn btn-ghost">Limpiar resueltos</button>
         </div>
       </div>
 
       <div class="hotspot-box">
-        <h3 style="margin-top: 0;">📍 Mapa de Puntos Calientes (Momentos No Estructurados)</h3>
-        <div id="teacher-hotspot-bars" class="hotspot-bars" style="font-weight: 800; color: #183e32;"></div>
+        <h3 style="margin-top: 0;">Mapa de Puntos Calientes (Momentos No Estructurados)</h3>
+        <div id="teacher-hotspot-bars" class="hotspot-bars" style="font-weight: 700; color: var(--primary);"></div>
       </div>
 
-      <div class="soft-box" style="background: #eef7f2;">
-        <strong>🧩 Pauta rápida de intervención TEA:</strong>
+      <div class="soft-box" style="background: var(--primary-t);">
+        <strong>Pauta rápida de intervención TEA:</strong>
         <span>1. No exponer al alumno frente al grupo · 2. Facilitar regulación en el Rincón de Calma antes de preguntar · 3. Reforzar vigilancia en Patio y Pasillos.</span>
       </div>
 
@@ -1092,38 +1282,50 @@
       <div id="teacher-inbox-list" class="teacher-inbox-list" aria-live="polite"></div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">← Volver</button>
+        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        </button>
       </div>
     </section>
   </main>
 
   <!-- ================================================================
-       MODAL RUEDITA DENTADA (⚙️): Ajustes, Herramientas e IA Gemini
+       MODAL AJUSTES Y HERRAMIENTAS
        ================================================================ -->
   <div id="gear-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="gear-modal-title">
     <div class="modal-card modal-gear">
       <div class="modal-header">
-        <h2 id="gear-modal-title">⚙️ Ajustes y Herramientas</h2>
+        <h2 id="gear-modal-title">
+          <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> Ajustes y Herramientas
+        </h2>
         <button type="button" id="btn-close-gear-modal" class="modal-close" aria-label="Cerrar">✕</button>
       </div>
 
       <div class="gear-shortcuts">
-        <button type="button" id="btn-nav-caa" class="btn btn-soft">🗣️ Pictogramas (CAA)</button>
-        <button type="button" id="btn-nav-diary" class="btn btn-soft">📒 Diario</button>
-        <button type="button" id="btn-nav-teacher" class="btn btn-soft">👩‍🏫 Panel Profe</button>
-        <button type="button" id="btn-nav-parents" class="btn btn-soft">🏡 Vista Padres</button>
-        <button type="button" id="btn-api-settings" class="btn btn-soft">✨ API Gemini</button>
+        <button type="button" id="btn-nav-caa" class="btn btn-soft">
+          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> Pictogramas (CAA)
+        </button>
+        <button type="button" id="btn-nav-diary" class="btn btn-soft">
+          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Diario
+        </button>
+        <button type="button" id="btn-nav-teacher" class="btn btn-soft">
+          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Panel Profe
+        </button>
+        <button type="button" id="btn-nav-parents" class="btn btn-soft">
+          <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> Vista Padres
+        </button>
+        <button type="button" id="btn-api-settings" class="btn btn-soft">API Gemini</button>
       </div>
 
       <div class="gear-grid">
-        <label class="gear-toggle"><input type="checkbox" id="gear-voice-guide" /><span>🔊 <strong>Leer pantallas en voz alta</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-keyboard-menu" checked /><span>⌨️ <strong>Atajos teclas 1, 2, 3...</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-high-contrast" /><span>◐ <strong>Alto contraste</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-easy-read" /><span>📖 <strong>Lectura fácil</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-motor-friendly" /><span>🖐️ <strong>Botones grandes</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-reduced-motion" /><span>🧩 <strong>Sin animaciones (TEA)</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-deaf-mode" /><span>👂 <strong>Modo persona sorda</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-mute-mode" /><span>💬 <strong>Modo sin habla</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-voice-guide" /><span><strong>Leer pantallas en voz alta</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-keyboard-menu" checked /><span><strong>Atajos teclas 1, 2, 3...</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-high-contrast" /><span><strong>Alto contraste</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-easy-read" /><span><strong>Lectura fácil</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-motor-friendly" /><span><strong>Botones grandes</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-reduced-motion" /><span><strong>Sin animaciones (TEA)</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-deaf-mode" /><span><strong>Modo persona sorda</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-mute-mode" /><span><strong>Modo sin habla</strong></span></label>
       </div>
 
       <div class="form-row">
@@ -1155,7 +1357,7 @@
   <div id="api-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
     <div class="modal-card">
       <div class="modal-header">
-        <h2 id="api-modal-title">✨ Configurar IA Gemini (Opcional)</h2>
+        <h2 id="api-modal-title">Configurar IA Gemini (Opcional)</h2>
         <button type="button" id="btn-close-api-modal" class="modal-close" aria-label="Cerrar">✕</button>
       </div>
       <p>El chatbot ya funciona sin clave con respuestas empáticas locales. Si añades una clave API de Google Gemini, responderá con IA generativa.</p>
@@ -1197,7 +1399,9 @@
   </div>
 
   <footer class="app-footer" role="contentinfo">
-    <p>Contigo · Reto Educación (Hackathon de Tecnologías Accesibles e Inclusivas · NaviLens)</p>
+    <span>¿Peligro ahora? <b>112</b></span>
+    <span>Acoso escolar: <b>900 018 018</b> · gratis, 24 h</span>
+    <button type="button" class="footer-link" data-go="1-role">Soy profe o familia</button>
   </footer>
 
   <div class="toast hidden" role="status" id="toast"></div>

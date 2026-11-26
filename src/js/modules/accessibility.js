@@ -1,15 +1,12 @@
 /**
- * Módulo de Accesibilidad, preferencias visuales/cognitivas, atajos de teclado,
- * salida rápida (Esc) y vista de exportación Figma.
+ * Módulo de Accesibilidad, preferencias visuales/cognitivas, atajos de teclado
+ * y salida rápida (Esc).
  */
 
-import { $, all, on, put, show, value, visible } from '../core/dom.js';
+import { $, all, on, show, value, visible } from '../core/dom.js';
 import { background, closeModal, go, openModal, visiblePage } from '../core/router.js';
 import { abortGemini } from '../services/gemini.js';
 import { abortSpeechRecognition, message, say } from '../services/speech.js';
-import { initChatWelcome } from './chat.js';
-import { drawDiary } from './diary.js';
-import { drawInbox } from './teacher-panel.js';
 
 export function applyPreferences() {
   const toggles = [
@@ -164,20 +161,6 @@ export function initAccessibility() {
   // Paso 0B: apoyos de discapacidad
   on('btn-continue-from-dis', applyDisabilitySupport);
   on('btn-back-dis-yesno', () => toggleDisabilityDetail(false));
-
-  // Vista Figma (despliega todas las pantallas juntas)
-  on('btn-figma-canvas', () => {
-    const isFigma = document.body.classList.toggle('figma-all-screens');
-    $('btn-figma-canvas')?.setAttribute('aria-pressed', String(isFigma));
-    put('figma-btn-label', isFigma ? 'Vista Interactiva' : 'Vista Figma');
-    if (isFigma) {
-      initChatWelcome();
-      drawDiary();
-      drawInbox();
-      show('full-explanation-panel', true);
-      message('Vista Figma activada: todas las pantallas están desplegadas.');
-    }
-  });
 
   applyPreferences();
 }

@@ -1,22 +1,56 @@
 /* ==========================================================================
-   ACCESSIBILITY: Alto contraste, lectura fácil, modo motor, sin animaciones y vista Figma
+   ACCESSIBILITY: Alto contraste AAA (Calma), lectura fácil, motor y sin movimiento
    ========================================================================== */
 
 .contrast {
+  --bg: #000000;
+  --surface: #0D0D0D;
+  --text: #FFFFFF;
+  --muted: #E5E5E5;
+  --line: #FFFFFF;
+  --primary: #FFD400;
+  --primary-t: #141414;
+  --shadow: none;
   background: #000000 !important;
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
-.contrast .app-header,
+.contrast *:focus-visible {
+  outline: 4px solid #FFD400 !important;
+  outline-offset: 4px;
+}
+
+.contrast .app-header {
+  background: #000000 !important;
+  backdrop-filter: none !important;
+  border-bottom: 2px solid #FFFFFF !important;
+}
+
+.contrast .brand {
+  color: #FFD400 !important;
+}
+
+.contrast .brand b {
+  background: #FFD400 !important;
+  color: #000000 !important;
+}
+
 .contrast .card,
 .contrast .modal-card,
 .contrast .safe-exit-card,
 .contrast .tile,
 .contrast .choice-card,
 .contrast .visual-card,
+.contrast .fc,
 .contrast .emotion-card,
 .contrast .toggle-dis-card,
+.contrast .sc,
 .contrast .caa-tile,
+.contrast .caa-strip,
+.contrast .caa-tab,
+.contrast .chip,
+.contrast .calma-bubble,
+.contrast .calma-ask .say,
 .contrast .soft-box,
 .contrast .soft-note,
 .contrast .info-banner,
@@ -26,6 +60,7 @@
 .contrast .record,
 .contrast .question-block,
 .contrast .caa-builder-box,
+.contrast .urgent-alert,
 .contrast .chat-messages,
 .contrast .gear-toggle,
 .contrast .pill-option,
@@ -33,57 +68,165 @@
 .contrast .lang-select,
 .contrast .tool-btn,
 .contrast .btn,
+.contrast .btn-ghost,
 .contrast .btn-mini,
+.contrast .modal-close,
+.contrast .textbtn,
 .contrast .quick-prompt-btn,
 .contrast .chip-btn,
-.contrast .link-pill {
-  background: #0d1117 !important;
-  color: #ffffff !important;
-  border: 2px solid #ffffff !important;
+.contrast .link-pill,
+.contrast .hero {
+  background: #0D0D0D !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: none !important;
 }
 
 .contrast .btn-primary,
 .contrast .btn-huge,
-.contrast .hero-cta {
-  background: #facc15 !important;
+.contrast .hero-cta,
+.contrast .tool-btn-exit,
+.contrast .caa-speak,
+.contrast .fc .ok,
+.contrast .visual-card .ok,
+.contrast .emotion-card .ok,
+.contrast .tool-btn[aria-pressed="true"],
+.contrast .chip-btn.selected,
+.contrast .chip-btn[aria-pressed="true"],
+.contrast .caa-tab.on,
+.contrast .caa-tab[aria-selected="true"],
+.contrast .caa-tab[aria-pressed="true"],
+.contrast .pill-option:has(:checked),
+.contrast .gear-toggle:has(:checked) {
+  background: #FFD400 !important;
   color: #000000 !important;
-  border: 3px solid #ffffff !important;
+  border: 2px solid #FFD400 !important;
+  box-shadow: none !important;
+}
+
+.contrast .btn-primary *,
+.contrast .btn-huge *,
+.contrast .hero-cta *,
+.contrast .tool-btn-exit *,
+.contrast .caa-speak *,
+.contrast .fc .ok *,
+.contrast .visual-card .ok *,
+.contrast .emotion-card .ok *,
+.contrast .tool-btn[aria-pressed="true"] *,
+.contrast .chip-btn.selected *,
+.contrast .chip-btn[aria-pressed="true"] *,
+.contrast .caa-tab.on *,
+.contrast .caa-tab[aria-selected="true"] *,
+.contrast .caa-tab[aria-pressed="true"] *,
+.contrast .pill-option:has(:checked) *,
+.contrast .gear-toggle:has(:checked) * {
+  color: #000000 !important;
+}
+
+.contrast .tool-btn-exit kbd {
+  background: #000000 !important;
+  color: #FFD400 !important;
+}
+
+.contrast .sc.sel,
+.contrast .sc[aria-pressed="true"],
+.contrast .toggle-dis-card.sel,
+.contrast .toggle-dis-card[aria-pressed="true"],
+.contrast .fc.sel,
+.contrast .visual-card.sel,
+.contrast .visual-card[aria-pressed="true"],
+.contrast .emotion-card.sel,
+.contrast .emotion-card[aria-checked="true"],
+.contrast .choice-card.sel,
+.contrast .choice-card.selected,
+.contrast .choice-card[aria-pressed="true"],
+.contrast .caa-tile.on,
+.contrast .caa-tile.sel,
+.contrast .caa-tile[aria-pressed="true"] {
+  background: #141414 !important;
+  color: #FFFFFF !important;
+  border: 3px solid #FFD400 !important;
+}
+
+.contrast .caa-word-del {
+  background: #0D0D0D !important;
+  color: #FFD400 !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+.contrast .caa-word-del:hover {
+  background: #FFD400 !important;
+  color: #000000 !important;
+  border-color: #FFD400 !important;
 }
 
 .contrast .step-badge,
 .contrast .status-pill,
 .contrast .adaptation-badge {
-  background: #1e293b !important;
-  color: #facc15 !important;
-  border: 1px solid #facc15 !important;
+  background: #141414 !important;
+  color: #FFD400 !important;
+  border: 2px solid #FFD400 !important;
+}
+
+.contrast .skip-link:focus {
+  background: #FFD400 !important;
+  color: #000000 !important;
+}
+
+.contrast .skip,
+.contrast .app-footer a,
+.contrast .app-footer .footer-link,
+.contrast .calma-bubble b {
+  color: #FFD400 !important;
+}
+
+.contrast .progress-track,
+.contrast .dots i,
+.contrast .calm-prog i {
+  background: #333333 !important;
+}
+
+.contrast .progress-fill,
+.contrast .dots i.on,
+.contrast .calm-prog i.on {
+  background: #FFD400 !important;
+}
+
+.contrast .calm-prog i.half {
+  background: linear-gradient(90deg, #FFD400 50%, #333333 50%) !important;
+}
+
+.contrast .calma-blob {
+  background: #141414 !important;
+  border: 2px solid #FFD400 !important;
+}
+
+.contrast .calm-orb .o1,
+.contrast .calm-orb .o2,
+.contrast .calm-orb .o3,
+.contrast .breathing-circle {
+  background: #0D0D0D !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 .contrast .bubble {
-  background: #1e293b !important;
-  color: #ffffff !important;
-  border: 2px solid #ffffff !important;
+  background: #0D0D0D !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
 }
 
 .contrast .bubble.own {
-  background: #facc15 !important;
+  background: #FFD400 !important;
   color: #000000 !important;
+  border-color: #FFD400 !important;
 }
 
-.contrast .selected,
-.contrast [aria-pressed="true"],
-.contrast [aria-checked="true"],
-.contrast .pill-option:has(:checked) {
-  background: #facc15 !important;
+.contrast .toast {
+  background: #FFD400 !important;
   color: #000000 !important;
-  border-color: #ffffff !important;
-  box-shadow: inset 0 0 0 3px #000000 !important;
-}
-
-.contrast .selected *,
-.contrast [aria-pressed="true"] *,
-.contrast [aria-checked="true"] *,
-.contrast .pill-option:has(:checked) * {
-  color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
 }
 
 .contrast .choice-title,
@@ -95,49 +238,48 @@
 .contrast .visual-sub,
 .contrast .emotion-sub,
 .contrast .lead-text,
+.contrast .home-calma .lead,
 .contrast .tile strong,
 .contrast .tile small,
 .contrast .shelf-head small,
 .contrast .app-footer,
 .contrast p,
-.contrast span,
 .contrast label,
 .contrast legend,
 .contrast h1,
 .contrast h2,
 .contrast h3 {
-  color: #ffffff !important;
-}
-
-.contrast .btn-primary *,
-.contrast .btn-huge *,
-.contrast .hero-cta * {
-  color: #000000 !important;
+  color: #FFFFFF !important;
 }
 
 .contrast #teacher-hotspot-bars {
-  color: #facc15 !important;
+  color: #FFD400 !important;
 }
 
+/* Lectura fácil */
 .easy p,
-.easy .choice-desc {
+.easy .choice-desc,
+.easy .check-desc,
+.easy .lead-text {
   line-height: 1.8;
   letter-spacing: 0.03em;
 }
 
-.motor button {
+/* Modo motor: botones más grandes */
+.motor button,
+.motor .tool-btn,
+.motor .btn,
+.motor .chip,
+.motor .caa-tab {
   min-height: 58px;
 }
 
+/* Sin movimiento (TEA) */
 .still *,
-.still .breathing-circle {
+.still .breathing-circle,
+.still .calm-orb span,
+.still .calm-orb svg.buddy,
+.still .calm-orb .buddy {
   transition: none !important;
   animation: none !important;
-}
-
-/* Vista Figma: despliega todas las pantallas para importar en 1 clic */
-body.figma-all-screens .step-section.hidden {
-  display: block !important;
-  margin-bottom: 48px;
-  border: 3px dashed #7c3aed;
 }

@@ -61,7 +61,7 @@ Hackcesibles/
     │   ├── base.css                    # Reset, tipografía base, focus-visible y utilidades SR/skip-link
     │   ├── layout.css                  # Cabecera, barra de herramientas, progreso, hero y pie de página
     │   ├── components.css              # Tarjetas, botones, formularios, chat, calma, modales y toast
-    │   └── accessibility.css           # Alto contraste, lectura fácil, modo motor, sin animaciones y vista Figma
+    │   └── accessibility.css           # Alto contraste AAA, lectura fácil, modo motor y sin animaciones
     └── js/
         ├── main.js                     # Bootstrap de la aplicación e inicialización de módulos
         ├── core/
@@ -74,7 +74,7 @@ Hackcesibles/
         │   ├── gemini.js               # Cliente opcional Google Gemini API + motor empático local offline
         │   └── i18n.js                 # Traducción multilingüe (7 idiomas, soporte RTL)
         └── modules/
-            ├── accessibility.js        # Ajustes (⚙️), barra rápida, paso 0B, atajos, Esc y vista Figma
+            ├── accessibility.js        # Ajustes (⚙️), barra rápida, paso 0B, atajos y salida rápida Esc
             ├── flow.js                 # Flujo guiado principal (Pasos 0–3, Modo Adaptado y delegación)
             ├── chat.js                 # Modo No Adaptado: chatbot, buzón anónimo y modal API Gemini
             ├── caa.js                  # Tablero CAA («Voz Prestada») con pictogramas

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Contigo · Dirección A — Cuaderno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght,SOFT@9..144,500..700,100&display=block" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F1E7; --card:#FFFDF8; --ink:#1F2A37; --ink-2:#47505C; --line:#D8CCB8;
+  --tomato:#B54020; --ochre:#E7B24A; --sage:#9DBDA5; --sky:#AFCFE0; --plum:#C7AAC6;
+  --sage-t:#E3EDE4; --ochre-t:#F8EACB; --sky-t:#E2EEF4; --plum-t:#EFE5EE;
+  --serif:'Fraunces',Georgia,serif; --sans:'Atkinson Hyperlegible',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+body{background:#d9d3c7;font-family:var(--sans);color:var(--ink);padding:40px;display:grid;gap:40px;justify-content:center}
+html.single body{padding:0;background:var(--paper)}
+.screen{width:1280px;height:800px;overflow:hidden;position:relative;background:var(--paper);display:flex;flex-direction:column}
+svg.i{width:22px;height:22px;flex:none}
+h1,h2,h3{font-family:var(--serif);font-variation-settings:"SOFT" 100;font-weight:600;letter-spacing:-.015em}
+
+/* Cabecera */
+.top{display:flex;align-items:center;justify-content:space-between;padding:22px 48px 0;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-variation-settings:"SOFT" 100;font-weight:600;font-size:28px;letter-spacing:-.02em}
+.mark{width:40px;height:30px;position:relative}
+.mark i{position:absolute;top:3px;width:24px;height:24px;border-radius:50%;mix-blend-mode:multiply}
+.mark i:first-child{left:0;background:var(--tomato)} .mark i:last-child{left:14px;background:var(--sky)}
+.tools{display:flex;gap:8px;align-items:center}
+.tb{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);font:700 15px var(--sans);color:var(--ink)}
+.tb.lang{gap:6px}
+.sep{width:1px;height:28px;background:var(--line);margin:0 6px}
+.exit{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 8px 0 16px;border-radius:12px;background:var(--ink);color:var(--paper);font:700 15px var(--sans)}
+.exit kbd{font:700 12px var(--sans);background:rgba(255,255,255,.14);border-radius:6px;padding:4px 7px}
+
+/* Inicio */
+.home{flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;padding:36px 48px 0}
+.eyebrow{font:700 14px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--tomato)}
+.home h1{font-size:64px;line-height:1.04;margin:16px 0 30px;letter-spacing:-.025em}
+.home h1 .u{position:relative;white-space:nowrap}
+.home h1 .u svg{position:absolute;left:-4px;right:-4px;bottom:-12px;width:calc(100% + 8px);height:18px}
+.lead{font-size:21px;line-height:1.5;color:var(--ink-2);max-width:500px}
+.cta-row{display:flex;align-items:center;gap:20px;margin-top:30px}
+.cta{display:inline-flex;align-items:center;gap:14px;height:64px;padding:0 28px 0 30px;border-radius:16px;background:var(--tomato);color:#fff;font:700 21px var(--sans)}
+.cta svg{width:24px;height:24px}
+.meta{font-size:16px;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.meta svg{width:18px;height:18px}
+.art{position:relative;border-radius:28px;background:var(--sky-t);overflow:hidden;height:380px}
+.art svg{position:absolute;inset:0;width:100%;height:100%}
+.shelf{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:2px}
+.tile{display:flex;gap:16px;align-items:flex-start;padding:20px 20px 22px;border-radius:20px;background:var(--card);border:1.5px solid var(--line)}
+.tile .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none}
+.tile .ic svg{width:26px;height:26px}
+.tile h3{font-size:21px;line-height:1.15;margin:2px 0 4px}
+.tile p{font-size:15.5px;line-height:1.4;color:var(--ink-2)}
+.help{display:flex;justify-content:space-between;align-items:center;padding:18px 48px 22px;font-size:15px;color:var(--ink-2)}
+.help b{color:var(--ink)}
+.help .ph{display:flex;align-items:center;gap:10px}
+.help a{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+
+/* Paso: sentimientos */
+.flow{flex:1;display:flex;flex-direction:column;padding:26px 48px 34px}
+.stepper{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:700;color:var(--ink-2)}
+.stepper .s{display:flex;align-items:center;gap:10px}
+.stepper .n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--line);background:var(--card);font-size:14px}
+.stepper .on{color:var(--ink)} .stepper .on .n{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.stepper .bar{width:56px;height:2px;background:var(--line);border-radius:2px}
+.flow h1{font-size:54px;line-height:1.05;margin:30px 0 10px}
+.flow .lead{max-width:none}
+.listen{display:inline-flex;align-items:center;gap:8px;margin-left:12px;font:700 16px var(--sans);color:var(--tomato);vertical-align:middle}
+.feel{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:34px}
+.fc{position:relative;background:var(--card);border:2px solid var(--line);border-radius:26px;padding:30px 20px 26px;text-align:center}
+.fc svg.face{width:132px;height:132px;display:block;margin:0 auto 18px}
+.fc b{display:block;font-family:var(--serif);font-variation-settings:"SOFT" 100;font-weight:600;font-size:28px}
+.fc span{display:block;font-size:16px;color:var(--ink-2);margin-top:4px}
+.fc .k{position:absolute;top:16px;left:16px;width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line);font:700 14px var(--sans);display:grid;place-items:center;color:var(--ink-2)}
+.fc.sel{border-color:var(--ink);box-shadow:0 0 0 4px var(--ink) inset;background:#fff}
+.fc.sel .k{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fc .ok{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+.fc .ok svg{width:20px;height:20px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.back{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 22px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);font:700 18px var(--sans);color:var(--ink)}
+.next{display:inline-flex;align-items:center;gap:12px;height:60px;padding:0 26px 0 30px;border-radius:16px;background:var(--ink);color:var(--paper);font:700 19px var(--sans)}
+.private{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink-2)}
+.private svg{width:18px;height:18px}
+
+/* CAA */
+.caa{flex:1;display:flex;flex-direction:column;padding:16px 48px 26px}
+.caa-head{display:flex;justify-content:space-between;align-items:flex-end}
+.caa h1{font-size:42px;line-height:1.1}
+.legend{display:flex;gap:16px;font-size:14px;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px}
+.strip{display:flex;align-items:center;gap:12px;margin-top:16px;background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:12px 12px 12px 14px}
+.chip{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:6px 16px 6px 6px;font-size:19px;font-weight:700;border:2px solid}
+.chip img{width:50px;height:50px;border-radius:9px;background:#fff}
+.caret{width:3px;height:40px;background:var(--tomato);border-radius:2px;margin-left:2px}
+.strip .acts{margin-left:auto;display:flex;gap:8px}
+.ibtn{width:52px;height:52px;border-radius:14px;border:1.5px solid var(--line);display:grid;place-items:center;background:var(--card)}
+.speak{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 20px;border-radius:14px;background:var(--tomato);color:#fff;font:700 17px var(--sans)}
+.sendt{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 20px;border-radius:14px;background:var(--ink);color:#fff;font:700 17px var(--sans)}
+.rows{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;align-items:stretch}
+.row h2{font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);align-self:center;line-height:1.3}
+.pt{background:#fff;border-radius:16px;border:2px solid var(--line);border-top-width:8px;padding:8px 6px 10px;text-align:center;font-size:16px;font-weight:700;line-height:1.15}
+.pt img{width:86px;height:86px;display:block;margin:0 auto 6px;object-fit:contain}
+.pt.y{border-color:#E7C24A} .pt.g{border-color:#8DBF7A} .pt.b{border-color:#86B3D6} .pt.o{border-color:#E9A15C} .pt.p{border-color:#D99BC1}
+.pt.on{box-shadow:0 0 0 3px var(--ink);border-color:var(--ink)}
+.credit{font-size:12px;color:var(--ink-2);margin-top:auto;padding-top:10px}
+
+/* Calma */
+.calm{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 48px 30px;background:linear-gradient(var(--paper),var(--paper))}
+.calm h1{font-size:56px;line-height:1.04;margin:14px 0 16px}
+.modes{display:flex;flex-direction:column;gap:12px;margin-top:30px;max-width:460px}
+.mode{display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:18px;background:var(--card);border:1.5px solid var(--line);font-size:18px;font-weight:700}
+.mode small{display:block;font-weight:400;font-size:15px;color:var(--ink-2);margin-top:2px}
+.mode .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.mode.on{border:2px solid var(--ink);background:#fff}
+.mode .chev{margin-left:auto;color:var(--ink-2)}
+.breath{position:relative;height:620px;display:grid;place-items:center}
+.breath .r{position:absolute;border-radius:50%}
+.breath .r1{width:520px;height:520px;background:var(--sage-t)}
+.breath .r2{width:400px;height:400px;background:#CFE0D3}
+.breath .r3{width:290px;height:290px;background:var(--sage);display:grid;place-items:center;text-align:center;color:var(--ink)}
+.breath .r3 b{font-family:var(--serif);font-variation-settings:"SOFT" 100;font-size:44px;font-weight:600;display:block}
+.breath .r3 span{font-size:19px}
+.breath .count{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.breath .count i{width:12px;height:12px;border-radius:50%;background:var(--ink);opacity:.25}
+.breath .count i.on{opacity:1}
+.breath .ctrl{position:absolute;bottom:6px;display:flex;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 18px;border-radius:14px;background:var(--card);border:1.5px solid var(--line);font:700 16px var(--sans);color:var(--ink)}
+.pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.label{position:absolute;top:-34px;left:0;font:700 14px/1 system-ui;color:#5b5446;letter-spacing:.04em}
+html.single .label{display:none}
+
+/* Apoyos (0B) */
+.sup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.sc{position:relative;display:flex;gap:16px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px 18px}
+.sc .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;flex:none}
+.sc .ic svg{width:26px;height:26px}
+.sc b{display:block;font-family:var(--serif);font-variation-settings:"SOFT" 100;font-weight:600;font-size:21px;line-height:1.15}
+.sc span{display:block;font-size:15px;color:var(--ink-2);margin-top:4px;line-height:1.35}
+.sc .k{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:8px;border:1.5px solid var(--line);font:700 13px var(--sans);display:grid;place-items:center;color:var(--ink-2)}
+.sc.sel{border-color:var(--ink);box-shadow:0 0 0 3px var(--ink) inset;background:#fff}
+.sc.sel .k{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sc.foc{outline:4px solid #D97706;outline-offset:3px}
+
+/* Alto contraste WCAG AAA */
+.screen.hc{--paper:#000000;--card:#0D0D0D;--ink:#FFFFFF;--ink-2:#E5E5E5;--line:#FFFFFF;--tomato:#FFD400;background:#000;color:#fff}
+.screen.hc .tb,.screen.hc .back,.screen.hc .fc,.screen.hc .stepper .n{background:#000;color:#fff;border:2px solid #fff}
+.screen.hc .tb.on,.screen.hc .exit{background:#FFD400;color:#000;border-color:#FFD400}
+.screen.hc .exit kbd{background:#000;color:#FFD400}
+.screen.hc .stepper .on .n,.screen.hc .next{background:#FFD400;color:#000;border-color:#FFD400}
+.screen.hc .listen{color:#FFD400}
+.screen.hc .fc.sel{border-color:#FFD400;box-shadow:0 0 0 4px #FFD400 inset;background:#141414}
+.screen.hc .fc.sel .k,.screen.hc .fc .ok{background:#FFD400;color:#000;border-color:#FFD400}
+.screen.hc .fc.foc{outline:4px solid #FFD400;outline-offset:4px}
+.screen.hc .mark i{mix-blend-mode:normal}
+.screen.hc .mark i:first-child{background:#FFD400}
+.screen.hc .mark i:last-child{background:#FFFFFF}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <defs>
+    <!-- Iconos de línea · 24×24 · trazo 2 · extremos redondeados (set propio, coherente) -->
+    <symbol id="i-speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path d="M18.2 6.5a8 8 0 0 1 0 11"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 18 7.5 6l5 12"/><path d="M4.3 13.8h6.4"/><circle cx="17.6" cy="15.2" r="2.8"/><path d="M20.4 12v6"/></symbol>
+    <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-exit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4H6.5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h7"/><path d="M10 12h10"/><path d="m16.5 8.5 3.5 3.5-3.5 3.5"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 19.5C5 11 9.5 5 19.5 4.5 19.5 14 14 19 6 19.5"/><path d="M5.5 19.5C8 15.5 11 13 14.5 11"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-7.5L6.5 20v-3.5H5A1.5 1.5 0 0 1 3.5 15V6A1.5 1.5 0 0 1 5 4.5z"/></symbol>
+    <symbol id="i-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.8"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.8"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.8"/><path d="M14.5 16.7h4.5M16.7 14.5v4.5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5V5.5A1.5 1.5 0 0 1 6.5 4H19v13H6.5A1.5 1.5 0 0 0 5 18.5 1.5 1.5 0 0 0 6.5 20H19"/><path d="M9 8h6"/></symbol>
+    <symbol id="i-steps" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="m8 8.5 1.3 1.3L11.5 7.5M8 14.5l1.3 1.3 2.2-2.3M14 8.7h2.5M14 14.7h2.5"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 3.5 3.5 10.5l7 3 3 7z"/><path d="m10.5 13.5 10-10"/></symbol>
+    <symbol id="i-backspace" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10.5A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5H9l-6-7z"/><path d="m12.5 9.5 5 5M17.5 9.5l-5 5"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.6 2.6 2.6 14.4 0 17M12 3.5c-2.6 2.6-2.6 14.4 0 17"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h3l1.8 4.6-2.3 1.4a11 11 0 0 0 5.5 5.5l1.4-2.3L20 15v3a2 2 0 0 1-2 2A15 15 0 0 1 4 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.4a5.5 5.5 0 0 1 3 5.1"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-lines" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M4 12h10M4 17.5h13"/></symbol>
+    <symbol id="i-still" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11.5m0-1a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.7-2.3L4.4 15.6a1.5 1.5 0 0 1 2.3-1.9L9 16"/></symbol>
+
+    <!-- Caras de emociones (propias). Colores vía variables CSS: --face, --ink -->
+    <symbol id="f-calm" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#F4D27A)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 46q7-6 14 0M57 46q7-6 14 0"/><path d="M37 63q13 10 26 0"/></g><circle cx="27" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/><circle cx="73" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/></symbol>
+    <symbol id="f-sad" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#A9CBDD)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 36l12-5M71 36l-12-5"/><path d="M38 70q12-10 24 0"/></g><circle cx="37" cy="47" r="4.5" fill="var(--ink,#1F2A37)"/><circle cx="63" cy="47" r="4.5" fill="var(--ink,#1F2A37)"/><path d="M66 54q3 6 0 9q-3-3 0-9z" fill="var(--tear,#5C8FB0)"/></symbol>
+    <symbol id="f-scared" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#C9B8DA)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M28 34q8-6 14-2M72 34q-8-6-14-2"/></g><circle cx="37" cy="46" r="6" fill="#fff" stroke="var(--ink,#1F2A37)" stroke-width="4"/><circle cx="63" cy="46" r="6" fill="#fff" stroke="var(--ink,#1F2A37)" stroke-width="4"/><circle cx="37" cy="47" r="2.4" fill="var(--ink,#1F2A37)"/><circle cx="63" cy="47" r="2.4" fill="var(--ink,#1F2A37)"/><path d="M38 68q4-5 8 0t8 0t8 0" fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="f-angry" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#EE9C80)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 33l13 6M71 33l-13 6"/><path d="M39 68q11-7 22 0"/></g><circle cx="37" cy="48" r="4.5" fill="var(--ink,#1F2A37)"/><circle cx="63" cy="48" r="4.5" fill="var(--ink,#1F2A37)"/></symbol>
+  </defs>
+</svg>
+
+
+<!-- ============ 1 · INICIO ============ -->
+<section class="screen" data-screen="home">
+  <span class="label">A · CUADERNO — 1. Inicio</span>
+  <header class="top">
+    <div class="brand"><span class="mark"><i></i><i></i></span>contigo</div>
+    <div class="tools">
+      <span class="tb"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span>
+      <span class="tb"><svg class="i"><use href="#i-text"/></svg>Letra</span>
+      <span class="tb"><svg class="i"><use href="#i-contrast"/></svg>Contraste</span>
+      <span class="tb lang"><svg class="i"><use href="#i-globe"/></svg>ES</span>
+      <span class="sep"></span>
+      <span class="exit"><svg class="i"><use href="#i-exit"/></svg>Salir rápido <kbd>Esc</kbd></span>
+    </div>
+  </header>
+  <main class="home">
+    <div>
+      <div class="eyebrow">Tu espacio seguro</div>
+      <h1>Hola. Aquí puedes contar lo que te <span class="u">pasa.<svg viewBox="0 0 200 18" preserveAspectRatio="none"><path d="M3 12C40 4 80 4 120 9s60 4 77-3" fill="none" stroke="#E7B24A" stroke-width="6" stroke-linecap="round"/></svg></span></h1>
+      <p class="lead">Sin prisa y a tu manera: con dibujos, escribiendo o con tu voz. Solo lo verá el profe que tú elijas.</p>
+      <div class="cta-row">
+        <span class="cta">Empezar <svg><use href="#i-arrow-right"/></svg></span>
+        <span class="meta"><svg><use href="#i-lock"/></svg>Unos 3 minutos · Privado</span>
+      </div>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 560 380" preserveAspectRatio="xMidYMid slice">
+        <circle cx="420" cy="110" r="64" fill="#E7B24A"/>
+        <path d="M0 270C90 220 180 215 280 245s200 20 280-25V380H0z" fill="#9DBDA5"/>
+        <path d="M0 315c120-40 260-45 380-15 70 18 130 10 180-5V380H0z" fill="#7FA68A"/>
+        <!-- niño/a 1 -->
+        <g transform="translate(200 150)">
+          <rect x="-34" y="58" width="68" height="102" rx="30" fill="#C9512F"/>
+          <circle cx="0" cy="26" r="34" fill="#F1C8A6"/>
+          <path d="M-34 22c2-30 24-42 44-38 20 4 30 20 26 40-10-12-30-16-46-12-10 3-18 6-24 10z" fill="#1F2A37"/>
+          <circle cx="-11" cy="30" r="3.4" fill="#1F2A37"/><circle cx="12" cy="30" r="3.4" fill="#1F2A37"/>
+          <path d="M-8 44q8 6 16 0" fill="none" stroke="#1F2A37" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <!-- niño/a 2 -->
+        <g transform="translate(318 160)">
+          <rect x="-32" y="52" width="64" height="98" rx="28" fill="#5C8FB0"/>
+          <circle cx="0" cy="22" r="31" fill="#B98563"/>
+          <path d="M-31 18c0-24 16-36 33-34 18 2 30 16 28 36-6-6-14-10-22-10-4 6-12 10-22 10-6 0-12-1-17-2z" fill="#3A2A22"/>
+          <circle cx="-10" cy="26" r="3.2" fill="#1F2A37"/><circle cx="11" cy="26" r="3.2" fill="#1F2A37"/>
+          <path d="M-7 39q7 5 14 0" fill="none" stroke="#1F2A37" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <!-- brazos y manos juntas -->
+        <path d="M226 226q16 26 32 32" fill="none" stroke="#B5462A" stroke-width="16" stroke-linecap="round"/>
+        <path d="M292 230q-10 24 -26 30" fill="none" stroke="#4E7E9E" stroke-width="16" stroke-linecap="round"/>
+        <circle cx="260" cy="260" r="10" fill="#F1C8A6"/><circle cx="270" cy="262" r="10" fill="#B98563"/>
+        <!-- hojas -->
+        <path d="M86 268c-4-40 16-70 50-76-2 40-20 66-50 76z" fill="#5E8C6E"/>
+        <path d="M480 255c6-34 30-52 58-52-6 32-26 50-58 52z" fill="#5E8C6E"/>
+      </svg>
+    </div>
+    <div class="shelf">
+      <div class="tile"><span class="ic" style="background:var(--ochre-t)"><svg><use href="#i-picto"/></svg></span><div><h3>Hablar con dibujos</h3><p>Toca pictogramas y te leo la frase.</p></div></div>
+      <div class="tile"><span class="ic" style="background:var(--plum-t)"><svg><use href="#i-book"/></svg></span><div><h3>Mi diario</h3><p>Apunta qué pasó, cuándo y dónde.</p></div></div>
+      <div class="tile"><span class="ic" style="background:var(--sky-t)"><svg><use href="#i-steps"/></svg></span><div><h3>Preguntas paso a paso</h3><p>Una pregunta cada vez, sin prisa.</p></div></div>
+      <div class="tile"><span class="ic" style="background:var(--sage-t)"><svg><use href="#i-leaf"/></svg></span><div><h3>Rincón de calma</h3><p>Respira despacio. Sin ruido.</p></div></div>
+    </div>
+  </main>
+  <footer class="help">
+    <span class="ph"><svg class="i"><use href="#i-phone"/></svg><span>¿Estás en peligro ahora? Llama al <b>112</b>. Teléfono contra el acoso escolar: <b>900 018 018</b> (gratis, 24 h)</span></span>
+    <a>Soy profe o familia</a>
+  </footer>
+</section>
+
+<!-- ============ 1B · APOYOS (0B) ============ -->
+<section class="screen" data-screen="sup">
+  <span class="label">A · CUADERNO — 1B. Apoyos de accesibilidad</span>
+  <header class="top">
+    <div class="brand"><span class="mark"><i></i><i></i></span>contigo</div>
+    <div class="tools">
+      <span class="tb"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span>
+      <span class="tb"><svg class="i"><use href="#i-text"/></svg>Letra</span>
+      <span class="tb"><svg class="i"><use href="#i-contrast"/></svg>Contraste</span>
+      <span class="sep"></span>
+      <span class="exit"><svg class="i"><use href="#i-exit"/></svg>Salir rápido <kbd>Esc</kbd></span>
+    </div>
+  </header>
+  <main class="flow">
+    <div class="stepper">
+      <span class="s"><span class="n">0</span>Voz</span><span class="bar"></span>
+      <span class="s on"><span class="n">0B</span>Tus apoyos</span><span class="bar"></span>
+      <span class="s"><span class="n">1</span>Empezar</span>
+    </div>
+    <h1>¿Cómo quieres ver la pantalla?</h1>
+    <p class="lead">Toca los apoyos que necesites. Puedes cambiarlos en cualquier momento. <span class="listen"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span></p>
+    <div class="sup-grid">
+      <div class="sc sel"><span class="k">1</span><span class="ic" style="background:var(--ochre-t)"><svg><use href="#i-eye"/></svg></span><div><b>Ver mejor y voz</b><span>Letra más grande y lectura en voz alta.</span></div></div>
+      <div class="sc"><span class="k">2</span><span class="ic" style="background:var(--sky-t)"><svg><use href="#i-sound-off"/></svg></span><div><b>Sin sonido</b><span>Todo visual, con avisos en pantalla.</span></div></div>
+      <div class="sc"><span class="k">3</span><span class="ic" style="background:var(--plum-t)"><svg><use href="#i-picto"/></svg></span><div><b>Hablar con dibujos</b><span>Pictogramas ARASAAC y voz prestada.</span></div></div>
+      <div class="sc sel foc"><span class="k">4</span><span class="ic" style="background:var(--sage-t)"><svg><use href="#i-lines"/></svg></span><div><b>Lectura fácil</b><span>Frases más cortas y más espacio.</span></div></div>
+      <div class="sc"><span class="k">5</span><span class="ic" style="background:var(--sage-t)"><svg><use href="#i-still"/></svg></span><div><b>TEA / Sin movimiento</b><span>Sin animaciones ni sorpresas visuales.</span></div></div>
+      <div class="sc"><span class="k">6</span><span class="ic" style="background:var(--ochre-t)"><svg><use href="#i-hand"/></svg></span><div><b>Botones grandes</b><span>Más fáciles de tocar o usar con teclado.</span></div></div>
+    </div>
+    <div class="nav">
+      <span class="back"><svg class="i"><use href="#i-arrow-left"/></svg>Volver</span>
+      <span class="private"><svg><use href="#i-check"/></svg>2 apoyos activos · Pulsa 1–6 o Tab para navegar</span>
+      <span class="next">Guardar y seguir <svg class="i"><use href="#i-arrow-right"/></svg></span>
+    </div>
+  </main>
+</section>
+
+<!-- ============ 2 · SENTIMIENTOS ============ -->
+<section class="screen" data-screen="feel">
+  <span class="label">A · CUADERNO — 2. ¿Cómo te sientes?</span>
+  <header class="top">
+    <div class="brand"><span class="mark"><i></i><i></i></span>contigo</div>
+    <div class="tools">
+      <span class="tb"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span>
+      <span class="tb"><svg class="i"><use href="#i-text"/></svg>Letra</span>
+      <span class="tb"><svg class="i"><use href="#i-contrast"/></svg>Contraste</span>
+      <span class="sep"></span>
+      <span class="exit"><svg class="i"><use href="#i-exit"/></svg>Salir rápido <kbd>Esc</kbd></span>
+    </div>
+  </header>
+  <main class="flow">
+    <div class="stepper">
+      <span class="s on"><span class="n">1</span>Cómo te sientes</span><span class="bar"></span>
+      <span class="s"><span class="n">2</span>Qué ha pasado</span><span class="bar"></span>
+      <span class="s"><span class="n">3</span>A quién se lo cuento</span>
+    </div>
+    <h1>¿Cómo te sientes ahora?</h1>
+    <p class="lead">Toca la cara que más se parezca a ti. No hay respuestas malas. <span class="listen"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span></p>
+    <div class="feel">
+      <div class="fc"><span class="k">1</span><svg class="face"><use href="#f-calm"/></svg><b>Tranquilo/a</b><span>Estoy bien</span></div>
+      <div class="fc sel"><span class="k">2</span><span class="ok"><svg><use href="#i-check"/></svg></span><svg class="face"><use href="#f-sad"/></svg><b>Triste</b><span>Me siento mal</span></div>
+      <div class="fc"><span class="k">3</span><svg class="face"><use href="#f-scared"/></svg><b>Con miedo</b><span>Algo me preocupa</span></div>
+      <div class="fc"><span class="k">4</span><svg class="face"><use href="#f-angry"/></svg><b>Enfadado/a</b><span>Algo no es justo</span></div>
+    </div>
+    <div class="nav">
+      <span class="back"><svg class="i"><use href="#i-arrow-left"/></svg>Volver</span>
+      <span class="private"><svg><use href="#i-lock"/></svg>Lo que eliges no se guarda en este dispositivo</span>
+      <span class="next">Siguiente <svg class="i"><use href="#i-arrow-right"/></svg></span>
+    </div>
+  </main>
+</section>
+
+<!-- ============ 2B · SENTIMIENTOS (ALTO CONTRASTE AAA) ============ -->
+<section class="screen hc" data-screen="feel-hc">
+  <span class="label">A · CUADERNO — 2B. Modo Alto Contraste (AAA)</span>
+  <header class="top">
+    <div class="brand"><span class="mark"><i></i><i></i></span>contigo</div>
+    <div class="tools">
+      <span class="tb"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span>
+      <span class="tb"><svg class="i"><use href="#i-text"/></svg>Letra</span>
+      <span class="tb on"><svg class="i"><use href="#i-contrast"/></svg>Contraste: ON</span>
+      <span class="sep"></span>
+      <span class="exit"><svg class="i"><use href="#i-exit"/></svg>Salir rápido <kbd>Esc</kbd></span>
+    </div>
+  </header>
+  <main class="flow">
+    <div class="stepper">
+      <span class="s on"><span class="n">1</span>Cómo te sientes</span><span class="bar"></span>
+      <span class="s"><span class="n">2</span>Qué ha pasado</span><span class="bar"></span>
+      <span class="s"><span class="n">3</span>A quién se lo cuento</span>
+    </div>
+    <h1>¿Cómo te sientes ahora?</h1>
+    <p class="lead">Toca la cara que más se parezca a ti. No hay respuestas malas. <span class="listen"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span></p>
+    <div class="feel" style="--ink:#000000">
+      <div class="fc"><span class="k">1</span><svg class="face" style="--face:#FFD400"><use href="#f-calm"/></svg><b>Tranquilo/a</b><span>Estoy bien</span></div>
+      <div class="fc sel foc"><span class="k">2</span><span class="ok"><svg><use href="#i-check"/></svg></span><svg class="face" style="--face:#7DD3FC"><use href="#f-sad"/></svg><b>Triste</b><span>Me siento mal</span></div>
+      <div class="fc"><span class="k">3</span><svg class="face" style="--face:#E9D5FF"><use href="#f-scared"/></svg><b>Con miedo</b><span>Algo me preocupa</span></div>
+      <div class="fc"><span class="k">4</span><svg class="face" style="--face:#FDA4AF"><use href="#f-angry"/></svg><b>Enfadado/a</b><span>Algo no es justo</span></div>
+    </div>
+    <div class="nav">
+      <span class="back"><svg class="i"><use href="#i-arrow-left"/></svg>Volver</span>
+      <span class="private"><svg><use href="#i-lock"/></svg>Modo Alto Contraste (WCAG AAA · 15:1+)</span>
+      <span class="next">Siguiente <svg class="i"><use href="#i-arrow-right"/></svg></span>
+    </div>
+  </main>
+</section>
+
+<!-- ============ 3 · PICTOGRAMAS ============ -->
+<section class="screen" data-screen="caa">
+  <span class="label">A · CUADERNO — 3. Hablar con dibujos (CAA)</span>
+  <header class="top">
+    <div class="brand"><span class="mark"><i></i><i></i></span>contigo</div>
+    <div class="tools">
+      <span class="tb"><svg class="i"><use href="#i-speaker"/></svg>Escuchar</span>
+      <span class="tb"><svg class="i"><use href="#i-text"/></svg>Letra</span>
+      <span class="tb"><svg class="i"><use href="#i-contrast"/></svg>Contraste</span>
+      <span class="sep"></span>
+      <span class="exit"><svg class="i"><use href="#i-exit"/></svg>Salir rápido <kbd>Esc</kbd></span>
+    </div>
+  </header>
+  <main class="caa">
+    <div class="caa-head">
+      <h1>Habla con dibujos</h1>
+      <div class="legend"><span><i style="background:#E7C24A"></i>Personas</span><span><i style="background:#8DBF7A"></i>Lo que pasa</span><span><i style="background:#86B3D6"></i>Cómo me siento</span><span><i style="background:#E9A15C"></i>Lugares</span><span><i style="background:#D99BC1"></i>Pedir</span></div>
+    </div>
+    <div class="strip">
+      <span class="chip" style="border-color:#E7C24A"><img src="assets/arasaac/grupo.png" alt="">Un grupo</span>
+      <span class="chip" style="border-color:#8DBF7A"><img src="assets/arasaac/empujar.png" alt="">me empuja</span>
+      <span class="chip" style="border-color:#E9A15C"><img src="assets/arasaac/patio.png" alt="">en el patio</span>
+      <span class="caret"></span>
+      <span class="acts">
+        <span class="ibtn"><svg class="i"><use href="#i-backspace"/></svg></span>
+        <span class="speak"><svg class="i"><use href="#i-speaker"/></svg>Leer</span>
+        <span class="sendt"><svg class="i"><use href="#i-send"/></svg>Enviar al profe</span>
+      </span>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <div class="pt y"><img src="assets/arasaac/yo.png" alt="">Yo</div>
+        <div class="pt y"><img src="assets/arasaac/companero.png" alt="">Compañero/a</div>
+        <div class="pt y on"><img src="assets/arasaac/grupo.png" alt="">Un grupo</div>
+        <div class="pt y"><img src="assets/arasaac/profesor.png" alt="">Profe</div>
+        <div class="pt g"><img src="assets/arasaac/insultar.png" alt="">Me insultan</div>
+        <div class="pt g on"><img src="assets/arasaac/empujar.png" alt="">Me empujan</div>
+      </div>
+      <div class="row">
+        <div class="pt g"><img src="assets/arasaac/solo.png" alt="">Me dejan solo</div>
+        <div class="pt b"><img src="assets/arasaac/miedo.png" alt="">Tengo miedo</div>
+        <div class="pt b"><img src="assets/arasaac/triste.png" alt="">Estoy triste</div>
+        <div class="pt b"><img src="assets/arasaac/bloqueado.png" alt="">Me pongo nervioso</div>
+        <div class="pt b"><img src="assets/arasaac/enfadado.png" alt="">Enfadado/a</div>
+        <div class="pt b"><img src="assets/arasaac/contento.png" alt="">Estoy bien</div>
+      </div>
+      <div class="row">
+        <div class="pt o on"><img src="assets/arasaac/patio.png" alt="">En el patio</div>
+        <div class="pt o"><img src="assets/arasaac/pasillo.png" alt="">En el pasillo</div>
+        <div class="pt o"><img src="assets/arasaac/clase.png" alt="">En clase</div>
+        <div class="pt p"><img src="assets/arasaac/ayuda.png" alt="">Necesito ayuda</div>
+        <div class="pt p"><img src="assets/arasaac/privado.png" alt="">En privado</div>
+        <div class="pt p"><img src="assets/arasaac/gracias.png" alt="">Gracias</div>
+      </div>
+    </div>
+    <p class="credit">Pictogramas: Sergio Palao · ARASAAC (Gobierno de Aragón) · CC BY-NC-SA</p>
+  </main>
+</section>
+
+<!-- ============ 4 · CALMA ============ -->
+<section class="screen" data-screen="calm">
+  <span class="label">A · CUADERNO — 4. Rincón de calma</span>
+  <header class="top">
+    <div class="brand"><span class="mark"><i></i><i></i></span>contigo</div>
+    <div class="tools">
+      <span class="tb"><svg class="i"><use href="#i-sound-off"/></svg>Sin sonido</span>
+      <span class="sep"></span>
+      <span class="exit"><svg class="i"><use href="#i-exit"/></svg>Salir rápido <kbd>Esc</kbd></span>
+    </div>
+  </header>
+  <main class="calm">
+    <div>
+      <div class="eyebrow" style="color:#2E5D40">Rincón de calma</div>
+      <h1>Vamos a respirar juntos.</h1>
+      <p class="lead">Sigue el círculo con la respiración. Cuando quieras parar, pulsa Volver. No pasa nada.</p>
+      <div class="modes">
+        <div class="mode on"><span class="ic" style="background:var(--sage-t)"><svg class="i"><use href="#i-leaf"/></svg></span><span>Respirar despacio<small>4 segundos dentro, 4 fuera</small></span><span class="chev"><svg class="i"><use href="#i-check"/></svg></span></div>
+        <div class="mode"><span class="ic" style="background:var(--sky-t)"><svg class="i"><use href="#i-eye"/></svg></span><span>Buscar 5 cosas azules<small>Mira a tu alrededor</small></span><span class="chev"><svg class="i"><use href="#i-arrow-right"/></svg></span></div>
+        <div class="mode"><span class="ic" style="background:var(--ochre-t)"><svg class="i"><use href="#i-speaker"/></svg></span><span>Sonido de lluvia<small>Con auriculares</small></span><span class="chev"><svg class="i"><use href="#i-arrow-right"/></svg></span></div>
+      </div>
+    </div>
+    <div class="breath">
+      <span class="r r1"></span><span class="r r2"></span>
+      <div class="r r3"><div><b>Coge aire</b><span>por la nariz</span><div class="count"><i class="on"></i><i class="on"></i><i></i><i></i></div></div></div>
+      <div class="ctrl"><span class="pill"><svg class="i"><use href="#i-arrow-left"/></svg>Volver</span><span class="pill on"><svg class="i"><use href="#i-pause"/></svg>Pausa</span><span class="pill">1 min</span><span class="pill">3 min</span></div>
+    </div>
+  </main>
+</section>
+
+<script>
+const s=new URLSearchParams(location.search).get('s');
+if(s){document.documentElement.classList.add('single');document.querySelectorAll('.screen').forEach(e=>{if(e.dataset.screen!==s)e.remove()})}
+</script>
+</body>
+</html>
