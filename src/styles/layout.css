@@ -134,7 +134,8 @@
   background: var(--text);
   color: #FFFFFF;
   border-color: var(--text);
-  padding: 0 12px 0 18px;
+  padding-block: 0;
+  padding-inline: 18px 12px;
 }
 
 .tool-btn-exit:hover {
@@ -264,7 +265,8 @@
   align-items: center;
   gap: 14px;
   min-height: 68px;
-  padding: 0 30px 0 34px;
+  padding-block: 0;
+  padding-inline: 34px 30px;
   border-radius: 99px;
   background: var(--primary);
   color: #FFFFFF;
@@ -287,7 +289,7 @@
 }
 
 .hero-cta span {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 .home-chips {
@@ -302,7 +304,8 @@
   align-items: center;
   gap: 10px;
   height: 54px;
-  padding: 0 20px 0 10px;
+  padding-block: 0;
+  padding-inline: 10px 20px;
   border-radius: 99px;
   background: var(--surface);
   color: var(--text);
@@ -529,5 +532,23 @@
   .hero img {
     opacity: 0.2;
     width: 60%;
+  }
+}
+
+/* Soporte RTL (Árabe) */
+[dir="rtl"] .calma-bubble {
+  right: auto;
+  left: 0;
+  border-radius: 26px 26px 8px 26px;
+}
+
+[dir="rtl"] svg:has(use[href="#i-arrow-right"]),
+[dir="rtl"] svg:has(use[href="#i-arrow-left"]) {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 900px) {
+  [dir="rtl"] .calma-bubble {
+    left: auto;
   }
 }

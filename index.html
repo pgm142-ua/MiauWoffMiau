@@ -64,51 +64,51 @@
     </defs>
   </svg>
 
-  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <a href="#main-content" class="skip-link" data-i18n="skip_link">Saltar al contenido principal</a>
 
   <!-- Pantalla de salida rápida (Tecla Esc) -->
   <div id="safe-exit-screen" class="safe-exit-screen hidden" role="dialog" aria-modal="true" aria-labelledby="safe-exit-title">
     <div class="safe-exit-card">
-      <h1 id="safe-exit-title">Apuntes de Matemáticas — Ecuaciones de 1.º Grado</h1>
-      <p>Una ecuación de primer grado tiene la forma <strong>ax + b = c</strong>. Para resolverla, despeja la incógnita paso a paso.</p>
+      <h1 id="safe-exit-title" data-i18n="safe_exit_title">Apuntes de Matemáticas — Ecuaciones de 1.º Grado</h1>
+      <p data-i18n-html="safe_exit_desc">Una ecuación de primer grado tiene la forma <strong>ax + b = c</strong>. Para resolverla, despeja la incógnita paso a paso.</p>
       <ul>
         <li>2x + 4 = 10 → 2x = 6 → x = 3</li>
         <li>5x - 5 = 15 → 5x = 20 → x = 4</li>
       </ul>
-      <button type="button" id="return-from-safe-exit" class="btn btn-primary">Volver a Contigo</button>
+      <button type="button" id="return-from-safe-exit" class="btn btn-primary" data-i18n="safe_exit_return">Volver a Contigo</button>
     </div>
   </div>
 
   <!-- Cabecera limpia y funcional (Dirección C — Calma) -->
   <header class="app-header" role="banner">
     <div class="header-inner">
-      <button type="button" class="brand" data-go="home" aria-label="Contigo · Ir al Inicio">
+      <button type="button" class="brand" data-go="home" aria-label="Contigo · Ir al Inicio" data-i18n-aria-label="brand_aria">
         <svg aria-hidden="true"><use href="#logo"/></svg><span>contigo</span>
       </button>
 
-      <div class="toolbar" role="region" aria-label="Accesibilidad, idioma y controles rápidos">
+      <div class="toolbar" role="region" aria-label="Accesibilidad, idioma y controles rápidos" data-i18n-aria-label="toolbar_aria">
         <!-- Controles de accesibilidad visibles y funcionales -->
         <div id="gradual-a11y-bar" class="gradual-a11y-bar">
-          <button type="button" id="btn-read-page" class="tool-btn" title="Leer pantalla en voz alta">
+          <button type="button" id="btn-read-page" class="tool-btn" title="Leer pantalla en voz alta" data-i18n-title="a11y_listen_title">
             <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="a11y_listen">Escuchar</span>
           </button>
-          <button type="button" id="btn-font-size" class="tool-btn" aria-pressed="false" title="Cambiar tamaño de letra">
+          <button type="button" id="btn-font-size" class="tool-btn" aria-pressed="false" title="Cambiar tamaño de letra" data-i18n-title="a11y_size_title">
             <svg class="i" aria-hidden="true"><use href="#i-text"/></svg> <span data-i18n="a11y_size">Tamaño</span>
           </button>
-          <button type="button" id="btn-contrast" class="tool-btn" aria-pressed="false" title="Activar alto contraste">
+          <button type="button" id="btn-contrast" class="tool-btn" aria-pressed="false" title="Activar alto contraste" data-i18n-title="a11y_contrast_title">
             <svg class="i" aria-hidden="true"><use href="#i-contrast"/></svg> <span data-i18n="a11y_contrast">Contraste</span>
           </button>
-          <button type="button" id="btn-easy-read" class="tool-btn" aria-pressed="false" title="Activar espaciado de lectura fácil">
+          <button type="button" id="btn-easy-read" class="tool-btn" aria-pressed="false" title="Activar espaciado de lectura fácil" data-i18n-title="a11y_easy_title">
             <svg class="i" aria-hidden="true"><use href="#i-lines"/></svg> <span data-i18n="a11y_easy">Lectura fácil</span>
           </button>
         </div>
 
         <button type="button" id="btn-calm-corner" class="tool-btn tool-btn-calm" data-go="calm">
-          <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> <span>Calma</span>
+          <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> <span data-i18n="nav_calm">Calma</span>
         </button>
 
-        <label for="lang-select" class="sr-only">Idioma</label>
-        <select id="lang-select" class="lang-select" aria-label="Idioma">
+        <label for="lang-select" class="sr-only" data-i18n="lang_label">Idioma</label>
+        <select id="lang-select" class="lang-select" aria-label="Idioma" data-i18n-aria-label="lang_label">
           <option value="es">ES</option>
           <option value="ca">CA/VA</option>
           <option value="en">EN</option>
@@ -122,13 +122,13 @@
           <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> <span data-i18n="nav_gear">Ajustes</span>
         </button>
 
-        <button type="button" id="btn-safe-exit" class="tool-btn tool-btn-exit" title="Salida rápida (Tecla Esc)">
+        <button type="button" id="btn-safe-exit" class="tool-btn tool-btn-exit" title="Salida rápida (Tecla Esc)" data-i18n-title="nav_exit_title">
           <svg class="i" aria-hidden="true"><use href="#i-exit"/></svg> <span data-i18n="nav_exit">Salir</span> <kbd>Esc</kbd>
         </button>
       </div>
     </div>
 
-    <div class="progress-wrapper" aria-label="Progreso">
+    <div class="progress-wrapper" aria-label="Progreso" data-i18n-aria-label="progress_aria">
       <div class="progress-meta">
         <span id="progress-label">Hola</span>
         <div class="active-badges">
@@ -153,32 +153,32 @@
     <section id="screen-home" class="step-section">
       <div class="home-calma">
         <div class="home-copy">
-          <h1>Hola. Me alegra que estés aquí.</h1>
-          <p class="lead">Este es un sitio tranquilo para contar cómo estás. Vamos despacio, una cosa cada vez.</p>
+          <h1 data-i18n="home_title">Hola. Me alegra que estés aquí.</h1>
+          <p class="lead" data-i18n="home_lead">Este es un sitio tranquilo para contar cómo estás. Vamos despacio, una cosa cada vez.</p>
           <button type="button" class="hero-cta" data-go="0-voice">
-            Empezar <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            <span data-i18n="home_cta">Empezar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </button>
 
-          <div class="home-chips" role="navigation" aria-label="Accesos directos">
+          <div class="home-chips" role="navigation" aria-label="Accesos directos" data-i18n-aria-label="home_chips_aria">
             <button type="button" class="chip" data-go="caa">
               <span class="d" style="background:var(--butter-t)" aria-hidden="true"><svg class="i"><use href="#i-picto"/></svg></span>
-              <span>Dibujos</span>
+              <span data-i18n="home_chip_caa">Dibujos</span>
             </button>
             <button type="button" class="chip" data-go="diary">
               <span class="d" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-book"/></svg></span>
-              <span>Mi diario</span>
+              <span data-i18n="home_chip_diary">Mi diario</span>
             </button>
             <button type="button" class="chip" data-go="calm">
               <span class="d" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-leaf"/></svg></span>
-              <span>Calma</span>
+              <span data-i18n="home_chip_calm">Calma</span>
             </button>
             <button type="button" class="chip" data-go="questionnaire">
               <span class="d" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-steps"/></svg></span>
-              <span>Cuestionario</span>
+              <span data-i18n="home_chip_questionnaire">Cuestionario</span>
             </button>
             <button type="button" class="chip" data-go="teacher-panel">
               <span class="d" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-people"/></svg></span>
-              <span>Panel Profe (<span id="home-teacher-count">3</span>)</span>
+              <span><span data-i18n="home_chip_teacher">Panel Profe</span> (<span id="home-teacher-count">3</span>)</span>
             </button>
           </div>
         </div>
@@ -186,7 +186,7 @@
         <div class="calma-stage">
           <span class="calma-blob" aria-hidden="true"></span>
           <svg class="buddy" aria-hidden="true"><use href="#buddy"/></svg>
-          <div class="calma-bubble">Soy <b>Nube</b>. Te acompaño. Puedes parar cuando quieras.</div>
+          <div class="calma-bubble" data-i18n-html="home_bubble">Soy <b>Nube</b>. Te acompaño. Puedes parar cuando quieras.</div>
         </div>
       </div>
     </section>
@@ -200,12 +200,12 @@
       <p class="lead-text" data-i18n="s0_desc">Elige una opción:</p>
 
       <div class="inline-voice-action">
-        <button type="button" id="btn-play-welcome-voice" class="btn btn-soft" data-i18n="s0_listen">
-          <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Escuchar
+        <button type="button" id="btn-play-welcome-voice" class="btn btn-soft">
+          <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="s0_listen">Escuchar</span>
         </button>
       </div>
 
-      <div class="choice-grid" role="group" aria-label="Elegir si quieres voz">
+      <div class="choice-grid" role="group" aria-label="Elegir si quieres voz" data-i18n-aria-label="s0_group_aria">
         <button type="button" class="choice-card" data-action="choose-voice" data-value="si" data-key="1">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-speaker"/></svg></span>
           <span class="choice-title" data-i18n="s0_yes_title">1. Sí, con voz</span>
@@ -220,15 +220,15 @@
       </div>
 
       <form id="form-voice-text-answer" class="quick-text-bar">
-        <label for="input-voice-answer" class="sr-only">Respuesta rápida</label>
-        <input type="text" id="input-voice-answer" class="form-control" placeholder="Escribe Sí o No (o 1 / 2)..." autocomplete="off" />
+        <label for="input-voice-answer" class="sr-only" data-i18n="quick_answer_label">Respuesta rápida</label>
+        <input type="text" id="input-voice-answer" class="form-control" placeholder="Escribe Sí o No (o 1 / 2)..." data-i18n-placeholder="s0_input_ph" autocomplete="off" />
         <button type="button" id="btn-mic-step0" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
         <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
       </form>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -257,8 +257,8 @@
         </div>
 
         <form id="form-has-dis-text" class="quick-text-bar">
-          <label for="input-has-dis-answer" class="sr-only">Respuesta rápida</label>
-          <input type="text" id="input-has-dis-answer" class="form-control" placeholder="Escribe Sí o No..." autocomplete="off" />
+          <label for="input-has-dis-answer" class="sr-only" data-i18n="quick_answer_label">Respuesta rápida</label>
+          <input type="text" id="input-has-dis-answer" class="form-control" placeholder="Escribe Sí o No..." data-i18n-placeholder="s0b_input_ph" autocomplete="off" />
           <button type="button" id="btn-mic-has-dis" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
           <button type="submit" class="btn btn-primary" data-i18n="btn_answer">OK</button>
         </form>
@@ -318,25 +318,25 @@
         </div>
 
         <form id="form-dis-detail-text" class="quick-text-bar">
-          <label for="input-dis-detail" class="sr-only">Escribir apoyo</label>
-          <input type="text" id="input-dis-detail" class="form-control" placeholder="Escribe número 1 a 6..." autocomplete="off" />
+          <label for="input-dis-detail" class="sr-only" data-i18n="s0b_detail_label">Escribir apoyo</label>
+          <input type="text" id="input-dis-detail" class="form-control" placeholder="Escribe número 1 a 6..." data-i18n-placeholder="s0b_detail_ph" autocomplete="off" />
           <button type="button" id="btn-mic-dis-detail" class="btn btn-soft" data-i18n="btn_speak">Hablar</button>
-          <button type="submit" class="btn btn-soft" data-i18n="btn_answer">Activar</button>
+          <button type="submit" class="btn btn-soft" data-i18n="btn_activate">Activar</button>
         </form>
 
         <div class="nav-actions">
           <button type="button" id="btn-back-dis-yesno" class="btn btn-ghost">
-            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Atrás
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="s0b_back_inner">Atrás</span>
           </button>
-          <button type="button" id="btn-continue-from-dis" class="btn btn-primary" data-key="0" data-i18n="s0b_continue">
-            Continuar <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          <button type="button" id="btn-continue-from-dis" class="btn btn-primary" data-key="0">
+            <span data-i18n="s0b_continue">Continuar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </button>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -370,23 +370,23 @@
       </div>
 
       <div class="subtle-links-row">
-        <button type="button" id="btn-role-to-caa" class="link-pill" data-i18n="quick_caa">
-          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> Pictogramas (CAA)
+        <button type="button" id="btn-role-to-caa" class="link-pill">
+          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> <span data-i18n="quick_caa">Pictogramas (CAA)</span>
         </button>
-        <button type="button" id="btn-role-to-diary" class="link-pill" data-i18n="quick_diary">
-          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Diario
+        <button type="button" id="btn-role-to-diary" class="link-pill">
+          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="quick_diary">Diario</span>
         </button>
-        <button type="button" id="btn-role-to-teacher-panel" class="link-pill" data-i18n="quick_teacher">
-          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Panel Profe
+        <button type="button" id="btn-role-to-teacher-panel" class="link-pill">
+          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="quick_teacher">Panel Profe</span>
         </button>
         <button type="button" id="btn-role-to-parents" class="link-pill">
-          <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> Formulario Padres
+          <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> <span data-i18n="quick_parents">Formulario Padres</span>
         </button>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -414,8 +414,8 @@
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -449,8 +449,8 @@
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -469,26 +469,26 @@
         </div>
       </div>
 
-      <div class="image-choice-grid feel" role="group" aria-label="Elegir cómo te sientes">
-        <button type="button" class="visual-card fc" style="--face:#F1DE9C" data-action="adapted-feeling" data-value="Tranquilo / Bien" data-key="1">
+      <div class="image-choice-grid feel" role="group" aria-label="Elegir cómo te sientes" data-i18n-aria-label="ad1_group_aria">
+        <button type="button" class="visual-card fc" style="--face:#F1DE9C" data-action="adapted-feeling" data-value="calm" data-key="1">
           <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-calm"/></svg></span>
           <span class="visual-title" data-i18n="feel_1">1. Tranquilo/a</span>
           <span class="visual-sub" data-i18n="feel_1_sub">Quiero hablar con calma</span>
         </button>
 
-        <button type="button" class="visual-card fc" style="--face:#B6D3E2" data-action="adapted-feeling" data-value="Triste" data-key="2">
+        <button type="button" class="visual-card fc" style="--face:#B6D3E2" data-action="adapted-feeling" data-value="sad" data-key="2">
           <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-sad"/></svg></span>
           <span class="visual-title" data-i18n="feel_2">2. Triste</span>
           <span class="visual-sub" data-i18n="feel_2_sub">Me siento triste o solo/a</span>
         </button>
 
-        <button type="button" class="visual-card fc" style="--face:#CFC7EA" data-action="adapted-feeling" data-value="Con miedo" data-key="3">
+        <button type="button" class="visual-card fc" style="--face:#CFC7EA" data-action="adapted-feeling" data-value="scared" data-key="3">
           <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-scared"/></svg></span>
           <span class="visual-title" data-i18n="feel_3">3. Con miedo</span>
           <span class="visual-sub" data-i18n="feel_3_sub">Me siento asustado/a</span>
         </button>
 
-        <button type="button" class="visual-card fc" style="--face:#F0C3AA" data-action="adapted-feeling" data-value="Enfadado / Molesto" data-key="4">
+        <button type="button" class="visual-card fc" style="--face:#F0C3AA" data-action="adapted-feeling" data-value="angry" data-key="4">
           <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-angry"/></svg></span>
           <span class="visual-title" data-i18n="feel_4">4. Enfadado/a</span>
           <span class="visual-sub" data-i18n="feel_4_sub">Me molestan o me bloqueo</span>
@@ -496,8 +496,8 @@
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -510,38 +510,38 @@
       <h1 id="title-adapted-2" data-i18n="ad2_title">¿Por qué pasa?</h1>
       <p class="lead-text" data-i18n="ad2_desc">Toca la causa:</p>
 
-      <div class="cause-grid" role="group" aria-label="Elegir causa">
-        <button type="button" class="choice-card" data-action="adapted-cause" data-value="Social (exclusión o burlas)" data-key="1">
+      <div class="cause-grid" role="group" aria-label="Elegir causa" data-i18n-aria-label="ad2_group_aria">
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="social" data-key="1">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-people"/></svg></span>
           <span class="choice-title" data-i18n="c_soc">1. Social</span>
           <span class="choice-desc" data-i18n="c_soc_d">Burlas o me dejan solo</span>
         </button>
 
-        <button type="button" class="choice-card" data-action="adapted-cause" data-value="Interno (miedo o bloqueo)" data-key="2">
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="internal" data-key="2">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-chat"/></svg></span>
           <span class="choice-title" data-i18n="c_int">2. Interno</span>
           <span class="choice-desc" data-i18n="c_int_d">Miedo o bloqueo por dentro</span>
         </button>
 
-        <button type="button" class="choice-card" data-action="adapted-cause" data-value="Físico (empujones o cosas)" data-key="3">
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="physical" data-key="3">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-hand"/></svg></span>
           <span class="choice-title" data-i18n="c_fis">3. Físico</span>
           <span class="choice-desc" data-i18n="c_fis_d">Empujones o rompen cosas</span>
         </button>
 
-        <button type="button" class="choice-card" data-action="adapted-cause" data-value="Digital / Móvil" data-key="4">
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="digital" data-key="4">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-phone"/></svg></span>
           <span class="choice-title" data-i18n="c_dig">4. Móvil / Redes</span>
           <span class="choice-desc" data-i18n="c_dig_d">Mensajes o fotos</span>
         </button>
 
-        <button type="button" class="choice-card" data-action="adapted-cause" data-value="Mucho ruido / Recreo" data-key="5">
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="noise" data-key="5">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-leaf"/></svg></span>
           <span class="choice-title" data-i18n="c_esc">5. Patio / Ruido</span>
           <span class="choice-desc" data-i18n="c_esc_d">Recreo, pasillos o clase</span>
         </button>
 
-        <button type="button" class="choice-card" data-action="adapted-cause" data-value="Otra causa" data-key="6">
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="other" data-key="6">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-steps"/></svg></span>
           <span class="choice-title" data-i18n="c_otr">6. Otra cosa</span>
           <span class="choice-desc" data-i18n="c_otr_d">Otro motivo</span>
@@ -549,8 +549,8 @@
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -566,74 +566,74 @@
       <div id="adapted-summary-box" class="soft-box" style="font-size: 1.35rem; font-weight: 700;"></div>
 
       <div class="soft-box">
-        <span class="form-label">¿Dónde ha pasado? (Toca uno):</span>
+        <span class="form-label" data-i18n="ad3_where_label">¿Dónde ha pasado? (Toca uno):</span>
         <div class="chip-grid" id="adapted-place-pills">
-          <button type="button" class="chip-btn selected" data-adapted-place="Patio / Recreo">Patio / Recreo</button>
-          <button type="button" class="chip-btn" data-adapted-place="Pasillos / Baños">Pasillos / Baños</button>
-          <button type="button" class="chip-btn" data-adapted-place="En clase">En clase</button>
-          <button type="button" class="chip-btn" data-adapted-place="Entrada / Salida">Entrada / Salida</button>
+          <button type="button" class="chip-btn selected" data-adapted-place="patio" data-i18n="place_patio">Patio / Recreo</button>
+          <button type="button" class="chip-btn" data-adapted-place="hallways" data-i18n="place_hallways">Pasillos / Baños</button>
+          <button type="button" class="chip-btn" data-adapted-place="class" data-i18n="place_class">En clase</button>
+          <button type="button" class="chip-btn" data-adapted-place="entrance" data-i18n="place_entrance">Entrada / Salida</button>
         </div>
       </div>
 
       <div id="mute-quick-phrases-adapted" class="quick-phrases-box">
-        <span class="form-label">Frases rápidas (opcional):</span>
+        <span class="form-label" data-i18n="ad3_quick_label">Frases rápidas (opcional):</span>
         <div class="chip-grid">
-          <button type="button" class="chip-btn quick-fill-adapted" data-text="No puedo hablar ahora, necesito ayuda.">No puedo hablar ahora</button>
-          <button type="button" class="chip-btn quick-fill-adapted" data-text="Quiero hablar en privado.">Hablar en privado</button>
-          <button type="button" class="chip-btn quick-fill-adapted" data-text="Me pasa en el recreo.">Pasa en el recreo</button>
+          <button type="button" class="chip-btn quick-fill-adapted" data-text="No puedo hablar ahora, necesito ayuda." data-i18n="ad3_qp1_btn" data-i18n-text="ad3_qp1_text">No puedo hablar ahora</button>
+          <button type="button" class="chip-btn quick-fill-adapted" data-text="Quiero hablar en privado." data-i18n="ad3_qp2_btn" data-i18n-text="ad3_qp2_text">Hablar en privado</button>
+          <button type="button" class="chip-btn quick-fill-adapted" data-text="Me pasa en el recreo." data-i18n="ad3_qp3_btn" data-i18n-text="ad3_qp3_text">Pasa en el recreo</button>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="adapted-school" class="form-label">Tu nombre o clase (opcional, puede ser anónimo)</label>
-          <input type="text" id="adapted-school" class="form-control" placeholder="Ej. Leo - 2.º B (o déjalo vacío)" />
+          <label for="adapted-school" class="form-label" data-i18n="ad3_school_label">Tu nombre o clase (opcional, puede ser anónimo)</label>
+          <input type="text" id="adapted-school" class="form-control" placeholder="Ej. Leo - 2.º B (o déjalo vacío)" data-i18n-placeholder="ad3_school_ph" />
         </div>
         <div class="form-group">
           <div class="label-with-action">
-            <label for="adapted-note" class="form-label">Nota o pictogramas (opcional)</label>
+            <label for="adapted-note" class="form-label" data-i18n="ad3_note_label">Nota o pictogramas (opcional)</label>
             <div>
               <button type="button" id="btn-open-caa-from-adapted" class="btn-mini">
-                <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> Pictogramas CAA
+                <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> <span data-i18n="ad3_btn_caa">Pictogramas CAA</span>
               </button>
               <button type="button" id="btn-voice-adapted" class="btn-mini">
-                <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Dictar
+                <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="ad3_btn_dictate">Dictar</span>
               </button>
             </div>
           </div>
-          <input type="text" id="adapted-note" class="form-control" placeholder="Pulsa Dictar o una frase rápida..." />
+          <input type="text" id="adapted-note" class="form-control" placeholder="Pulsa Dictar o una frase rápida..." data-i18n-placeholder="ad3_note_ph" />
         </div>
       </div>
 
       <div class="send-teacher-cta" style="margin: 22px 0;">
-        <button type="button" id="btn-send-to-teacher" class="btn btn-primary btn-huge" data-key="1" data-i18n="btn_send_prof">
-          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> ENVIAR AL PROFESOR
+        <button type="button" id="btn-send-to-teacher" class="btn btn-primary btn-huge" data-key="1">
+          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="btn_send_prof">ENVIAR AL PROFESOR</span>
         </button>
       </div>
 
       <div id="adapted-sent-confirm" class="info-banner hidden" role="status">
         <strong style="font-size: 1.25rem;">
-          <svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Enviado al profesor. Código: <span id="adapted-safe-code">SAFE-108</span>
+          <svg class="i" aria-hidden="true"><use href="#i-check"/></svg> <span data-i18n="ad3_sent_prefix">Enviado al profesor. Código:</span> <span id="adapted-safe-code">SAFE-108</span>
         </strong>
         <div class="report-actions">
           <button type="button" id="btn-speak-for-me" class="btn btn-soft">
-            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Leer en voz alta al profesor
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="ad3_btn_speak_teacher">Leer en voz alta al profesor</span>
           </button>
           <button type="button" id="btn-adapted-to-calm" class="btn btn-soft" data-go="calm">
-            <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> Ir al Rincón de Calma
+            <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> <span data-i18n="ad3_btn_calm">Ir al Rincón de Calma</span>
           </button>
           <button type="button" id="btn-adapted-to-feedback" class="btn btn-primary">
-            Ver Feedback (4 caras) <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            <span data-i18n="ad3_btn_feedback">Ver Feedback (4 caras)</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </button>
           <button type="button" id="btn-adapted-to-teacher-panel" class="btn btn-soft">
-            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Ver en Panel Profe
+            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="ad3_btn_teacher">Ver en Panel Profe</span>
           </button>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -648,31 +648,31 @@
           <h1 id="title-no-adapted" data-i18n="chat_title">Chat con Voz y Envío Anónimo</h1>
         </div>
         <div class="gemini-status-box">
-          <span id="gemini-status-pill" class="status-pill">100% Anónimo</span>
-          <button type="button" id="btn-open-api-modal" class="btn-mini">IA Gemini</button>
+          <span id="gemini-status-pill" class="status-pill" data-i18n="chat_status_local">🔒 Modo Anónimo Local</span>
+          <button type="button" id="btn-open-api-modal" class="btn-mini" data-i18n="chat_api_btn">IA Gemini</button>
         </div>
       </div>
 
-      <p class="lead-text" id="chat-mode-subtitle">
+      <p class="lead-text" id="chat-mode-subtitle" data-i18n="chat_subtitle">
         Habla con tu voz o escribe. Abajo puedes enviarlo al profesor sin decir tu nombre.
       </p>
 
       <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
 
       <div class="quick-prompts">
-        <button type="button" class="quick-prompt-btn" data-prompt="Se están metiendo con un compañero en el recreo y lo dejan solo.">Lo he visto en el recreo</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Se burlan de mí y no sé cómo pedir ayuda sin que se enteren.">Se burlan de mí</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Hay problemas en los pasillos cuando cambiamos de clase.">Problema en pasillos</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Ayúdame a calmarme ahora mismo.">Calmarme ahora</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Se están metiendo con un compañero en el recreo y lo dejan solo." data-i18n="chat_qp1_btn" data-i18n-prompt="chat_qp1_prompt">Lo he visto en el recreo</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Se burlan de mí y no sé cómo pedir ayuda sin que se enteren." data-i18n="chat_qp2_btn" data-i18n-prompt="chat_qp2_prompt">Se burlan de mí</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Hay problemas en los pasillos cuando cambiamos de clase." data-i18n="chat_qp3_btn" data-i18n-prompt="chat_qp3_prompt">Problema en pasillos</button>
+        <button type="button" class="quick-prompt-btn" data-prompt="Ayúdame a calmarme ahora mismo." data-i18n="chat_qp4_btn" data-i18n-prompt="chat_qp4_prompt">Calmarme ahora</button>
       </div>
 
       <form id="form-chat" class="chat-input-row">
-        <button type="button" id="btn-chat-mic" class="btn btn-soft">Hablar por voz</button>
-        <label for="chat-input" class="sr-only">Mensaje</label>
-        <input type="text" id="chat-input" class="form-control" placeholder="Escribe aquí o pulsa «Hablar por voz»..." autocomplete="off" />
-        <button type="button" id="btn-toggle-auto-tts" class="btn btn-ghost" aria-pressed="true">Voz bot: Sí</button>
-        <button type="submit" id="btn-send-chat" class="btn btn-primary" data-i18n="chat_send">
-          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar
+        <button type="button" id="btn-chat-mic" class="btn btn-soft" data-i18n="chat_mic_btn">Hablar por voz</button>
+        <label for="chat-input" class="sr-only" data-i18n="chat_input_label">Mensaje</label>
+        <input type="text" id="chat-input" class="form-control" placeholder="Escribe aquí o pulsa «Hablar por voz»..." data-i18n-placeholder="chat_input_ph" autocomplete="off" />
+        <button type="button" id="btn-toggle-auto-tts" class="btn btn-ghost" aria-pressed="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
+        <button type="submit" id="btn-send-chat" class="btn btn-primary">
+          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="chat_send">Enviar</span>
         </button>
       </form>
 
@@ -681,58 +681,58 @@
         <div class="anon-header">
           <div>
             <h2 style="margin: 0 0 4px;">
-              <svg class="i" aria-hidden="true"><use href="#i-lock"/></svg> Servicio de Envío Anónimo al Centro
+              <svg class="i" aria-hidden="true"><use href="#i-lock"/></svg> <span data-i18n="chat_anon_title">Servicio de Envío Anónimo al Centro</span>
             </h2>
-            <p style="margin: 0; color: var(--muted);">Envía tu aviso al profesorado u orientación sin mostrar tu nombre.</p>
+            <p style="margin: 0; color: var(--muted);" data-i18n="chat_anon_desc">Envía tu aviso al profesorado u orientación sin mostrar tu nombre.</p>
           </div>
-          <button type="button" id="btn-open-anon-panel" class="btn btn-soft">Configurar envío</button>
+          <button type="button" id="btn-open-anon-panel" class="btn btn-soft" data-i18n="chat_anon_config">Configurar envío</button>
         </div>
 
         <div id="anon-panel" class="anon-panel">
           <div class="form-row">
             <div class="form-group">
-              <label for="anon-recipient" class="form-label">¿A quién avisamos?</label>
+              <label for="anon-recipient" class="form-label" data-i18n="chat_anon_who">¿A quién avisamos?</label>
               <select id="anon-recipient" class="form-control">
-                <option value="Orientación y Bienestar">Orientación y Bienestar</option>
-                <option value="Tutor/a del grupo">Tutor/a del grupo</option>
-                <option value="Dirección / Convivencia">Dirección / Convivencia</option>
+                <option value="guidance" data-i18n="recipient_guidance">Orientación y Bienestar</option>
+                <option value="tutor" data-i18n="recipient_tutor">Tutor/a del grupo</option>
+                <option value="director" data-i18n="recipient_director">Dirección / Convivencia</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="anon-place" class="form-label">¿Dónde ocurre?</label>
+              <label for="anon-place" class="form-label" data-i18n="chat_anon_where">¿Dónde ocurre?</label>
               <select id="anon-place" class="form-control">
-                <option value="Patio / Recreo">Patio / Recreo</option>
-                <option value="Pasillos / Baños">Pasillos / Baños</option>
-                <option value="En clase">En clase</option>
-                <option value="Móvil / Redes">Móvil / Redes</option>
-                <option value="Entrada / Salida">Entrada / Salida</option>
+                <option value="patio" data-i18n="place_patio">Patio / Recreo</option>
+                <option value="hallways" data-i18n="place_hallways">Pasillos / Baños</option>
+                <option value="class" data-i18n="place_class">En clase</option>
+                <option value="digital" data-i18n="place_digital">Móvil / Redes</option>
+                <option value="entrance" data-i18n="place_entrance">Entrada / Salida</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="anon-extra" class="form-label">Resumen o mensaje anónimo</label>
-              <input type="text" id="anon-extra" class="form-control" placeholder="Escribe qué ocurre (o se enviará lo hablado en el chat)" />
+              <label for="anon-extra" class="form-label" data-i18n="chat_anon_summary_label">Resumen o mensaje anónimo</label>
+              <input type="text" id="anon-extra" class="form-control" placeholder="Escribe qué ocurre (o se enviará lo hablado en el chat)" data-i18n-placeholder="chat_anon_summary_ph" />
             </div>
           </div>
           <button type="button" id="btn-submit-anon" class="btn btn-primary">
-            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar aviso 100% anónimo al profesor
+            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="chat_anon_submit">Enviar aviso 100% anónimo al profesor</span>
           </button>
           <div id="anon-confirm-msg" class="info-banner hidden" role="status"></div>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
         <div class="nav-right-group">
           <button type="button" id="btn-chat-to-diary" class="btn btn-ghost">
-            <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Diario
+            <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="quick_diary">Diario</span>
           </button>
           <button type="button" id="btn-chat-to-questionnaire" class="btn btn-soft">
-            <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> Cuestionario
+            <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> <span data-i18n="home_chip_questionnaire">Cuestionario</span>
           </button>
-          <button type="button" id="btn-to-feedback" class="btn btn-primary" data-i18n="chat_to_fb">
-            Ver Feedback Final <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          <button type="button" id="btn-to-feedback" class="btn btn-primary">
+            <span data-i18n="chat_to_fb">Ver Feedback Final</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </button>
         </div>
       </div>
@@ -742,141 +742,141 @@
          PANTALLA DE CUESTIONARIO: SE LE PREGUNTA TODO
          ================================================================ -->
     <section id="screen-questionnaire" class="card step-section hidden" aria-labelledby="title-questionnaire">
-      <div class="step-badge">Cuestionario Completo</div>
-      <h1 id="title-questionnaire">Preguntas paso a paso</h1>
-      <p class="lead-text">Marca las opciones para entender qué pasa y enviarlo al profesor.</p>
+      <div class="step-badge" data-i18n="q_badge">Cuestionario Completo</div>
+      <h1 id="title-questionnaire" data-i18n="q_title">Preguntas paso a paso</h1>
+      <p class="lead-text" data-i18n="q_desc">Marca las opciones para entender qué pasa y enviarlo al profesor.</p>
 
       <form id="form-questionnaire" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label for="q-user-type" class="form-label">Quién responde</label>
+            <label for="q-user-type" class="form-label" data-i18n="q_who_label">Quién responde</label>
             <select id="q-user-type" class="form-control">
-              <option value="alumno">Alumno / a</option>
-              <option value="profesor">Profesor / a</option>
-              <option value="padres">Padres / Tutores</option>
+              <option value="alumno" data-i18n="q_role_student">Alumno / a</option>
+              <option value="profesor" data-i18n="q_role_teacher">Profesor / a</option>
+              <option value="padres" data-i18n="q_role_parents">Padres / Tutores</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="q-branch" class="form-label">Situación</label>
+            <label for="q-branch" class="form-label" data-i18n="q_branch_label">Situación</label>
             <select id="q-branch" class="form-control">
-              <option value="victima">Me pasa a mí (Víctima)</option>
-              <option value="testigo">Lo he visto (Testigo)</option>
+              <option value="victima" data-i18n="q_branch_victim">Me pasa a mí (Víctima)</option>
+              <option value="testigo" data-i18n="q_branch_witness">Lo he visto (Testigo)</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="q-cause" class="form-label">Causa principal</label>
+            <label for="q-cause" class="form-label" data-i18n="q_cause_label">Causa principal</label>
             <select id="q-cause" class="form-control">
-              <option value="Social (exclusión o burlas)">Social (burlas o exclusión)</option>
-              <option value="Interno (miedo o tristeza)">Interno (miedo o bloqueo)</option>
-              <option value="Físico (golpes o daños)">Físico (empujones o cosas)</option>
-              <option value="Digital / Ciberacoso">Digital / Móvil</option>
-              <option value="En clase o patio">Ruido / Patio / Pasillos</option>
+              <option value="social" data-i18n="q_cause_social">Social (burlas o exclusión)</option>
+              <option value="internal" data-i18n="q_cause_internal">Interno (miedo o bloqueo)</option>
+              <option value="physical" data-i18n="q_cause_physical">Físico (empujones o cosas)</option>
+              <option value="digital" data-i18n="q_cause_digital">Digital / Móvil</option>
+              <option value="noise" data-i18n="q_cause_noise">Ruido / Patio / Pasillos</option>
             </select>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="q-school" class="form-label">Colegio o Clase (opcional)</label>
-            <input type="text" id="q-school" class="form-control" placeholder="Ej. 2.º ESO B (o déjalo en blanco si es anónimo)" />
+            <label for="q-school" class="form-label" data-i18n="q_school_label">Colegio o Clase (opcional)</label>
+            <input type="text" id="q-school" class="form-control" placeholder="Ej. 2.º ESO B (o déjalo en blanco si es anónimo)" data-i18n-placeholder="q_school_ph" />
           </div>
           <div class="form-group">
-            <label for="q-course" class="form-label">Etapa</label>
+            <label for="q-course" class="form-label" data-i18n="q_stage_label">Etapa</label>
             <select id="q-course" class="form-control">
-              <option value="Primaria">Primaria</option>
-              <option value="ESO">ESO</option>
-              <option value="Infantil / Aula específica">Infantil / Aula específica</option>
-              <option value="Bachillerato / FP">Bachillerato / FP</option>
+              <option value="primary" data-i18n="q_stage_primary">Primaria</option>
+              <option value="eso" data-i18n="q_stage_eso">ESO</option>
+              <option value="infantil" data-i18n="q_stage_infantil">Infantil / Aula específica</option>
+              <option value="bac" data-i18n="q_stage_bac">Bachillerato / FP</option>
             </select>
           </div>
         </div>
 
         <fieldset class="question-block">
-          <legend class="form-label">1. ¿En el recreo te dejan solo/a o se ríen de ti aunque te moleste?</legend>
+          <legend class="form-label" data-i18n="q_q1">1. ¿En el recreo te dejan solo/a o se ríen de ti aunque te moleste?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="Sí, muchas veces" checked /><span>Sí, muchas veces</span></label>
-            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="A veces" /><span>A veces</span></label>
-            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="No" /><span>No</span></label>
+            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="often" checked /><span data-i18n="q_q1_often">Sí, muchas veces</span></label>
+            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="sometimes" /><span data-i18n="q_q1_sometimes">A veces</span></label>
+            <label class="pill-option"><input type="radio" name="qq_tea_burla" value="no" /><span data-i18n="q_q1_no">No</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
-          <legend class="form-label">2. ¿Dónde ocurre?</legend>
+          <legend class="form-label" data-i18n="q_q2">2. ¿Dónde ocurre?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_place" value="Patio / Recreo" checked /><span>Patio / Recreo</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="Pasillos / Baños" /><span>Pasillos / Baños</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="En clase" /><span>En clase</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="Móvil / Redes" /><span>Móvil / Redes</span></label>
-            <label class="pill-option"><input type="radio" name="qq_place" value="Entrada / Salida" /><span>Entrada / Salida</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="patio" checked /><span data-i18n="place_patio">Patio / Recreo</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="hallways" /><span data-i18n="place_hallways">Pasillos / Baños</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="class" /><span data-i18n="place_class">En clase</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="digital" /><span data-i18n="place_digital">Móvil / Redes</span></label>
+            <label class="pill-option"><input type="radio" name="qq_place" value="entrance" /><span data-i18n="place_entrance">Entrada / Salida</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
-          <legend class="form-label">3. ¿Desde cuándo ocurre?</legend>
+          <legend class="form-label" data-i18n="q_q3">3. ¿Desde cuándo ocurre?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_duration" value="Hoy / Esta semana" checked /><span>Hoy / Esta semana</span></label>
-            <label class="pill-option"><input type="radio" name="qq_duration" value="Hace semanas" /><span>Hace semanas</span></label>
-            <label class="pill-option"><input type="radio" name="qq_duration" value="Todo el curso" /><span>Todo el curso</span></label>
+            <label class="pill-option"><input type="radio" name="qq_duration" value="today" checked /><span data-i18n="q_q3_today">Hoy / Esta semana</span></label>
+            <label class="pill-option"><input type="radio" name="qq_duration" value="weeks" /><span data-i18n="q_q3_weeks">Hace semanas</span></label>
+            <label class="pill-option"><input type="radio" name="qq_duration" value="year" /><span data-i18n="q_q3_year">Todo el curso</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
-          <legend class="form-label">4. ¿Con qué frecuencia pasa?</legend>
+          <legend class="form-label" data-i18n="q_q4">4. ¿Con qué frecuencia pasa?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_frequency" value="A veces" /><span>A veces</span></label>
-            <label class="pill-option"><input type="radio" name="qq_frequency" value="Casi todos los días" checked /><span>Casi todos los días</span></label>
-            <label class="pill-option"><input type="radio" name="qq_frequency" value="Todos los días" /><span>Todos los días</span></label>
+            <label class="pill-option"><input type="radio" name="qq_frequency" value="sometimes" /><span data-i18n="q_q4_sometimes">A veces</span></label>
+            <label class="pill-option"><input type="radio" name="qq_frequency" value="almost" checked /><span data-i18n="q_q4_almost">Casi todos los días</span></label>
+            <label class="pill-option"><input type="radio" name="qq_frequency" value="daily" /><span data-i18n="q_q4_daily">Todos los días</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
-          <legend class="form-label">5. ¿Se lo has podido contar a alguien?</legend>
+          <legend class="form-label" data-i18n="q_q5">5. ¿Se lo has podido contar a alguien?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_told" value="A nadie todavía" checked /><span>A nadie todavía</span></label>
-            <label class="pill-option"><input type="radio" name="qq_told" value="A mi familia" /><span>A mi familia</span></label>
-            <label class="pill-option"><input type="radio" name="qq_told" value="A un profesor" /><span>A un profesor</span></label>
-            <label class="pill-option"><input type="radio" name="qq_told" value="A un amigo/a" /><span>A un amigo/a</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="nobody" checked /><span data-i18n="q_q5_nobody">A nadie todavía</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="family" /><span data-i18n="q_q5_family">A mi familia</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="teacher" /><span data-i18n="q_q5_teacher">A un profesor</span></label>
+            <label class="pill-option"><input type="radio" name="qq_told" value="friend" /><span data-i18n="q_q5_friend">A un amigo/a</span></label>
           </div>
         </fieldset>
 
         <fieldset class="question-block">
-          <legend class="form-label">6. ¿Cómo te sientes de seguro/a ahora?</legend>
+          <legend class="form-label" data-i18n="q_q6">6. ¿Cómo te sientes de seguro/a ahora?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_safety" value="Estoy seguro/a ahora" checked /><span>Estoy seguro/a ahora</span></label>
-            <label class="pill-option"><input type="radio" name="qq_safety" value="Tengo miedo de ir mañana" /><span>Tengo miedo por mañana</span></label>
-            <label class="pill-option"><input type="radio" name="qq_safety" value="Siento peligro inmediato" /><span>Peligro inmediato</span></label>
+            <label class="pill-option"><input type="radio" name="qq_safety" value="safe" checked /><span data-i18n="q_q6_safe">Estoy seguro/a ahora</span></label>
+            <label class="pill-option"><input type="radio" name="qq_safety" value="fear" /><span data-i18n="q_q6_fear">Tengo miedo por mañana</span></label>
+            <label class="pill-option"><input type="radio" name="qq_safety" value="danger" /><span data-i18n="q_q6_danger">Peligro inmediato</span></label>
           </div>
-          <div id="urgent-help-alert" class="urgent-alert hidden" role="alert">
+          <div id="urgent-help-alert" class="urgent-alert hidden" role="alert" data-i18n-html="q_urgent_alert">
             <strong>Importante:</strong> Si estás en peligro ahora mismo, acude a un adulto cercano o llama al <strong>112</strong> / <strong>900 018 018</strong>.
           </div>
         </fieldset>
 
         <div class="form-group">
           <div class="label-with-action">
-            <label for="q-situation-text" class="form-label">7. ¿Quieres añadir algo más con tus palabras o con voz? (Opcional)</label>
-            <button type="button" id="btn-voice-q" class="btn-mini">Dictar por voz</button>
+            <label for="q-situation-text" class="form-label" data-i18n="q_q7">7. ¿Quieres añadir algo más con tus palabras o con voz? (Opcional)</label>
+            <button type="button" id="btn-voice-q" class="btn-mini" data-i18n="q_btn_voice">Dictar por voz</button>
           </div>
-          <textarea id="q-situation-text" class="form-control" rows="2" placeholder="Puedes escribir o pulsar Dictar por voz..."></textarea>
+          <textarea id="q-situation-text" class="form-control" rows="2" placeholder="Puedes escribir o pulsar Dictar por voz..." data-i18n-placeholder="q_q7_ph"></textarea>
         </div>
 
         <fieldset class="question-block">
-          <legend class="form-label">8. ¿Cómo quieres enviarlo?</legend>
+          <legend class="form-label" data-i18n="q_q8">8. ¿Cómo quieres enviarlo?</legend>
           <div class="radio-pills">
-            <label class="pill-option"><input type="radio" name="qq_delivery" value="anonimo" checked /><span>Enviar Anónimo al Profesor</span></label>
-            <label class="pill-option"><input type="radio" name="qq_delivery" value="profesor" /><span>Enviar con mi nombre al Profesor</span></label>
+            <label class="pill-option"><input type="radio" name="qq_delivery" value="anonimo" checked /><span data-i18n="q_q8_anon">Enviar Anónimo al Profesor</span></label>
+            <label class="pill-option"><input type="radio" name="qq_delivery" value="profesor" /><span data-i18n="q_q8_named">Enviar con mi nombre al Profesor</span></label>
           </div>
         </fieldset>
 
         <div class="nav-actions">
-          <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+          <button type="button" class="btn btn-ghost" data-action="go-back">
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
           </button>
           <div class="nav-right-group">
             <button type="button" id="btn-q-to-chat" class="btn btn-soft">
-              <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> Ir al Chatbot
+              <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> <span data-i18n="q_btn_chat">Ir al Chatbot</span>
             </button>
             <button type="submit" class="btn btn-primary">
-              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar Cuestionario al Profesor
+              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="q_btn_submit">Enviar Cuestionario al Profesor</span>
             </button>
           </div>
         </div>
@@ -887,61 +887,61 @@
          PANTALLA DE PADRES / TUTORES: DETECCIÓN TEMPRANA DESDE CASA
          ================================================================ -->
     <section id="screen-parents" class="card step-section hidden" aria-labelledby="title-parents">
-      <div class="step-badge">Espacio Familias · Padres y Tutores</div>
-      <h1 id="title-parents">Avisar desde Casa</h1>
-      <p class="lead-text">Marca las señales que has visto en tu hijo/a al volver del colegio:</p>
+      <div class="step-badge" data-i18n="par_badge">Espacio Familias · Padres y Tutores</div>
+      <h1 id="title-parents" data-i18n="par_title">Avisar desde Casa</h1>
+      <p class="lead-text" data-i18n="par_desc">Marca las señales que has visto en tu hijo/a al volver del colegio:</p>
 
       <form id="form-parents" novalidate>
-        <div class="sup-grid" role="group" aria-label="Señales observadas en casa">
-          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="No quiere ir al colegio o llora por la mañana" aria-pressed="false">
+        <div class="sup-grid" role="group" aria-label="Señales observadas en casa" data-i18n-aria-label="par_signals_aria">
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="No quiere ir al colegio o llora por la mañana" data-i18n-signal="par_sig1_val" aria-pressed="false">
             <span class="ic" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-chat"/></svg></span>
             <div>
-              <span class="check-title">No quiere ir al cole</span>
-              <span class="check-desc">Ansiedad o llanto por la mañana</span>
+              <span class="check-title" data-i18n="par_sig1_t">No quiere ir al cole</span>
+              <span class="check-desc" data-i18n="par_sig1_d">Ansiedad o llanto por la mañana</span>
             </div>
           </button>
-          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Llega a casa con bloqueo o sobrecarga emocional" aria-pressed="false">
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Llega a casa con bloqueo o sobrecarga emocional" data-i18n-signal="par_sig2_val" aria-pressed="false">
             <span class="ic" style="background:var(--lav-t)" aria-hidden="true"><svg class="i"><use href="#i-still"/></svg></span>
             <div>
-              <span class="check-title">Llega bloqueado/a</span>
-              <span class="check-desc">Mucho agotamiento o enfado</span>
+              <span class="check-title" data-i18n="par_sig2_t">Llega bloqueado/a</span>
+              <span class="check-desc" data-i18n="par_sig2_d">Mucho agotamiento o enfado</span>
             </div>
           </button>
-          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Dice que en el recreo siempre está solo/a" aria-pressed="false">
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Dice que en el recreo siempre está solo/a" data-i18n-signal="par_sig3_val" aria-pressed="false">
             <span class="ic" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-people"/></svg></span>
             <div>
-              <span class="check-title">Solo/a en el recreo</span>
-              <span class="check-desc">Aislamiento en el patio</span>
+              <span class="check-title" data-i18n="par_sig3_t">Solo/a en el recreo</span>
+              <span class="check-desc" data-i18n="par_sig3_d">Aislamiento en el patio</span>
             </div>
           </button>
-          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Vuelve con material roto o perdido" aria-pressed="false">
+          <button type="button" class="toggle-dis-card sc parent-signal-btn" data-signal="Vuelve con material roto o perdido" data-i18n-signal="par_sig4_val" aria-pressed="false">
             <span class="ic" style="background:var(--peach-t)" aria-hidden="true"><svg class="i"><use href="#i-hand"/></svg></span>
             <div>
-              <span class="check-title">Material roto</span>
-              <span class="check-desc">Mochila o cosas dañadas</span>
+              <span class="check-title" data-i18n="par_sig4_t">Material roto</span>
+              <span class="check-desc" data-i18n="par_sig4_d">Mochila o cosas dañadas</span>
             </div>
           </button>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="parent-child-name" class="form-label">Nombre del alumno/a y curso</label>
-            <input type="text" id="parent-child-name" class="form-control" placeholder="Ej. Mateo - 1.º ESO A" />
+            <label for="parent-child-name" class="form-label" data-i18n="par_child_label">Nombre del alumno/a y curso</label>
+            <input type="text" id="parent-child-name" class="form-control" placeholder="Ej. Mateo - 1.º ESO A" data-i18n-placeholder="par_child_ph" />
           </div>
           <div class="form-group">
-            <label for="parent-note" class="form-label">Nota para el tutor u orientación</label>
-            <input type="text" id="parent-note" class="form-control" placeholder="Ej. Lleva tres días sin querer salir al patio..." />
+            <label for="parent-note" class="form-label" data-i18n="par_note_label">Nota para el tutor u orientación</label>
+            <input type="text" id="parent-note" class="form-control" placeholder="Ej. Lleva tres días sin querer salir al patio..." data-i18n-placeholder="par_note_ph" />
           </div>
         </div>
 
         <div class="nav-actions">
           <button type="button" class="btn btn-ghost" data-action="go-back">
-            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
           </button>
           <div class="nav-right-group">
-            <button type="button" class="btn btn-soft" data-go="2-mode">Usar asistente con mi hijo/a</button>
+            <button type="button" class="btn btn-soft" data-go="2-mode" data-i18n="par_btn_assist">Usar asistente con mi hijo/a</button>
             <button type="submit" class="btn btn-primary">
-              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar aviso al Tutor/Orientación
+              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="par_btn_submit">Enviar aviso al Tutor/Orientación</span>
             </button>
           </div>
         </div>
@@ -953,7 +953,7 @@
          ================================================================ -->
     <section id="screen-calm" class="card step-section hidden" aria-labelledby="title-calm">
       <div class="calm-box">
-        <span id="title-calm" class="step-badge">Rincón de Calma</span>
+        <span id="title-calm" class="step-badge" data-i18n="calm_badge">Rincón de Calma</span>
 
         <div class="calm-orb" id="breathing-circle">
           <span class="o1" aria-hidden="true"></span>
@@ -962,8 +962,8 @@
           <svg class="buddy" aria-hidden="true"><use href="#buddy-calm"/></svg>
         </div>
 
-        <h1 id="breathing-text">Coge aire despacio…</h1>
-        <p class="lead-text">Nube se hace grande cuando coges aire y pequeña cuando lo sueltas.</p>
+        <h1 id="breathing-text" data-i18n="calm_inhale">Coge aire despacio…</h1>
+        <p class="lead-text" data-i18n="calm_desc">Nube se hace grande cuando coges aire y pequeña cuando lo sueltas.</p>
 
         <div class="calm-prog" aria-hidden="true">
           <i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i>
@@ -971,13 +971,13 @@
 
         <div class="calm-ctrl report-actions" style="justify-content: center;">
           <button type="button" class="btn btn-ghost" data-action="go-back">
-            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Ya estoy mejor
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="calm_back">Ya estoy mejor</span>
           </button>
           <button type="button" id="btn-calm-sound" class="btn btn-soft">
-            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Guía de respiración por voz
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="calm_btn_sound">Guía de respiración por voz</span>
           </button>
           <button type="button" id="btn-calm-pause" class="btn btn-ghost" aria-pressed="false">
-            <svg class="i" aria-hidden="true"><use href="#i-pause"/></svg> <span>Pausa</span>
+            <svg class="i" aria-hidden="true"><use href="#i-pause"/></svg> <span data-i18n="calm_pause">Pausa</span>
           </button>
         </div>
       </div>
@@ -1019,9 +1019,9 @@
 
       <div id="full-explanation-panel" class="explanation-panel hidden" aria-live="polite">
         <div class="explanation-header">
-          <h2 id="explanation-emotion-title" style="margin: 0;">Tu resumen y plan de apoyo</h2>
+          <h2 id="explanation-emotion-title" style="margin: 0;" data-i18n="fb_plan_title">Tu resumen y plan de apoyo</h2>
           <button type="button" id="btn-read-explanation" class="btn-mini">
-            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Escuchar
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="s0_listen">Escuchar</span>
           </button>
         </div>
 
@@ -1031,21 +1031,21 @@
         <div id="explanation-resources" class="soft-box resources-card"></div>
 
         <div class="report-actions">
-          <button type="button" id="btn-copy-report" class="btn btn-soft">Copiar resumen</button>
-          <button type="button" id="btn-print-report" class="btn btn-soft">Guardar PDF</button>
+          <button type="button" id="btn-copy-report" class="btn btn-soft" data-i18n="fb_btn_copy">Copiar resumen</button>
+          <button type="button" id="btn-print-report" class="btn btn-soft" data-i18n="fb_btn_pdf">Guardar PDF</button>
           <button type="button" class="btn btn-soft" data-go="teacher-panel">
-            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Ver aviso en Panel Profe
+            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="fb_btn_teacher">Ver aviso en Panel Profe</span>
           </button>
           <button type="button" id="btn-go-chat-from-feedback" class="btn btn-ghost">
-            <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> Ir al Chatbot
+            <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> <span data-i18n="q_btn_chat">Ir al Chatbot</span>
           </button>
-          <button type="button" id="btn-restart" class="btn btn-ghost">Volver al inicio</button>
+          <button type="button" id="btn-restart" class="btn btn-ghost" data-i18n="fb_btn_restart">Volver al inicio</button>
         </div>
       </div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -1054,132 +1054,132 @@
          TABLERO CAA («VOZ PRESTADA» CON PICTOGRAMAS ARASAAC)
          ================================================================ -->
     <section id="screen-caa" class="card step-section hidden" aria-labelledby="title-caa">
-      <div class="step-badge">Voz Prestada · Tablero CAA</div>
-      <h1 id="title-caa">Habla tocando dibujos</h1>
-      <p class="lead-text">Toca los pictogramas para formar tu frase:</p>
+      <div class="step-badge" data-i18n="caa_badge">Voz Prestada · Tablero CAA</div>
+      <h1 id="title-caa" data-i18n="caa_title">Habla tocando dibujos</h1>
+      <p class="lead-text" data-i18n="caa_desc">Toca los pictogramas para formar tu frase:</p>
 
       <div class="caa-strip">
         <div id="caa-sentence-chips" class="caa-sentence-chips" aria-live="polite">
-          Toca un dibujo abajo...
+          <span class="caa-placeholder" data-i18n="caa_placeholder">Toca un dibujo abajo...</span>
         </div>
         <div id="caa-sentence-text" class="sr-only"></div>
         <div class="acts caa-acts">
-          <button type="button" id="btn-caa-clear" class="btn btn-ghost" title="Limpiar frase">Limpiar</button>
+          <button type="button" id="btn-caa-clear" class="btn btn-ghost" title="Limpiar frase" data-i18n="caa_btn_clear" data-i18n-title="caa_clear_title">Limpiar</button>
           <button type="button" id="btn-caa-use-chat" class="btn btn-ghost">
-            <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> Llevar al Chat
+            <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> <span data-i18n="caa_btn_chat">Llevar al Chat</span>
           </button>
           <button type="button" id="btn-caa-send-teacher" class="btn btn-soft">
-            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Enviar al Profesor
+            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="caa_btn_send">Enviar al Profesor</span>
           </button>
           <button type="button" id="btn-caa-speak" class="caa-speak">
-            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> Decirlo por mí
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="caa_btn_speak">Decirlo por mí</span>
           </button>
         </div>
       </div>
       <div id="caa-sent-feedback" class="info-banner hidden" role="status"></div>
 
-      <div class="caa-tabs" role="tablist" aria-label="Categorías de pictogramas">
-        <button type="button" class="caa-tab on" data-caa-tab="todos" role="tab" aria-selected="true" aria-pressed="true"><i style="background:var(--primary)"></i>Todos</button>
-        <button type="button" class="caa-tab" data-caa-tab="quien" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--butter)"></i>Quién</button>
-        <button type="button" class="caa-tab" data-caa-tab="que" role="tab" aria-selected="false" aria-pressed="false"><i style="background:#9CC3AE"></i>Qué pasa</button>
-        <button type="button" class="caa-tab" data-caa-tab="sentir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--sky)"></i>Cómo me siento</button>
-        <button type="button" class="caa-tab" data-caa-tab="donde" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--peach)"></i>Dónde</button>
-        <button type="button" class="caa-tab" data-caa-tab="pedir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--lav)"></i>Pedir</button>
+      <div class="caa-tabs" role="tablist" aria-label="Categorías de pictogramas" data-i18n-aria-label="caa_tabs_aria">
+        <button type="button" class="caa-tab on" data-caa-tab="todos" role="tab" aria-selected="true" aria-pressed="true"><i style="background:var(--primary)"></i><span data-i18n="caa_tab_all">Todos</span></button>
+        <button type="button" class="caa-tab" data-caa-tab="quien" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--butter)"></i><span data-i18n="caa_tab_who">Quién</span></button>
+        <button type="button" class="caa-tab" data-caa-tab="que" role="tab" aria-selected="false" aria-pressed="false"><i style="background:#9CC3AE"></i><span data-i18n="caa_tab_what">Qué pasa</span></button>
+        <button type="button" class="caa-tab" data-caa-tab="sentir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--sky)"></i><span data-i18n="caa_tab_feel">Cómo me siento</span></button>
+        <button type="button" class="caa-tab" data-caa-tab="donde" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--peach)"></i><span data-i18n="caa_tab_where">Dónde</span></button>
+        <button type="button" class="caa-tab" data-caa-tab="pedir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--lav)"></i><span data-i18n="caa_tab_ask">Pedir</span></button>
       </div>
 
       <div class="caa-grid">
         <!-- Quién (.tone-y) -->
-        <button type="button" class="caa-tile tone-y" data-caa="Yo" data-caa-cat="quien" data-caa-img="./assets/arasaac/yo.png">
+        <button type="button" class="caa-tile tone-y" data-caa-id="yo" data-caa="Yo" data-i18n-caa="caa_say_yo" data-caa-cat="quien" data-caa-img="./assets/arasaac/yo.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/yo.png" alt="" loading="lazy" /></span>
-          <span>Yo</span>
+          <span data-i18n="caa_tile_yo">Yo</span>
         </button>
-        <button type="button" class="caa-tile tone-y" data-caa="Un compañero" data-caa-cat="quien" data-caa-img="./assets/arasaac/companero.png">
+        <button type="button" class="caa-tile tone-y" data-caa-id="companero" data-caa="Un compañero" data-i18n-caa="caa_say_companero" data-caa-cat="quien" data-caa-img="./assets/arasaac/companero.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/companero.png" alt="" loading="lazy" /></span>
-          <span>Compañero/a</span>
+          <span data-i18n="caa_tile_companero">Compañero/a</span>
         </button>
-        <button type="button" class="caa-tile tone-y" data-caa="Un grupo" data-caa-cat="quien" data-caa-img="./assets/arasaac/grupo.png">
+        <button type="button" class="caa-tile tone-y" data-caa-id="grupo" data-caa="Un grupo" data-i18n-caa="caa_say_grupo" data-caa-cat="quien" data-caa-img="./assets/arasaac/grupo.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/grupo.png" alt="" loading="lazy" /></span>
-          <span>Un grupo</span>
+          <span data-i18n="caa_tile_grupo">Un grupo</span>
         </button>
-        <button type="button" class="caa-tile tone-y" data-caa="Profesor" data-caa-cat="quien" data-caa-img="./assets/arasaac/profesor.png">
+        <button type="button" class="caa-tile tone-y" data-caa-id="profesor" data-caa="Profesor" data-i18n-caa="caa_say_profesor" data-caa-cat="quien" data-caa-img="./assets/arasaac/profesor.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/profesor.png" alt="" loading="lazy" /></span>
-          <span>Profe</span>
+          <span data-i18n="caa_tile_profesor">Profe</span>
         </button>
 
         <!-- Qué pasa (.tone-g) -->
-        <button type="button" class="caa-tile tone-g" data-caa="se ríen de mí" data-caa-cat="que" data-caa-img="./assets/arasaac/insultar.png">
+        <button type="button" class="caa-tile tone-g" data-caa-id="insultar" data-caa="se ríen de mí" data-i18n-caa="caa_say_insultar" data-caa-cat="que" data-caa-img="./assets/arasaac/insultar.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/insultar.png" alt="" loading="lazy" /></span>
-          <span>Se ríen de mí</span>
+          <span data-i18n="caa_tile_insultar">Se ríen de mí</span>
         </button>
-        <button type="button" class="caa-tile tone-g" data-caa="me dejan solo" data-caa-cat="que" data-caa-img="./assets/arasaac/solo.png">
+        <button type="button" class="caa-tile tone-g" data-caa-id="solo" data-caa="me dejan solo" data-i18n-caa="caa_say_solo" data-caa-cat="que" data-caa-img="./assets/arasaac/solo.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/solo.png" alt="" loading="lazy" /></span>
-          <span>Me dejan solo</span>
+          <span data-i18n="caa_tile_solo">Me dejan solo</span>
         </button>
-        <button type="button" class="caa-tile tone-g" data-caa="me empujan" data-caa-cat="que" data-caa-img="./assets/arasaac/empujar.png">
+        <button type="button" class="caa-tile tone-g" data-caa-id="empujar" data-caa="me empujan" data-i18n-caa="caa_say_empujar" data-caa-cat="que" data-caa-img="./assets/arasaac/empujar.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/empujar.png" alt="" loading="lazy" /></span>
-          <span>Me empujan</span>
+          <span data-i18n="caa_tile_empujar">Me empujan</span>
         </button>
 
         <!-- Cómo me siento (.tone-b) -->
-        <button type="button" class="caa-tile tone-b" data-caa="tengo miedo" data-caa-cat="sentir" data-caa-img="./assets/arasaac/miedo.png">
+        <button type="button" class="caa-tile tone-b" data-caa-id="miedo" data-caa="tengo miedo" data-i18n-caa="caa_say_miedo" data-caa-cat="sentir" data-caa-img="./assets/arasaac/miedo.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/miedo.png" alt="" loading="lazy" /></span>
-          <span>Tengo miedo</span>
+          <span data-i18n="caa_tile_miedo">Tengo miedo</span>
         </button>
-        <button type="button" class="caa-tile tone-b" data-caa="estoy triste" data-caa-cat="sentir" data-caa-img="./assets/arasaac/triste.png">
+        <button type="button" class="caa-tile tone-b" data-caa-id="triste" data-caa="estoy triste" data-i18n-caa="caa_say_triste" data-caa-cat="sentir" data-caa-img="./assets/arasaac/triste.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/triste.png" alt="" loading="lazy" /></span>
-          <span>Estoy triste</span>
+          <span data-i18n="caa_tile_triste">Estoy triste</span>
         </button>
-        <button type="button" class="caa-tile tone-b" data-caa="estoy bloqueado" data-caa-cat="sentir" data-caa-img="./assets/arasaac/bloqueado.png">
+        <button type="button" class="caa-tile tone-b" data-caa-id="bloqueado" data-caa="estoy bloqueado" data-i18n-caa="caa_say_bloqueado" data-caa-cat="sentir" data-caa-img="./assets/arasaac/bloqueado.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/bloqueado.png" alt="" loading="lazy" /></span>
-          <span>Me bloqueo</span>
+          <span data-i18n="caa_tile_bloqueado">Me bloqueo</span>
         </button>
-        <button type="button" class="caa-tile tone-b" data-caa="estoy enfadado" data-caa-cat="sentir" data-caa-img="./assets/arasaac/enfadado.png">
+        <button type="button" class="caa-tile tone-b" data-caa-id="enfadado" data-caa="estoy enfadado" data-i18n-caa="caa_say_enfadado" data-caa-cat="sentir" data-caa-img="./assets/arasaac/enfadado.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/enfadado.png" alt="" loading="lazy" /></span>
-          <span>Enfadado/a</span>
+          <span data-i18n="caa_tile_enfadado">Enfadado/a</span>
         </button>
-        <button type="button" class="caa-tile tone-b" data-caa="estoy tranquilo" data-caa-cat="sentir" data-caa-img="./assets/arasaac/calma.png">
+        <button type="button" class="caa-tile tone-b" data-caa-id="calma" data-caa="estoy tranquilo" data-i18n-caa="caa_say_calma" data-caa-cat="sentir" data-caa-img="./assets/arasaac/calma.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/calma.png" alt="" loading="lazy" /></span>
-          <span>Tranquilo/a</span>
+          <span data-i18n="caa_tile_calma">Tranquilo/a</span>
         </button>
-        <button type="button" class="caa-tile tone-b" data-caa="estoy contento" data-caa-cat="sentir" data-caa-img="./assets/arasaac/contento.png">
+        <button type="button" class="caa-tile tone-b" data-caa-id="contento" data-caa="estoy contento" data-i18n-caa="caa_say_contento" data-caa-cat="sentir" data-caa-img="./assets/arasaac/contento.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/contento.png" alt="" loading="lazy" /></span>
-          <span>Contento/a</span>
+          <span data-i18n="caa_tile_contento">Contento/a</span>
         </button>
 
         <!-- Dónde (.tone-o) -->
-        <button type="button" class="caa-tile tone-o" data-caa="en el patio" data-caa-cat="donde" data-caa-img="./assets/arasaac/patio.png">
+        <button type="button" class="caa-tile tone-o" data-caa-id="patio" data-caa="en el patio" data-i18n-caa="caa_say_patio" data-caa-cat="donde" data-caa-img="./assets/arasaac/patio.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/patio.png" alt="" loading="lazy" /></span>
-          <span>En el patio</span>
+          <span data-i18n="caa_tile_patio">En el patio</span>
         </button>
-        <button type="button" class="caa-tile tone-o" data-caa="en los pasillos" data-caa-cat="donde" data-caa-img="./assets/arasaac/pasillo.png">
+        <button type="button" class="caa-tile tone-o" data-caa-id="pasillo" data-caa="en los pasillos" data-i18n-caa="caa_say_pasillo" data-caa-cat="donde" data-caa-img="./assets/arasaac/pasillo.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/pasillo.png" alt="" loading="lazy" /></span>
-          <span>En pasillos</span>
+          <span data-i18n="caa_tile_pasillo">En pasillos</span>
         </button>
-        <button type="button" class="caa-tile tone-o" data-caa="en clase" data-caa-cat="donde" data-caa-img="./assets/arasaac/clase.png">
+        <button type="button" class="caa-tile tone-o" data-caa-id="clase" data-caa="en clase" data-i18n-caa="caa_say_clase" data-caa-cat="donde" data-caa-img="./assets/arasaac/clase.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/clase.png" alt="" loading="lazy" /></span>
-          <span>En clase</span>
+          <span data-i18n="caa_tile_clase">En clase</span>
         </button>
 
         <!-- Pedir (.tone-p) -->
-        <button type="button" class="caa-tile tone-p" data-caa="necesito ayuda" data-caa-cat="pedir" data-caa-img="./assets/arasaac/ayuda.png">
+        <button type="button" class="caa-tile tone-p" data-caa-id="ayuda" data-caa="necesito ayuda" data-i18n-caa="caa_say_ayuda" data-caa-cat="pedir" data-caa-img="./assets/arasaac/ayuda.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/ayuda.png" alt="" loading="lazy" /></span>
-          <span>Necesito ayuda</span>
+          <span data-i18n="caa_tile_ayuda">Necesito ayuda</span>
         </button>
-        <button type="button" class="caa-tile tone-p" data-caa="hablar en privado" data-caa-cat="pedir" data-caa-img="./assets/arasaac/privado.png">
+        <button type="button" class="caa-tile tone-p" data-caa-id="privado" data-caa="hablar en privado" data-i18n-caa="caa_say_privado" data-caa-cat="pedir" data-caa-img="./assets/arasaac/privado.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/privado.png" alt="" loading="lazy" /></span>
-          <span>En privado</span>
+          <span data-i18n="caa_tile_privado">En privado</span>
         </button>
-        <button type="button" class="caa-tile tone-p" data-caa="gracias" data-caa-cat="pedir" data-caa-img="./assets/arasaac/gracias.png">
+        <button type="button" class="caa-tile tone-p" data-caa-id="gracias" data-caa="gracias" data-i18n-caa="caa_say_gracias" data-caa-cat="pedir" data-caa-img="./assets/arasaac/gracias.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/gracias.png" alt="" loading="lazy" /></span>
-          <span>Gracias</span>
+          <span data-i18n="caa_tile_gracias">Gracias</span>
         </button>
       </div>
 
-      <p class="credit">Pictogramas: S. Palao · ARASAAC (Gobierno de Aragón) · CC BY-NC-SA</p>
+      <p class="credit" data-i18n="caa_credit">Pictogramas: S. Palao · ARASAAC (Gobierno de Aragón) · CC BY-NC-SA</p>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -1188,61 +1188,61 @@
          DIARIO DE EVIDENCIAS + DETECTOR DE ESCALADA
          ================================================================ -->
     <section id="screen-diary" class="card step-section hidden" aria-labelledby="title-diary">
-      <div class="step-badge">Diario de Situaciones</div>
-      <h1 id="title-diary">Mi diario</h1>
-      <p class="lead-text">Guarda qué pasó y dónde para no olvidarlo.</p>
+      <div class="step-badge" data-i18n="diary_badge">Diario de Situaciones</div>
+      <h1 id="title-diary" data-i18n="diary_title">Mi diario</h1>
+      <p class="lead-text" data-i18n="diary_desc">Guarda qué pasó y dónde para no olvidarlo.</p>
 
       <form id="form-diary-entry" class="soft-box" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label for="diary-date" class="form-label">Fecha y hora</label>
+            <label for="diary-date" class="form-label" data-i18n="diary_date_label">Fecha y hora</label>
             <input type="datetime-local" id="diary-date" class="form-control" />
           </div>
           <div class="form-group">
-            <label for="diary-place" class="form-label">Lugar</label>
+            <label for="diary-place" class="form-label" data-i18n="diary_place_label">Lugar</label>
             <select id="diary-place" class="form-control">
-              <option value="Patio / Recreo">Patio / Recreo</option>
-              <option value="Pasillos / Baños">Pasillos / Baños</option>
-              <option value="En clase">En clase</option>
-              <option value="Entrada / Salida">Entrada / Salida</option>
-              <option value="Móvil / Redes">Móvil / Redes</option>
+              <option value="patio" data-i18n="place_patio">Patio / Recreo</option>
+              <option value="hallways" data-i18n="place_hallways">Pasillos / Baños</option>
+              <option value="class" data-i18n="place_class">En clase</option>
+              <option value="entrance" data-i18n="place_entrance">Entrada / Salida</option>
+              <option value="digital" data-i18n="place_digital">Móvil / Redes</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="diary-severity" class="form-label">Nivel de malestar</label>
+            <label for="diary-severity" class="form-label" data-i18n="diary_severity_label">Nivel de malestar</label>
             <select id="diary-severity" class="form-control">
-              <option value="1">Nivel 1 · Leve</option>
-              <option value="2">Nivel 2 · Moderado</option>
-              <option value="3">Nivel 3 · Alto / Grave</option>
+              <option value="1" data-i18n="diary_sev_1">Nivel 1 · Leve</option>
+              <option value="2" data-i18n="diary_sev_2">Nivel 2 · Moderado</option>
+              <option value="3" data-i18n="diary_sev_3">Nivel 3 · Alto / Grave</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
           <div class="label-with-action">
-            <label for="diary-desc" class="form-label">¿Qué pasó?</label>
-            <button type="button" id="btn-voice-diary" class="btn-mini">Dictar</button>
+            <label for="diary-desc" class="form-label" data-i18n="diary_what_label">¿Qué pasó?</label>
+            <button type="button" id="btn-voice-diary" class="btn-mini" data-i18n="ad3_btn_dictate">Dictar</button>
           </div>
-          <textarea id="diary-desc" class="form-control" rows="2" placeholder="Escribe o dicta qué ocurrió..."></textarea>
+          <textarea id="diary-desc" class="form-control" rows="2" placeholder="Escribe o dicta qué ocurrió..." data-i18n-placeholder="diary_desc_ph"></textarea>
         </div>
 
         <div class="report-actions">
-          <button type="submit" class="btn btn-primary">Guardar en mi diario</button>
-          <button type="button" id="btn-diary-seed-demo" class="btn btn-ghost">Cargar ejemplo</button>
+          <button type="submit" class="btn btn-primary" data-i18n="diary_btn_save">Guardar en mi diario</button>
+          <button type="button" id="btn-diary-seed-demo" class="btn btn-ghost" data-i18n="diary_btn_demo">Cargar ejemplo</button>
         </div>
       </form>
 
       <div class="diary-list-header">
-        <h2>Registros guardados (<span id="diary-count">0</span>)</h2>
-        <button type="button" id="btn-analyze-diary" class="btn btn-soft">Analizar evolución</button>
+        <h2><span data-i18n="diary_saved_title">Registros guardados</span> (<span id="diary-count">0</span>)</h2>
+        <button type="button" id="btn-analyze-diary" class="btn btn-soft" data-i18n="diary_btn_analyze">Analizar evolución</button>
       </div>
 
       <div id="diary-analysis-box" class="soft-box hidden" aria-live="polite"></div>
       <div id="diary-entries-list" class="diary-entries-list" aria-live="polite"></div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -1253,37 +1253,37 @@
     <section id="screen-teacher-panel" class="card step-section hidden" aria-labelledby="title-teacher-panel">
       <div class="chat-header">
         <div>
-          <div class="step-badge">Panel Docente y Orientación</div>
-          <h1 id="title-teacher-panel">Alertas Tempranas Recibidas</h1>
+          <div class="step-badge" data-i18n="tp_badge">Panel Docente y Orientación</div>
+          <h1 id="title-teacher-panel" data-i18n="tp_title">Alertas Tempranas Recibidas</h1>
         </div>
         <div class="report-actions">
-          <button type="button" id="btn-teacher-seed-demo" class="btn btn-soft">Añadir ejemplo</button>
-          <button type="button" id="btn-teacher-clear-resolved" class="btn btn-ghost">Limpiar resueltos</button>
+          <button type="button" id="btn-teacher-seed-demo" class="btn btn-soft" data-i18n="tp_btn_demo">Añadir ejemplo</button>
+          <button type="button" id="btn-teacher-clear-resolved" class="btn btn-ghost" data-i18n="tp_btn_clear">Limpiar resueltos</button>
         </div>
       </div>
 
       <div class="hotspot-box">
-        <h3 style="margin-top: 0;">Mapa de Puntos Calientes (Momentos No Estructurados)</h3>
+        <h3 style="margin-top: 0;" data-i18n="tp_hotspot_title">Mapa de Puntos Calientes (Momentos No Estructurados)</h3>
         <div id="teacher-hotspot-bars" class="hotspot-bars" style="font-weight: 700; color: var(--primary);"></div>
       </div>
 
       <div class="soft-box" style="background: var(--primary-t);">
-        <strong>Pauta rápida de intervención TEA:</strong>
-        <span>1. No exponer al alumno frente al grupo · 2. Facilitar regulación en el Rincón de Calma antes de preguntar · 3. Reforzar vigilancia en Patio y Pasillos.</span>
+        <strong data-i18n="tp_tea_title">Pauta rápida de intervención TEA:</strong>
+        <span data-i18n="tp_tea_body">1. No exponer al alumno frente al grupo · 2. Facilitar regulación en el Rincón de Calma antes de preguntar · 3. Reforzar vigilancia en Patio y Pasillos.</span>
       </div>
 
       <div class="teacher-filters">
-        <button type="button" class="chip-btn" data-teacher-filter="todos" aria-pressed="true">Todos</button>
-        <button type="button" class="chip-btn" data-teacher-filter="pendiente">Pendientes</button>
-        <button type="button" class="chip-btn" data-teacher-filter="seguimiento">En seguimiento</button>
-        <button type="button" class="chip-btn" data-teacher-filter="resuelto">Resueltos</button>
+        <button type="button" class="chip-btn" data-teacher-filter="todos" aria-pressed="true" data-i18n="tp_filter_all">Todos</button>
+        <button type="button" class="chip-btn" data-teacher-filter="pendiente" data-i18n="tp_filter_pending">Pendientes</button>
+        <button type="button" class="chip-btn" data-teacher-filter="seguimiento" data-i18n="tp_filter_tracking">En seguimiento</button>
+        <button type="button" class="chip-btn" data-teacher-filter="resuelto" data-i18n="tp_filter_resolved">Resueltos</button>
       </div>
 
       <div id="teacher-inbox-list" class="teacher-inbox-list" aria-live="polite"></div>
 
       <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back" data-i18n="back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
       </div>
     </section>
@@ -1296,59 +1296,59 @@
     <div class="modal-card modal-gear">
       <div class="modal-header">
         <h2 id="gear-modal-title">
-          <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> Ajustes y Herramientas
+          <svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> <span data-i18n="gear_title">Ajustes y Herramientas</span>
         </h2>
-        <button type="button" id="btn-close-gear-modal" class="modal-close" aria-label="Cerrar">✕</button>
+        <button type="button" id="btn-close-gear-modal" class="modal-close" aria-label="Cerrar" data-i18n-aria-label="close">✕</button>
       </div>
 
       <div class="gear-shortcuts">
         <button type="button" id="btn-nav-caa" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> Pictogramas (CAA)
+          <svg class="i" aria-hidden="true"><use href="#i-picto"/></svg> <span data-i18n="quick_caa">Pictogramas (CAA)</span>
         </button>
         <button type="button" id="btn-nav-diary" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Diario
+          <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="quick_diary">Diario</span>
         </button>
         <button type="button" id="btn-nav-teacher" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> Panel Profe
+          <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="quick_teacher">Panel Profe</span>
         </button>
         <button type="button" id="btn-nav-parents" class="btn btn-soft">
-          <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> Vista Padres
+          <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> <span data-i18n="gear_parents">Vista Padres</span>
         </button>
-        <button type="button" id="btn-api-settings" class="btn btn-soft">API Gemini</button>
+        <button type="button" id="btn-api-settings" class="btn btn-soft" data-i18n="gear_api">API Gemini</button>
       </div>
 
       <div class="gear-grid">
-        <label class="gear-toggle"><input type="checkbox" id="gear-voice-guide" /><span><strong>Leer pantallas en voz alta</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-keyboard-menu" checked /><span><strong>Atajos teclas 1, 2, 3...</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-high-contrast" /><span><strong>Alto contraste</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-easy-read" /><span><strong>Lectura fácil</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-motor-friendly" /><span><strong>Botones grandes</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-reduced-motion" /><span><strong>Sin animaciones (TEA)</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-deaf-mode" /><span><strong>Modo persona sorda</strong></span></label>
-        <label class="gear-toggle"><input type="checkbox" id="gear-mute-mode" /><span><strong>Modo sin habla</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-voice-guide" /><span><strong data-i18n="gear_voice_guide">Leer pantallas en voz alta</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-keyboard-menu" checked /><span><strong data-i18n="gear_keyboard_menu">Atajos teclas 1, 2, 3...</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-high-contrast" /><span><strong data-i18n="gear_high_contrast">Alto contraste</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-easy-read" /><span><strong data-i18n="gear_easy_read">Lectura fácil</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-motor-friendly" /><span><strong data-i18n="gear_motor_friendly">Botones grandes</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-reduced-motion" /><span><strong data-i18n="gear_reduced_motion">Sin animaciones (TEA)</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-deaf-mode" /><span><strong data-i18n="gear_deaf_mode">Modo persona sorda</strong></span></label>
+        <label class="gear-toggle"><input type="checkbox" id="gear-mute-mode" /><span><strong data-i18n="gear_mute_mode">Modo sin habla</strong></span></label>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="gear-font-select" class="form-label">Tamaño de letra</label>
+          <label for="gear-font-select" class="form-label" data-i18n="gear_font_label">Tamaño de letra</label>
           <select id="gear-font-select" class="form-control">
-            <option value="0">Normal (18px)</option>
-            <option value="1">Grande (21px)</option>
-            <option value="2">Muy grande (24px)</option>
+            <option value="0" data-i18n="gear_font_0">Normal (18px)</option>
+            <option value="1" data-i18n="gear_font_1">Grande (21px)</option>
+            <option value="2" data-i18n="gear_font_2">Muy grande (24px)</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="gear-speech-rate" class="form-label">Velocidad de la voz</label>
+          <label for="gear-speech-rate" class="form-label" data-i18n="gear_rate_label">Velocidad de la voz</label>
           <select id="gear-speech-rate" class="form-control">
-            <option value="0.85">Lenta</option>
-            <option value="1" selected>Normal</option>
-            <option value="1.15">Rápida</option>
+            <option value="0.85" data-i18n="gear_rate_slow">Lenta</option>
+            <option value="1" selected data-i18n="gear_rate_normal">Normal</option>
+            <option value="1.15" data-i18n="gear_rate_fast">Rápida</option>
           </select>
         </div>
       </div>
 
       <div class="modal-actions">
-        <button type="button" id="btn-gear-done" class="btn btn-primary">Listo</button>
+        <button type="button" id="btn-gear-done" class="btn btn-primary" data-i18n="gear_done">Listo</button>
       </div>
     </div>
   </div>
@@ -1357,51 +1357,51 @@
   <div id="api-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
     <div class="modal-card">
       <div class="modal-header">
-        <h2 id="api-modal-title">Configurar IA Gemini (Opcional)</h2>
-        <button type="button" id="btn-close-api-modal" class="modal-close" aria-label="Cerrar">✕</button>
+        <h2 id="api-modal-title" data-i18n="api_title">Configurar IA Gemini (Opcional)</h2>
+        <button type="button" id="btn-close-api-modal" class="modal-close" aria-label="Cerrar" data-i18n-aria-label="close">✕</button>
       </div>
-      <p>El chatbot ya funciona sin clave con respuestas empáticas locales. Si añades una clave API de Google Gemini, responderá con IA generativa.</p>
+      <p data-i18n="api_desc">El chatbot ya funciona sin clave con respuestas empáticas locales. Si añades una clave API de Google Gemini, responderá con IA generativa.</p>
 
       <div class="form-group">
-        <label for="gemini-api-key" class="form-label">Clave API de Gemini</label>
+        <label for="gemini-api-key" class="form-label" data-i18n="api_key_label">Clave API de Gemini</label>
         <div class="input-with-btn">
           <input type="password" id="gemini-api-key" class="form-control" placeholder="AIza..." autocomplete="off" />
-          <button type="button" id="btn-toggle-key-visibility" class="btn-mini">Mostrar</button>
+          <button type="button" id="btn-toggle-key-visibility" class="btn-mini" data-i18n="api_show">Mostrar</button>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="gemini-model-select" class="form-label">Modelo</label>
+        <label for="gemini-model-select" class="form-label" data-i18n="api_model_label">Modelo</label>
         <select id="gemini-model-select" class="form-control">
           <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-          <option value="custom">Otro modelo</option>
+          <option value="custom" data-i18n="api_model_other">Otro modelo</option>
         </select>
       </div>
 
       <div id="custom-model-group" class="form-group hidden">
-        <label for="gemini-custom-model" class="form-label">Nombre del modelo</label>
-        <input type="text" id="gemini-custom-model" class="form-control" placeholder="Ej. gemini-2.5-flash-lite" />
+        <label for="gemini-custom-model" class="form-label" data-i18n="api_custom_model_label">Nombre del modelo</label>
+        <input type="text" id="gemini-custom-model" class="form-control" placeholder="Ej. gemini-2.5-flash-lite" data-i18n-placeholder="api_custom_model_ph" />
       </div>
 
       <label class="gear-toggle" style="margin-top: 10px;">
         <input type="checkbox" id="gemini-remember-key" />
-        <span>Recordar clave en esta pestaña</span>
+        <span data-i18n="api_remember_label">Recordar clave en esta pestaña</span>
       </label>
 
       <p id="api-test-result" class="soft-box hidden" role="status"></p>
 
       <div class="modal-actions">
-        <button type="button" id="btn-clear-api-key" class="btn btn-ghost">Quitar clave</button>
-        <button type="button" id="btn-test-api-key" class="btn btn-soft">Probar conexión</button>
-        <button type="button" id="btn-save-api-key" class="btn btn-primary">Guardar</button>
+        <button type="button" id="btn-clear-api-key" class="btn btn-ghost" data-i18n="api_clear">Quitar clave</button>
+        <button type="button" id="btn-test-api-key" class="btn btn-soft" data-i18n="api_test">Probar conexión</button>
+        <button type="button" id="btn-save-api-key" class="btn btn-primary" data-i18n="api_save">Guardar</button>
       </div>
     </div>
   </div>
 
   <footer class="app-footer" role="contentinfo">
-    <span>¿Peligro ahora? <b>112</b></span>
-    <span>Acoso escolar: <b>900 018 018</b> · gratis, 24 h</span>
-    <button type="button" class="footer-link" data-go="1-role">Soy profe o familia</button>
+    <span data-i18n-html="footer_danger">¿Peligro ahora? <b>112</b></span>
+    <span data-i18n-html="footer_helpline">Acoso escolar: <b>900 018 018</b> · gratis, 24 h</span>
+    <button type="button" class="footer-link" data-go="1-role" data-i18n="footer_adult">Soy profe o familia</button>
   </footer>
 
   <div class="toast hidden" role="status" id="toast"></div>

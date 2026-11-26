@@ -5,10 +5,9 @@
 import { $, all, on, put } from '../core/dom.js';
 import { registerPageHook } from '../core/router.js';
 import { uiState } from '../core/state.js';
+import { onLanguageChange, t } from '../services/i18n.js';
 import { say } from '../services/speech.js';
 
-const INHALE_TEXT = 'Coge aire despacio…';
-const EXHALE_TEXT = 'Suelta el aire despacio…';
 const CYCLE_MAX = 5;
 
 let breathingTimer = null;
@@ -18,7 +17,7 @@ let isPaused = false;
 
 function setPauseButtonLabel(btn, paused) {
   if (!btn) return;
-  const label = paused ? 'Seguir' : 'Pausa';
+  const label = t(paused ? 'calm_resume' : 'calm_pause');
   const span = all('span', btn).find(
     (el) => el.getAttribute('aria-hidden') !== 'true' && el.textContent.trim().length > 0
   );
@@ -42,7 +41,7 @@ function setPauseButtonLabel(btn, paused) {
 }
 
 function renderCalmState() {
-  put('breathing-text', isInhaling ? INHALE_TEXT : EXHALE_TEXT);
+  put('breathing-text', t(isInhaling ? 'calm_inhale' : 'calm_exhale'));
 
   const circle = $('breathing-circle');
   if (circle) {
@@ -75,6 +74,7 @@ export function initCalm() {
   resetCalmCycle();
 
   registerPageHook('calm', resetCalmCycle);
+  onLanguageChange(renderCalmState);
 
   breathingTimer = setInterval(() => {
     if (uiState.page !== 'calm' || isPaused) return;
@@ -88,7 +88,5 @@ export function initCalm() {
     renderCalmState();
   });
 
-  on('btn-calm-sound', () =>
-    say('Coge aire despacio contando hasta cuatro... y suelta el aire suavemente. Estás en un espacio seguro.')
-  );
+  on('btn-calm-sound', () => say(t('calm_voice_guide')));
 }

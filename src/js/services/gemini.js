@@ -4,13 +4,18 @@
 
 import { $ } from '../core/dom.js';
 import { read, save } from '../core/storage.js';
+import { t } from './i18n.js';
 
 let config = read('gemini') || { key: '', model: 'gemini-2.5-flash' };
 let conversation = [];
 let controller = null;
 
-const SYSTEM_PROMPT =
-  'Eres un asistente escolar empático y breve para prevención del acoso escolar en alumnado con TEA. Responde en 2 frases sencillas y claras.';
+const PATIO_RE =
+  /recreo|patio|solo|dejan|esbarjo|pati|recess|playground|alone|r[eé]cr[eé]|cour|seul|pause|hof|allein|p[aá]tio|sozinho|استراحة|ساحة|وحده|وحدي/i;
+const HALLWAY_RE =
+  /pasillo|baño|cambio|passad[ií]s|banys|hallway|restroom|corridor|couloir|toilette|flur|wechsel|corredor|ممر|ممرات|تبديل/i;
+const CALM_RE =
+  /calma|miedo|nervio|bloque|por|bloq|calm|scared|afraid|fear|peur|effray|angst|ruhig|medo|خوف|خائف|هدوء|أهدأ|تجم/i;
 
 export function getGeminiConfig() {
   return config;
@@ -31,20 +36,20 @@ export function abortGemini() {
 }
 
 export function offlineReply(text) {
-  if (/recreo|patio|solo|dejan/i.test(text)) {
+  if (PATIO_RE.test(text)) {
     const placeEl = $('anon-place');
-    if (placeEl) placeEl.value = 'Patio / Recreo';
-    return 'Te entiendo. El recreo es donde más cuesta que los profesores lo vean. He marcado "Patio / Recreo" abajo. Pulsa el botón «📨 Enviar aviso 100% anónimo al profesor» para que vigilen el patio sin decir tu nombre.';
+    if (placeEl) placeEl.value = 'patio';
+    return t('chat_offline_patio');
   }
-  if (/pasillo|baño|cambio/i.test(text)) {
+  if (HALLWAY_RE.test(text)) {
     const placeEl = $('anon-place');
-    if (placeEl) placeEl.value = 'Pasillos / Baños';
-    return 'He anotado que ocurre en los pasillos o cambios de clase. No tienes la culpa de lo que pasa. Puedes enviarlo de forma anónima justo aquí debajo.';
+    if (placeEl) placeEl.value = 'hallways';
+    return t('chat_offline_hallway');
   }
-  if (/calma|miedo|nervio|bloque/i.test(text)) {
-    return 'Respira despacio, aquí estás a salvo. Puedes pulsar el botón verde «🌿 Calma» de arriba en cualquier momento o enviar el aviso anónimo a orientación.';
+  if (CALM_RE.test(text)) {
+    return t('chat_offline_calm');
   }
-  return 'Gracias por contármelo. He copiado tu mensaje en el buzón anónimo de abajo. Pulsa «📨 Enviar aviso 100% anónimo al profesor» cuando quieras.';
+  return t('chat_offline_default');
 }
 
 async function callGeminiApi(key, modelName, contents, signal) {
@@ -60,7 +65,7 @@ async function callGeminiApi(key, modelName, contents, signal) {
       },
       signal,
       body: JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        systemInstruction: { parts: [{ text: t('gemini_system_prompt') }] },
         contents,
       }),
     }
@@ -96,5 +101,5 @@ export async function askGemini(userMessage) {
 }
 
 export async function testGeminiConnection(key, modelName) {
-  return callGeminiApi(key, modelName, [{ role: 'user', parts: [{ text: 'Hola' }] }]);
+  return callGeminiApi(key, modelName, [{ role: 'user', parts: [{ text: t('gemini_test_ping') }] }]);
 }

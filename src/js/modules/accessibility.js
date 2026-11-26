@@ -6,6 +6,7 @@
 import { $, all, on, show, value, visible } from '../core/dom.js';
 import { background, closeModal, go, openModal, visiblePage } from '../core/router.js';
 import { abortGemini } from '../services/gemini.js';
+import { t } from '../services/i18n.js';
 import { abortSpeechRecognition, message, say } from '../services/speech.js';
 
 export function applyPreferences() {
@@ -72,7 +73,7 @@ export function quickExit() {
   closeModal();
   show('toast', false);
   background(true);
-  document.title = 'Apuntes de Matemáticas';
+  document.title = t('safe_exit_page_title');
   show('safe-exit-screen', true);
   $('return-from-safe-exit')?.focus();
 }
@@ -83,7 +84,7 @@ export function initAccessibility() {
   on('return-from-safe-exit', () => {
     show('safe-exit-screen', false);
     background(false);
-    document.title = 'Contigo · Espacio Seguro y Accesible';
+    document.title = t('page_title');
     $('btn-safe-exit')?.focus();
   });
 
@@ -132,7 +133,7 @@ export function initAccessibility() {
     if (!select) return;
     select.selectedIndex = (select.selectedIndex + 1) % 3;
     applyPreferences();
-    message('Tamaño de letra: ' + select.options[select.selectedIndex].text);
+    message(t('a11y_font_toast', { size: select.options[select.selectedIndex].text }));
   });
 
   on('btn-contrast', () => {
@@ -155,7 +156,7 @@ export function initAccessibility() {
   });
 
   on('btn-play-welcome-voice', () => {
-    say('¡Hola! ¿Quieres voz? Pulsa 1 para Sí con voz, o 2 para continuar en silencio.');
+    say(t('s0_welcome_spoken'));
   });
 
   // Paso 0B: apoyos de discapacidad

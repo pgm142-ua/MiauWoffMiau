@@ -12,9 +12,11 @@ import {
   setGeminiConfig,
   testGeminiConnection,
 } from '../services/gemini.js';
+import { onLanguageChange, t } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
 
 let autoTts = true;
+let lastAnonCode = '';
 
 function appendChatLine(text, own = false) {
   const box = $('chat-messages');
@@ -27,16 +29,23 @@ export function initChatWelcome() {
   const box = $('chat-messages');
   if (!box) return;
   box.replaceChildren();
-  const welcome =
-    state.branch === 'testigo'
-      ? '¡Hola! 👋 Gracias por ayudar a un compañero. Este chat es 100% anónimo. Pulsa «🎙️ Hablar por voz» o escribe qué has visto.'
-      : '¡Hola! 👋 Estás en un espacio seguro y 100% anónimo. Pulsa «🎙️ Hablar por voz» o escribe qué te ha pasado.';
+  const welcome = t(state.branch === 'testigo' ? 'chat_welcome_witness' : 'chat_welcome_victim');
   appendChatLine(welcome, false);
 }
 
 export function syncChat() {
   const config = getGeminiConfig();
-  put('gemini-status-pill', config.key ? '✨ IA Gemini activa' : '🔒 Modo Anónimo Local');
+  put('gemini-status-pill', t(config.key ? 'chat_status_gemini' : 'chat_status_local'));
+}
+
+function syncBotVoiceButton() {
+  put('btn-toggle-auto-tts', t(autoTts ? 'chat_bot_voice_on' : 'chat_bot_voice_off'));
+}
+
+function syncKeyVisibilityButton() {
+  const keyInput = $('gemini-api-key');
+  if (!keyInput) return;
+  put('btn-toggle-key-visibility', t(keyInput.type === 'text' ? 'api_hide' : 'api_show'));
 }
 
 function setApiFeedback(text) {
@@ -74,7 +83,7 @@ export function initChat() {
   on('btn-toggle-auto-tts', () => {
     autoTts = !autoTts;
     $('btn-toggle-auto-tts')?.setAttribute('aria-pressed', String(autoTts));
-    put('btn-toggle-auto-tts', '🔊 Voz bot: ' + (autoTts ? 'Sí' : 'No'));
+    syncBotVoiceButton();
     if (!autoTts) window.speechSynthesis?.cancel();
   });
 
@@ -85,15 +94,16 @@ export function initChat() {
     const chatLines = all('#chat-messages .bubble.own')
       .map((bubble) => bubble.textContent)
       .join(' | ');
-    const text = value('anon-extra') || chatLines || 'Aviso anónimo enviado desde el asistente de voz.';
-    const place = value('anon-place') || 'Patio / Recreo';
-    const recipient = value('anon-recipient') || 'Orientación y Bienestar';
-    const code = addNotice(text, place, recipient, '100% Anónimo (Modo No Adaptado)');
+    const text = value('anon-extra') || chatLines || t('chat_anon_default');
+    const place = value('anon-place') || 'patio';
+    const recipient = value('anon-recipient') || 'guidance';
+    const code = addNotice(text, place, recipient, '', { contextKey: 'chat_anon_context' });
+    lastAnonCode = code;
 
-    put('anon-confirm-msg', `✅ ¡Aviso anónimo enviado al profesorado! Código de seguimiento: ${code}`);
+    put('anon-confirm-msg', t('chat_anon_confirm', { code }));
     show('anon-confirm-msg', true);
     if ($('anon-extra')) $('anon-extra').value = '';
-    say('Aviso anónimo enviado correctamente.');
+    say(t('chat_anon_spoken'));
   });
 
   // Modal API Gemini
@@ -105,17 +115,17 @@ export function initChat() {
     const keyInput = $('gemini-api-key');
     if (!keyInput) return;
     keyInput.type = keyInput.type === 'password' ? 'text' : 'password';
-    put('btn-toggle-key-visibility', keyInput.type === 'text' ? 'Ocultar' : 'Mostrar');
+    syncKeyVisibilityButton();
   });
 
   on('btn-test-api-key', async () => {
-    if (!value('gemini-api-key')) return setApiFeedback('Introduce una clave primero.');
-    setApiFeedback('Probando conexión...');
+    if (!value('gemini-api-key')) return setApiFeedback(t('api_err_nokey'));
+    setApiFeedback(t('api_testing'));
     try {
       await testGeminiConnection(value('gemini-api-key'), currentModel());
-      setApiFeedback('✅ Conexión correcta con Gemini.');
+      setApiFeedback(t('api_ok'));
     } catch (err) {
-      setApiFeedback('No se pudo conectar: ' + err.message);
+      setApiFeedback(t('api_err_conn', { error: err.message }));
     }
   });
 
@@ -126,15 +136,31 @@ export function initChat() {
     );
     syncChat();
     closeModal();
-    message('Configuración guardada.');
+    message(t('api_saved'));
   });
 
   on('btn-clear-api-key', () => {
     clearGeminiConfig();
     if ($('gemini-api-key')) $('gemini-api-key').value = '';
     syncChat();
-    setApiFeedback('Clave eliminada. Usando modo local.');
+    setApiFeedback(t('api_cleared'));
+  });
+
+  onLanguageChange(() => {
+    syncChat();
+    syncBotVoiceButton();
+    syncKeyVisibilityButton();
+
+    const box = $('chat-messages');
+    if (box?.children.length && !box.querySelector('.bubble.own')) {
+      initChatWelcome();
+    }
+
+    if (lastAnonCode && $('anon-confirm-msg') && !$('anon-confirm-msg').classList.contains('hidden')) {
+      put('anon-confirm-msg', t('chat_anon_confirm', { code: lastAnonCode }));
+    }
   });
 
   syncChat();
+  syncBotVoiceButton();
 }

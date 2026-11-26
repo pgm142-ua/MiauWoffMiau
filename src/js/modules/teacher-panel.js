@@ -6,6 +6,13 @@ import { $, all, node, on, put, stamp } from '../core/dom.js';
 import { addNotice, inbox, uiState, updateTeacherBadge } from '../core/state.js';
 import { save } from '../core/storage.js';
 import { registerPageHook } from '../core/router.js';
+import {
+  getLocale,
+  onLanguageChange,
+  t,
+  translatePlace,
+  translateRecipient,
+} from '../services/i18n.js';
 import { message } from '../services/speech.js';
 
 export function setTeacherFilter(nextFilter) {
@@ -25,18 +32,20 @@ export function drawInbox() {
 
   const rows = inbox.filter((item) => uiState.filter === 'todos' || item.status === uiState.filter);
   if (!rows.length) {
-    area.append(node('p', 'No hay avisos en este filtro.'));
+    area.append(node('p', t('tp_empty')));
   }
+
+  const locale = getLocale();
+  const statuses = [
+    ['pendiente', t('tp_status_pending')],
+    ['seguimiento', t('tp_status_tracking')],
+    ['resuelto', t('tp_status_resolved')],
+  ];
 
   for (const item of rows) {
     const card = node('article', '', 'record');
     const select = node('select', '', 'form-control');
     select.style.marginTop = '8px';
-    const statuses = [
-      ['pendiente', '🔴 Pendiente de atender'],
-      ['seguimiento', '🟡 En seguimiento'],
-      ['resuelto', '🟢 Resuelto'],
-    ];
     for (const [val, label] of statuses) {
       select.add(new Option(label, val));
     }
@@ -47,10 +56,22 @@ export function drawInbox() {
       drawInbox();
     };
 
+    const recipientLabel = translateRecipient(item.recipient);
+    const placeLabel = translatePlace(item.place);
+    const senderLabel = item.contextKey ? t(item.contextKey) : item.context || t('tp_anon_sender');
+    const bodyText = item.textKey ? t(item.textKey) : item.text;
+
     card.append(
-      node('strong', `[${item.id || 'SAFE'}] Para: ${item.recipient} · ${stamp(item.date)}`),
-      node('small', `📍 Lugar: ${item.place || 'Patio / Recreo'} · Remitente: ${item.context || 'Anónimo'}`),
-      node('p', item.text),
+      node(
+        'strong',
+        t('tp_item_header', {
+          id: item.id || 'SAFE',
+          recipient: recipientLabel,
+          date: stamp(item.date, locale),
+        })
+      ),
+      node('small', t('tp_item_meta', { place: placeLabel, sender: senderLabel })),
+      node('p', bodyText),
       select
     );
     area.append(card);
@@ -58,41 +79,40 @@ export function drawInbox() {
 
   const counts = new Map();
   inbox.forEach((item) => {
-    const place = item.place || 'Patio / Recreo';
-    counts.set(place, (counts.get(place) || 0) + 1);
+    const placeLabel = translatePlace(item.place || 'patio');
+    counts.set(placeLabel, (counts.get(placeLabel) || 0) + 1);
   });
 
   put(
     'teacher-hotspot-bars',
-    [...counts].map(([place, total]) => `${place}: ${total} aviso(s)`).join('  |  ') ||
-      'Sin avisos registrados.'
+    [...counts].map(([place, count]) => t('tp_hotspot_entry', { place, count })).join('  |  ') ||
+      t('tp_hotspot_empty')
   );
 }
 
 export function initTeacherPanel() {
   registerPageHook('teacher-panel', drawInbox);
+  onLanguageChange(drawInbox);
 
   on('btn-teacher-seed-demo', () => {
-    addNotice(
-      'Ejemplo en directo: Alumno con TEA solicita apoyo en el recreo por aislamiento.',
-      'Patio / Recreo',
-      'Orientación y Bienestar',
-      'Modo Adaptado'
-    );
+    addNotice(t('tp_demo_notice'), 'patio', 'guidance', t('tp_demo_context'), {
+      textKey: 'tp_demo_notice',
+      contextKey: 'tp_demo_context',
+    });
     drawInbox();
-    message('Aviso de ejemplo añadido.');
+    message(t('tp_demo_toast'));
   });
 
   on('btn-teacher-clear-resolved', () => {
     const hasResolved = inbox.some((item) => item.status === 'resuelto');
-    if (!hasResolved) return message('No hay avisos marcados como resueltos.');
+    if (!hasResolved) return message(t('tp_no_resolved'));
 
     for (let i = inbox.length - 1; i >= 0; i--) {
       if (inbox[i].status === 'resuelto') inbox.splice(i, 1);
     }
     save('panel', inbox);
     drawInbox();
-    message('Avisos resueltos eliminados.');
+    message(t('tp_cleared_toast'));
   });
 
   drawInbox();

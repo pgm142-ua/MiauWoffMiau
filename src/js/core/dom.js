@@ -37,8 +37,8 @@ export const node = (tag, text, cls = '') => {
   return el;
 };
 
-export const stamp = (isoDate) =>
-  new Date(isoDate).toLocaleString('es-ES', {
+export const stamp = (isoDate, locale = 'es-ES') =>
+  new Date(isoDate).toLocaleString(locale, {
     dateStyle: 'medium',
     timeStyle: 'short',
   });

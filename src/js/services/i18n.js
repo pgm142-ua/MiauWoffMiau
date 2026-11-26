@@ -1,76 +1,219 @@
 /**
- * Servicio de internacionalización multilingüe (7 idiomas, incluido soporte RTL para árabe).
+ * Servicio centralizado de internacionalización multilingüe
+ * (7 idiomas: es, ca, en, fr, de, pt, ar con soporte RTL completo).
  */
 
-import { $, all, node, value } from '../core/dom.js';
+import { $, all, value } from '../core/dom.js';
+import { read, save } from '../core/storage.js';
+import es from './locales/es.js';
+import ca from './locales/ca.js';
+import en from './locales/en.js';
+import fr from './locales/fr.js';
+import de from './locales/de.js';
+import pt from './locales/pt.js';
+import ar from './locales/ar.js';
 
-const LANGUAGE_TEXT = {
-  en: 'Safe Space|Hello! 👋|Contigo.|We are here to help you.|Start ➔|Hello! 👋 Want voice?|1. Yes, with voice|2. No, silent|Need any support?|Hello! Who are you?|How do you want to talk?|What happens?|← Back',
-  ca: 'Espai Segur|Hola! 👋|Contigo.|Estem ací per a ajudar-te.|Començar ➔|Hola! 👋 Vols veu?|1. Sí, amb veu|2. No, en silenci|Necessites algun suport?|Hola! Qui eres?|Com vols parlar?|Què passa?|← Tornar',
-  fr: 'Espace Sûr|Bonjour ! 👋|Contigo.|Nous sommes là pour t’aider.|Commencer ➔|Bonjour ! 👋 Voix ?|1. Oui, avec voix|2. Non, silence|Besoin d’aide ?|Qui es-tu ?|Comment parler ?|Que se passe-t-il ?|← Retour',
-  de: 'Sicherer Ort|Hallo! 👋|Contigo.|Wir helfen dir.|Starten ➔|Hallo! 👋 Mit Stimme?|1. Ja, mit Stimme|2. Nein, lautlos|Brauchst du Hilfe?|Wer bist du?|Wie möchtest du reden?|Was ist los?|← Zurück',
-  pt: 'Espaço Seguro|Olá! 👋|Contigo.|Estamos aqui para ajudar.|Começar ➔|Olá! 👋 Queres voz?|1. Sim, com voz|2. Não, silêncio|Precisas de apoio?|Olá! Quem és?|Como queres falar?|O que acontece?|← Voltar',
-  ar: 'مساحة آمنة|مرحباً! 👋|Contigo.|نحن هنا لمساعدتك.|ابدأ ➔|مرحباً! 👋 هل تريد صوتاً؟|1. نعم بالصوت|2. لا، صامت|هل تحتاج لدعم؟|من أنت؟|كيف تريد التحدث؟|ماذا يحدث؟|← رجوع',
+export const SUPPORTED_LANGS = ['es', 'ca', 'en', 'fr', 'de', 'pt', 'ar'];
+
+const DICTIONARIES = { es, ca, en, fr, de, pt, ar };
+
+const LOCALES = {
+  es: 'es-ES',
+  ca: 'ca-ES',
+  en: 'en-US',
+  fr: 'fr-FR',
+  de: 'de-DE',
+  pt: 'pt-PT',
+  ar: 'ar-SA',
 };
 
-const I18N_SELECTORS = [
-  '.eyebrow',
-  '.hero-copy > p',
-  '.hero-cta',
-  '#title-screen-0',
-  '[data-action="choose-voice"][data-value="si"] .choice-title',
-  '[data-action="choose-voice"][data-value="no"] .choice-title',
-  '#title-screen-0b',
-  '#title-screen-1',
-  '#title-screen-2',
-  '#title-screen-3',
-  '[data-i18n="back"]',
-];
+const PLACE_ALIASES = {
+  patio: 'place_patio',
+  'Patio / Recreo': 'place_patio',
+  hallways: 'place_hallways',
+  'Pasillos / Baños': 'place_hallways',
+  class: 'place_class',
+  'En clase': 'place_class',
+  entrance: 'place_entrance',
+  'Entrada / Salida': 'place_entrance',
+  digital: 'place_digital',
+  'Móvil / Redes': 'place_digital',
+};
+
+const FEELING_ALIASES = {
+  calm: 'val_feeling_calm',
+  'Tranquilo / Bien': 'val_feeling_calm',
+  sad: 'val_feeling_sad',
+  Triste: 'val_feeling_sad',
+  scared: 'val_feeling_scared',
+  'Con miedo': 'val_feeling_scared',
+  angry: 'val_feeling_angry',
+  'Enfadado / Molesto': 'val_feeling_angry',
+};
+
+const CAUSE_ALIASES = {
+  social: 'val_cause_social',
+  'Social (exclusión o burlas)': 'val_cause_social',
+  internal: 'val_cause_internal',
+  'Interno (miedo o bloqueo)': 'val_cause_internal',
+  physical: 'val_cause_physical',
+  'Físico (empujones o cosas)': 'val_cause_physical',
+  digital: 'val_cause_digital',
+  'Digital / Móvil': 'val_cause_digital',
+  noise: 'val_cause_noise',
+  'Mucho ruido / Recreo': 'val_cause_noise',
+  other: 'val_cause_other',
+  'Otra causa': 'val_cause_other',
+};
+
+const RECIPIENT_ALIASES = {
+  guidance: 'recipient_guidance',
+  'Orientación y Bienestar': 'recipient_guidance',
+  tutor: 'recipient_tutor',
+  'Tutor/a del grupo': 'recipient_tutor',
+  director: 'recipient_director',
+  'Dirección / Convivencia': 'recipient_director',
+  teacher: 'recipient_teacher',
+  Docente: 'recipient_teacher',
+  teacher_tutor: 'recipient_teacher_tutor',
+  'Profesor / Tutor': 'recipient_teacher_tutor',
+  tutor_guidance: 'recipient_tutor_guidance',
+  'Tutor/a y Orientación': 'recipient_tutor_guidance',
+  guidance_tutor: 'recipient_guidance_tutor',
+  'Orientación y Tutoría': 'recipient_guidance_tutor',
+};
+
+let currentLang = 'es';
+const listeners = new Set();
+
+function interpolate(template, params) {
+  return String(template).replace(/\{(\w+)\}/g, (_, name) =>
+    params[name] !== undefined && params[name] !== null ? String(params[name]) : ''
+  );
+}
+
+export function getLang() {
+  return currentLang;
+}
+
+export function getLocale(lang = currentLang) {
+  return LOCALES[lang] || 'es-ES';
+}
+
+export function t(key, params = {}) {
+  const dict = DICTIONARIES[currentLang] || DICTIONARIES.es;
+  const raw = dict[key] ?? DICTIONARIES.es[key] ?? key;
+  return interpolate(raw, params);
+}
+
+export function translatePlace(val) {
+  const key = PLACE_ALIASES[val];
+  return key ? t(key) : val || t('place_patio');
+}
+
+export function translateFeeling(val) {
+  const key = FEELING_ALIASES[val];
+  return key ? t(key) : val || '';
+}
+
+export function translateCause(val) {
+  const key = CAUSE_ALIASES[val];
+  return key ? t(key) : val || '';
+}
+
+export function translateRecipient(val) {
+  const key = RECIPIENT_ALIASES[val];
+  return key ? t(key) : val || t('recipient_guidance');
+}
+
+export function onLanguageChange(listener) {
+  if (typeof listener === 'function') {
+    listeners.add(listener);
+  }
+  return () => listeners.delete(listener);
+}
+
+export function applyTranslations(root = document) {
+  const lang = currentLang;
+  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  if (root === document) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir;
+    const safeExitVisible = Boolean($('safe-exit-screen') && !$('safe-exit-screen').classList.contains('hidden'));
+    document.title = t(safeExitVisible ? 'safe_exit_page_title' : 'page_title');
+  }
+
+  all('[data-i18n]', root).forEach((el) => {
+    const key = el.dataset.i18n;
+    if (key) el.textContent = t(key);
+  });
+
+  all('[data-i18n-html]', root).forEach((el) => {
+    const key = el.dataset.i18nHtml;
+    if (key) el.innerHTML = t(key);
+  });
+
+  all('[data-i18n-placeholder]', root).forEach((el) => {
+    const key = el.dataset.i18nPlaceholder;
+    if (key) el.placeholder = t(key);
+  });
+
+  all('[data-i18n-title]', root).forEach((el) => {
+    const key = el.dataset.i18nTitle;
+    if (key) el.title = t(key);
+  });
+
+  all('[data-i18n-aria-label]', root).forEach((el) => {
+    const key = el.dataset.i18nAriaLabel;
+    if (key) el.setAttribute('aria-label', t(key));
+  });
+
+  all('[data-i18n-prompt]', root).forEach((el) => {
+    const key = el.dataset.i18nPrompt;
+    if (key) el.dataset.prompt = t(key);
+  });
+
+  all('[data-i18n-text]', root).forEach((el) => {
+    const key = el.dataset.i18nText;
+    if (key) el.dataset.text = t(key);
+  });
+
+  all('[data-i18n-signal]', root).forEach((el) => {
+    const key = el.dataset.i18nSignal;
+    if (key) el.dataset.signal = t(key);
+  });
+
+  all('[data-i18n-caa]', root).forEach((el) => {
+    const key = el.dataset.i18nCaa;
+    if (key) el.dataset.caa = t(key);
+  });
+}
+
+export function setLanguage(lang) {
+  const nextLang = SUPPORTED_LANGS.includes(lang) ? lang : 'es';
+  currentLang = nextLang;
+  save('lang', nextLang);
+
+  const select = $('lang-select');
+  if (select && select.value !== nextLang) {
+    select.value = nextLang;
+  }
+
+  applyTranslations(document);
+  listeners.forEach((fn) => fn(nextLang));
+}
 
 export function initI18n() {
-  const headline = document.querySelector('.hero h1');
-  const originals = [headline, ...I18N_SELECTORS.flatMap((s) => all(s))].map((el) => [
-    el,
-    el?.innerHTML || '',
-  ]);
+  const saved = read('lang');
+  const initial = SUPPORTED_LANGS.includes(saved) ? saved : value('lang-select') || 'es';
 
-  $('lang-select')?.addEventListener('change', () => {
-    const lang = value('lang-select');
-    const tokens = LANGUAGE_TEXT[lang]?.split('|');
-
-    originals.forEach(([el, html]) => {
-      if (!el) return;
-      el.innerHTML = html;
-      el.lang = lang;
-      el.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const select = $('lang-select');
+  if (select) {
+    select.addEventListener('change', () => {
+      setLanguage(select.value);
     });
+  }
 
-    if (!tokens) return;
-    if (headline) {
-      headline.replaceChildren(
-        document.createTextNode(tokens[1]),
-        node('br', ''),
-        node('em', tokens[2])
-      );
-    }
-
-    const values = [
-      tokens[0],
-      tokens[3],
-      tokens[4],
-      tokens[5],
-      tokens[6],
-      tokens[7],
-      tokens[8],
-      tokens[9],
-      tokens[10],
-      tokens[11],
-      tokens[12],
-    ];
-    I18N_SELECTORS.forEach((selector, index) => {
-      all(selector).forEach((el) => {
-        el.textContent = values[index];
-      });
-    });
-  });
+  setLanguage(initial);
 }
