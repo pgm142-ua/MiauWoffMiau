@@ -75,6 +75,15 @@ function getButtonLabelElement(btn) {
   return span || btn;
 }
 
+function setChatMicVisual(active) {
+  const micBtn = $('btn-chat-mic');
+  if (micBtn) {
+    micBtn.classList.toggle('rec', active);
+    micBtn.setAttribute('aria-pressed', String(active));
+  }
+  $('chat-composer-field')?.classList.toggle('rec', active);
+}
+
 export function initSpeechRecognition() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const micMap = {
@@ -91,13 +100,16 @@ export function initSpeechRecognition() {
     on(btnId, () => {
       const btn = $(btnId);
       if (!btn) return;
+      const isChatMic = btnId === 'btn-chat-mic';
       const labelEl = getButtonLabelElement(btn);
       const origText = labelEl.textContent;
       const restoreLabel = () => {
         const key = labelEl.dataset?.i18n;
         labelEl.textContent = key ? t(key) : origText;
+        if (isChatMic) setChatMicVisual(false);
       };
       labelEl.textContent = t('mic_listening');
+      if (isChatMic) setChatMicVisual(true);
 
       const applyTranscript = (text, autoSendChat = false) => {
         restoreLabel();
@@ -106,7 +118,7 @@ export function initSpeechRecognition() {
           inputEl.value = text;
           inputEl.focus();
         }
-        if (btnId === 'btn-chat-mic' && autoSendChat) {
+        if (isChatMic && autoSendChat) {
           $('form-chat')?.requestSubmit();
         } else {
           message(t('mic_captured', { text }));

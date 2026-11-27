@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contigo · Mockup B · Chat + Tu aviso en vivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF2EF; --surface:#FFFFFF; --text:#25332D; --muted:#475650; --line:#CFD9D3;
+    --primary:#2F5C49; --primary-d:#234536; --primary-t:#DCE9E2;
+    --lav-t:#ECE9F7; --peach-t:#FBEDE5; --sky-t:#E7F1F6; --butter-t:#FBF5DF;
+    --danger:#B8422B; --danger-t:#FBEDE5;
+    --font:'Andika',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --shadow:0 1px 2px rgba(37,51,45,.05),0 10px 30px rgba(37,51,45,.08);
+    --r:22px;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--font);background:#dfe6e1;color:var(--text);line-height:1.5;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px}
+  button{font:inherit;cursor:pointer}
+  :focus-visible{outline:3px solid #1d56e0;outline-offset:2px}
+
+  /* ---------- barra del mockup (no es parte del producto) ---------- */
+  .mock-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;font-size:.9rem;color:var(--muted)}
+  .mock-bar strong{color:var(--text);margin-right:8px}
+  .mock-bar button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;color:var(--text)}
+  .mock-bar button[aria-pressed="true"]{background:var(--text);color:#fff;border-color:var(--text)}
+
+  /* ---------- marco ---------- */
+  .frame{container-type:inline-size;width:min(1180px,100%);height:min(760px,calc(100vh - 80px));transition:width .35s ease}
+  .frame.mobile{width:390px;height:780px;border:10px solid #1b2420;border-radius:44px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+  .app{position:relative;height:100%;background:var(--bg);border-radius:var(--r);overflow:hidden;display:grid;grid-template-columns:1fr 380px;box-shadow:var(--shadow)}
+  .frame.mobile .app{border-radius:0}
+
+  /* ---------- chat ---------- */
+  .chat{display:flex;flex-direction:column;min-height:0;min-width:0;background:var(--surface)}
+  .chat-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .avatar{width:46px;height:46px;border-radius:50%;background:var(--primary-t);display:grid;place-items:center;flex:none;overflow:hidden}
+  .avatar svg{width:42px;height:42px;margin-top:4px;animation:float 4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  .who{flex:1;min-width:0}
+  .who b{display:block;font-size:1.1rem}
+  .who span{font-size:.85rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .dot-online{width:8px;height:8px;border-radius:50%;background:#3a9a6c}
+  .head-actions{display:flex;gap:6px;align-items:center;position:relative}
+  .btn-pill{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:700;color:var(--text);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .btn-pill.calm{background:var(--sky-t);border-color:#b6d3e2}
+  .btn-pill.sos{background:var(--danger-t);border-color:#e3b3a5;color:#7a2717}
+  .btn-icon{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:1.2rem;line-height:1}
+  .menu{position:absolute;right:0;top:48px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:6px;min-width:210px;z-index:20;display:none}
+  .menu.open{display:block}
+  .menu button{display:flex;width:100%;gap:10px;align-items:center;text-align:left;border:0;background:none;padding:10px 12px;border-radius:10px;color:var(--text)}
+  .menu button:hover{background:var(--bg)}
+  .menu hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+
+  .messages{flex:1;overflow-y:auto;padding:22px 20px 10px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+  .privacy-chip{align-self:center;font-size:.8rem;color:var(--muted);background:var(--bg);border-radius:99px;padding:4px 12px;margin-bottom:6px}
+  .row{display:flex;gap:8px;align-items:flex-end;animation:pop .28s ease both}
+  .row.me{justify-content:flex-end}
+  .row .mini{width:30px;height:30px;border-radius:50%;background:var(--primary-t);display:grid;place-items:center;flex:none}
+  .row .mini svg{width:28px;height:28px;margin-top:3px}
+  .bubble{max-width:78%;padding:11px 16px;border-radius:20px 20px 20px 6px;background:var(--bg);font-size:1.02rem;white-space:pre-wrap;overflow-wrap:anywhere}
+  .me .bubble{background:var(--primary);color:#fff;border-radius:20px 20px 6px 20px}
+  .bubble .speak{border:0;background:none;font-size:.9rem;margin-left:6px;opacity:.7;padding:0}
+  .typing{display:inline-flex;gap:5px;padding:16px 18px}
+  .typing i{width:8px;height:8px;border-radius:50%;background:var(--muted);opacity:.5;animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:.9;transform:translateY(-3px)}}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding-left:38px;animation:pop .3s ease both}
+  .chip{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--line);background:#fff;border-radius:16px;padding:6px 14px 6px 6px;font-weight:700;color:var(--text);transition:border-color .15s,background .15s}
+  .chip:hover{border-color:var(--primary);background:var(--primary-t)}
+  .chip img,.chip .emo{width:40px;height:40px;border-radius:10px;background:var(--bg);display:grid;place-items:center;font-size:1.4rem}
+  .chip.noimg{padding:10px 16px}
+
+  .composer{display:flex;gap:10px;align-items:center;padding:12px 16px 16px;border-top:1px solid var(--line)}
+  .mic{width:58px;height:58px;border-radius:50%;border:0;background:var(--primary);color:#fff;flex:none;display:grid;place-items:center;box-shadow:0 6px 16px rgba(47,92,73,.35);position:relative}
+  .mic svg{width:26px;height:26px}
+  .mic.rec{background:var(--danger)}
+  .mic.rec::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:3px solid var(--danger);animation:ring 1.2s infinite}
+  @keyframes ring{from{transform:scale(.9);opacity:1}to{transform:scale(1.25);opacity:0}}
+  .field{flex:1;display:flex;align-items:center;background:var(--bg);border-radius:99px;padding:4px 4px 4px 18px;border:2px solid transparent;min-width:0}
+  .field:focus-within{border-color:var(--primary)}
+  .field input{flex:1;border:0;background:none;font:inherit;font-size:1.02rem;padding:10px 0;color:var(--text);min-width:0}
+  .field input:focus{outline:none}
+  .wave{display:none;flex:1;gap:3px;align-items:center;height:44px}
+  .wave i{flex:1;max-width:5px;background:var(--danger);border-radius:3px;animation:wave .9s ease-in-out infinite}
+  .field.rec input{display:none}.field.rec .wave{display:flex}
+  @keyframes wave{0%,100%{height:15%}50%{height:85%}}
+  .send{width:46px;height:46px;border-radius:50%;border:0;background:var(--text);color:#fff;display:grid;place-items:center;flex:none}
+  .send svg{width:20px;height:20px}
+
+  /* ---------- panel "Tu aviso" ---------- */
+  .report{background:linear-gradient(180deg,#f6f9f7, var(--bg));border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+  .report-handle{display:none}
+  .report-inner{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+  .report h2{font-size:1.2rem;display:flex;align-items:center;gap:8px}
+  .report .sub{font-size:.88rem;color:var(--muted);margin-top:2px}
+  .progress{height:8px;border-radius:99px;background:#d7e1db;overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:var(--primary);border-radius:99px;transition:width .5s ease}
+  .progress-label{font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between}
+  .slot{display:flex;gap:12px;align-items:center;background:#fff;border:2px dashed var(--line);border-radius:18px;padding:10px 12px;transition:all .35s ease}
+  .slot .pic{width:52px;height:52px;border-radius:14px;background:var(--bg);display:grid;place-items:center;flex:none;font-size:1.5rem;overflow:hidden}
+  .slot .pic img{width:44px;height:44px}
+  .slot .txt{flex:1;min-width:0}
+  .slot .lbl{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .slot .val{font-weight:700;color:#8a978f;overflow-wrap:anywhere}
+  .slot .state{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:.85rem;color:#fff}
+  .slot.done{border-style:solid;border-color:#a9c7b7;box-shadow:0 4px 14px rgba(47,92,73,.08)}
+  .slot.done .val{color:var(--text)}
+  .slot.done .state{background:var(--primary);border-color:var(--primary)}
+  .slot.flash{animation:flash .9s ease}
+  @keyframes flash{0%{background:var(--butter-t);transform:scale(1.02)}100%{background:#fff;transform:none}}
+  .slot .edit{border:0;background:none;color:var(--primary);font-size:.82rem;font-weight:700;text-decoration:underline;padding:0;display:none}
+  .slot.done .edit{display:inline}
+  .safe{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;color:var(--muted);background:#fff;border-radius:14px;padding:10px 12px;border:1px solid var(--line)}
+  .safe img{width:34px;height:34px;flex:none}
+  .report-foot{padding:14px 20px 20px;border-top:1px solid var(--line);background:var(--bg)}
+  .btn-send{width:100%;border:0;border-radius:16px;padding:16px;font-weight:700;font-size:1.05rem;background:var(--primary);color:#fff;display:flex;justify-content:center;align-items:center;gap:10px;transition:background .2s,opacity .2s}
+  .btn-send:disabled{background:#b9c7bf;cursor:not-allowed}
+  .btn-send:not(:disabled):hover{background:var(--primary-d)}
+  .foot-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:8px}
+  .sent{display:none;text-align:center;padding:20px 10px;gap:10px;flex-direction:column;align-items:center}
+  .sent .big{width:84px;height:84px;border-radius:50%;background:var(--primary-t);display:grid;place-items:center;font-size:2.4rem;animation:pop .4s ease}
+  .report.is-sent .slots-wrap,.report.is-sent .report-foot{display:none}
+  .report.is-sent .sent{display:flex}
+
+  .toast{position:absolute;left:50%;top:76px;transform:translate(-50%,-20px);opacity:0;background:var(--text);color:#fff;border-radius:99px;padding:10px 16px;font-weight:700;font-size:.9rem;pointer-events:none;transition:all .3s ease;z-index:30;display:flex;gap:8px;align-items:center;white-space:nowrap}
+  .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .toast button{border:0;background:#fff;color:var(--text);border-radius:99px;padding:3px 10px;font-weight:700;font-size:.82rem}
+
+  /* ---------- móvil: el panel es una hoja inferior ---------- */
+  @container (max-width: 760px){
+    .app{grid-template-columns:1fr}
+    .chat{padding-bottom:68px}
+    .btn-pill .t, .who .t2{display:none}
+    .btn-pill{padding:8px 10px}
+    .bubble{max-width:86%}
+    .chips{padding-left:0}
+    .report{position:absolute;left:0;right:0;bottom:0;height:86%;border-left:0;border-radius:24px 24px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.15);transform:translateY(calc(100% - 68px));transition:transform .4s cubic-bezier(.2,.8,.2,1);z-index:25;background:#f6f9f7}
+    .report.open{transform:none}
+    .report-handle{display:flex;align-items:center;gap:10px;height:68px;padding:0 18px;border:0;background:none;width:100%;text-align:left;color:var(--text);flex:none;position:relative}
+    .report-handle::before{content:"";position:absolute;top:7px;left:50%;width:40px;height:4px;border-radius:4px;background:#b9c7bf;transform:translateX(-50%)}
+    .report-handle b{flex:1}
+    .report-handle .count{background:var(--primary-t);color:var(--primary);border-radius:99px;padding:2px 10px;font-weight:700;font-size:.85rem}
+    .report-handle .chev{transition:transform .3s}
+    .report.open .report-handle .chev{transform:rotate(180deg)}
+    .report.ready:not(.open) .report-handle{background:var(--primary);color:#fff;border-radius:24px 24px 0 0}
+    .report.ready:not(.open) .report-handle .count{background:#fff}
+    .report-inner{padding-top:4px}
+    .report .head-desk{display:none}
+  }
+  @container (min-width: 761px){ .toast{display:none} }
+
+  @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="buddy" viewBox="0 0 200 200">
+    <path d="M44 150c-22 0-32-18-28-36 4-16 18-24 30-22 0-30 24-54 54-54s54 24 54 54c14-2 28 8 30 24 3 20-10 34-30 34z" fill="#fff" stroke="#25332D" stroke-width="7" stroke-linejoin="round"/>
+    <circle cx="80" cy="104" r="7.5" fill="#25332D"/><circle cx="120" cy="104" r="7.5" fill="#25332D"/>
+    <path d="M88 122q12 9 24 0" fill="none" stroke="#25332D" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="66" cy="120" r="9" fill="#F0C3AA" opacity=".85"/><circle cx="134" cy="120" r="9" fill="#F0C3AA" opacity=".85"/>
+  </symbol>
+  <symbol id="buddy-calm" viewBox="0 0 200 200">
+    <path d="M44 150c-22 0-32-18-28-36 4-16 18-24 30-22 0-30 24-54 54-54s54 24 54 54c14-2 28 8 30 24 3 20-10 34-30 34z" fill="#fff" stroke="#25332D" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M72 104q8-7 16 0M112 104q8-7 16 0" fill="none" stroke="#25332D" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="100" cy="126" r="7" fill="none" stroke="#25332D" stroke-width="6"/>
+  </symbol>
+</svg>
+
+<div class="mock-bar" role="toolbar" aria-label="Controles del mockup">
+  <strong>Mockup B · Chat + Tu aviso en vivo</strong>
+  <button type="button" id="v-desk" aria-pressed="true">🖥️ Escritorio</button>
+  <button type="button" id="v-mob" aria-pressed="false">📱 Móvil</button>
+  <button type="button" id="v-reset">↺ Reiniciar</button>
+</div>
+
+<div class="frame" id="frame">
+<div class="app" id="app">
+
+  <!-- ====================== CHAT ====================== -->
+  <section class="chat" aria-label="Conversación">
+    <header class="chat-head">
+      <div class="avatar"><svg aria-hidden="true"><use href="#buddy"/></svg></div>
+      <div class="who">
+        <b>Nube</b>
+        <span><i class="dot-online"></i> Te escucho<span class="t2"> · nadie sabrá que eres tú</span></span>
+      </div>
+      <div class="head-actions">
+        <button type="button" class="btn-pill calm" title="Rincón de calma">🫧 <span class="t">Calma</span></button>
+        <button type="button" class="btn-pill sos" title="Necesito ayuda ya">🆘 <span class="t">Ayuda ya</span></button>
+        <button type="button" class="btn-icon" id="menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Más opciones">⋯</button>
+        <div class="menu" id="menu" role="menu">
+          <button role="menuitem">🔊 Voz del bot: <b>Sí</b></button>
+          <button role="menuitem">🔤 Letra más grande</button>
+          <hr>
+          <button role="menuitem">📖 Mi diario</button>
+          <button role="menuitem">🪜 Cuestionario</button>
+          <button role="menuitem">⭐ Ver feedback final</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="messages" id="messages" role="log" aria-live="polite">
+      <span class="privacy-chip">🔒 Esta conversación es anónima</span>
+    </div>
+
+    <form class="composer" id="composer">
+      <button type="button" class="mic" id="mic" aria-label="Mantén para hablar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+      <div class="field" id="field">
+        <label for="msg" class="sr-only" style="position:absolute;left:-9999px">Mensaje</label>
+        <input id="msg" autocomplete="off" placeholder="Escribe o pulsa el micro…">
+        <div class="wave" aria-hidden="true"></div>
+        <button type="submit" class="send" aria-label="Enviar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ====================== TU AVISO ====================== -->
+  <aside class="report" id="report" aria-labelledby="report-title">
+    <button type="button" class="report-handle" id="handle" aria-expanded="false">
+      🔒 <b>Tu aviso anónimo</b><span class="count" id="count-m">0/4</span><span class="chev">▲</span>
+    </button>
+    <div class="report-inner">
+      <div class="head-desk">
+        <h2 id="report-title">🔒 Tu aviso anónimo</h2>
+        <p class="sub">Se va rellenando solo mientras hablas. Tú decides si se envía.</p>
+      </div>
+
+      <div class="slots-wrap" style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div class="progress"><i id="bar"></i></div>
+          <div class="progress-label"><span id="count">0 de 4 listos</span><span>Sin tu nombre</span></div>
+        </div>
+
+        <div class="slot" data-k="who"><div class="pic"><img src="assets/arasaac/grupo.png" alt=""></div><div class="txt"><div class="lbl">¿A quién le pasa?</div><div class="val">Esperando…</div></div><button class="edit" type="button">Cambiar</button><span class="state">✓</span></div>
+        <div class="slot" data-k="where"><div class="pic"><img src="assets/arasaac/clase.png" alt=""></div><div class="txt"><div class="lbl">¿Dónde?</div><div class="val">Esperando…</div></div><button class="edit" type="button">Cambiar</button><span class="state">✓</span></div>
+        <div class="slot" data-k="what"><div class="pic">📝</div><div class="txt"><div class="lbl">¿Qué ha pasado?</div><div class="val">Esperando…</div></div><button class="edit" type="button">Cambiar</button><span class="state">✓</span></div>
+        <div class="slot" data-k="to"><div class="pic"><img src="assets/arasaac/profesor.png" alt=""></div><div class="txt"><div class="lbl">¿A quién avisamos?</div><div class="val">Esperando…</div></div><button class="edit" type="button">Cambiar</button><span class="state">✓</span></div>
+
+        <div class="safe"><img src="assets/arasaac/privado.png" alt=""><span><b>No se envía</b> tu nombre, tu curso ni tu foto. Solo lo que ves aquí arriba.</span></div>
+      </div>
+
+      <div class="sent" role="status">
+        <div class="big">💚</div>
+        <h2 style="justify-content:center">¡Aviso enviado!</h2>
+        <p class="sub">Orientación lo recibirá hoy. Has sido muy valiente. Puedes seguir hablando conmigo cuando quieras.</p>
+        <button type="button" class="btn-pill calm" style="margin-top:6px">🫧 Ir al rincón de calma</button>
+      </div>
+    </div>
+    <div class="report-foot">
+      <button type="button" class="btn-send" id="send-report" disabled>📨 Enviar sin mi nombre</button>
+      <p class="foot-note" id="foot-note">Completa los 4 puntos para poder enviarlo</p>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status">✓ Tu aviso está listo <button type="button" id="toast-open">Ver</button></div>
+</div>
+</div>
+
+<script>
+const P = 'assets/arasaac/';
+const $ = s => document.querySelector(s);
+const msgs = $('#messages'), report = $('#report');
+const data = {};
+let step = 0;
+
+const STEPS = [
+  { key:'who', ask:'Hola 👋 Soy Nube.\nAquí puedes contarme lo que pasa, con tu voz o escribiendo. ¿A quién le está pasando?',
+    chips:[{t:'A un compañero/a',img:'companero.png',v:'Un compañero/a'},{t:'A mí',img:'yo.png',v:'A mí'},{t:'A varios',img:'grupo.png',v:'A varios compañeros'}],
+    reply:v=> v==='A mí' ? 'Gracias por confiar en mí. No estás solo/a 💚\n¿Dónde suele pasar?' : 'Gracias por fijarte y contármelo. Eso ayuda mucho 💚\n¿Dónde pasó?' },
+  { key:'where',
+    chips:[{t:'Patio',img:'patio.png'},{t:'Pasillo / baños',img:'pasillo.png'},{t:'En clase',img:'clase.png'},{t:'Móvil / redes',emo:'📱'}],
+    reply:()=> '¿Qué ha pasado? Puedes elegir o contármelo con el micro 🎤' },
+  { key:'what',
+    chips:[{t:'Le insultan',img:'insultar.png',v:'Le insultan y se ríen'},{t:'Le empujan',img:'empujar.png',v:'Le empujan o pegan'},{t:'Le dejan solo/a',img:'solo.png',v:'Le dejan solo/a a propósito'}],
+    reply:()=> 'Lo estás haciendo muy bien. Ya casi está ✨\n¿A quién quieres que le llegue el aviso?' },
+  { key:'to',
+    chips:[{t:'Orientación',img:'ayuda.png'},{t:'Mi tutor/a',img:'profesor.png'},{t:'Dirección',emo:'🏫'}],
+    reply:()=> 'Tu aviso está listo ✅\nRevísalo y, si estás de acuerdo, pulsa «Enviar sin mi nombre». Nadie sabrá que has sido tú.' },
+];
+
+function bot(text, chips){
+  const t = document.createElement('div');
+  t.className='row'; t.innerHTML='<span class="mini"><svg aria-hidden="true"><use href="#buddy-calm"/></svg></span><div class="bubble typing"><i></i><i></i><i></i></div>';
+  msgs.appendChild(t); scroll();
+  setTimeout(()=>{
+    t.querySelector('.bubble').className='bubble';
+    t.querySelector('.mini use').setAttribute('href','#buddy');
+    t.querySelector('.bubble').innerHTML = escapeHtml(text)+'<button class="speak" type="button" aria-label="Escuchar">🔊</button>';
+    if(chips) renderChips(chips);
+    scroll();
+  }, 750);
+}
+function me(text){
+  const r=document.createElement('div'); r.className='row me';
+  r.innerHTML='<div class="bubble">'+escapeHtml(text)+'</div>'; msgs.appendChild(r); scroll();
+}
+function renderChips(chips){
+  const c=document.createElement('div'); c.className='chips'; c.id='chips';
+  chips.forEach(ch=>{
+    const b=document.createElement('button'); b.type='button'; b.className='chip';
+    b.innerHTML=(ch.img?'<img src="'+P+ch.img+'" alt="">':'<span class="emo">'+ch.emo+'</span>')+ch.t;
+    b.onclick=()=>answer(ch.v||ch.t, ch.t, ch.img||null, ch.emo||null);
+    c.appendChild(b);
+  });
+  msgs.appendChild(c);
+}
+function answer(value, said, img, emo){
+  if(step>=STEPS.length) return;
+  $('#chips')?.remove();
+  me(said||value);
+  const s=STEPS[step];
+  fill(s.key, value, img, emo);
+  step++;
+  setTimeout(()=>bot(s.reply(value), STEPS[step]?.chips), 350);
+}
+function fill(k, v, img, emo){
+  data[k]=v;
+  const el=document.querySelector('.slot[data-k="'+k+'"]');
+  el.querySelector('.val').textContent=v;
+  if(img) el.querySelector('.pic').innerHTML='<img src="'+P+img+'" alt="">';
+  else if(emo) el.querySelector('.pic').textContent=emo;
+  el.classList.add('done','flash'); setTimeout(()=>el.classList.remove('flash'),900);
+  const n=Object.keys(data).length;
+  $('#bar').style.width=(n/4*100)+'%';
+  $('#count').textContent=n+' de 4 listos';
+  $('#count-m').textContent=n+'/4';
+  if(n===4){
+    $('#send-report').disabled=false;
+    $('#foot-note').textContent='Lo recibirá: '+data.to;
+    report.classList.add('ready');
+    showToast();
+  }
+}
+function showToast(){ const t=$('#toast'); t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),4500); }
+function scroll(){ msgs.scrollTop=msgs.scrollHeight; }
+function escapeHtml(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* texto libre: rellena el punto actual */
+$('#composer').addEventListener('submit',e=>{
+  e.preventDefault(); const v=$('#msg').value.trim(); if(!v) return;
+  $('#msg').value=''; answer(v, v);
+});
+
+/* micro simulado */
+const SAMPLE = {who:'A un chico de mi clase', where:'En el patio, detrás de las canastas', what:'Le quitan la mochila y se ríen de él', to:'Orientación'};
+const wave=document.querySelector('.wave'); for(let i=0;i<28;i++){const b=document.createElement('i'); b.style.animationDelay=(Math.random()*.9)+'s'; wave.appendChild(b);}
+$('#mic').addEventListener('click',()=>{
+  if(step>=STEPS.length) return;
+  const mic=$('#mic'), f=$('#field'); mic.classList.add('rec'); f.classList.add('rec');
+  setTimeout(()=>{ mic.classList.remove('rec'); f.classList.remove('rec'); const v=SAMPLE[STEPS[step].key]; answer(v, '🎤 '+v); }, 1800);
+});
+
+/* enviar aviso */
+$('#send-report').addEventListener('click',()=>{
+  report.classList.add('is-sent'); report.classList.remove('ready');
+  $('#count-m').textContent='Enviado ✓';
+  bot('¡Enviado! 💚 Has hecho algo muy valiente. ¿Quieres seguir hablando o prefieres ir al rincón de calma?',
+      [{t:'Seguir hablando',emo:'💬'},{t:'Rincón de calma',img:'calma.png'}]);
+});
+
+/* hoja inferior (móvil) */
+function toggleSheet(force){ const o = force ?? !report.classList.contains('open'); report.classList.toggle('open',o); $('#handle').setAttribute('aria-expanded',o); }
+$('#handle').onclick=()=>toggleSheet();
+$('#toast-open').onclick=()=>{ toggleSheet(true); $('#toast').classList.remove('show'); };
+
+/* menú */
+$('#menu-btn').onclick=e=>{ const m=$('#menu'); const o=!m.classList.contains('open'); m.classList.toggle('open',o); e.currentTarget.setAttribute('aria-expanded',o); };
+document.addEventListener('click',e=>{ if(!e.target.closest('.head-actions')) $('#menu').classList.remove('open'); });
+
+/* "Cambiar": vuelve a preguntar ese punto (demo simple) */
+document.querySelectorAll('.slot .edit').forEach(b=>b.onclick=()=>{
+  const k=b.closest('.slot').dataset.k; const i=STEPS.findIndex(s=>s.key===k);
+  $('#chips')?.remove(); step=i; bot('Vale, lo cambiamos. '+(i===0?'¿A quién le pasa?':i===1?'¿Dónde pasó?':i===2?'¿Qué ha pasado?':'¿A quién avisamos?'), STEPS[i].chips);
+  toggleSheet(false);
+});
+
+/* controles del mockup */
+function view(mob){ $('#frame').classList.toggle('mobile',mob); $('#v-mob').setAttribute('aria-pressed',mob); $('#v-desk').setAttribute('aria-pressed',!mob); }
+$('#v-desk').onclick=()=>view(false); $('#v-mob').onclick=()=>view(true);
+$('#v-reset').onclick=()=>location.reload();
+if(new URLSearchParams(location.search).get('v')==='m') view(true);
+
+/* ?demo=N rellena N pasos automáticamente (para capturas) */
+const demo=+new URLSearchParams(location.search).get('demo')||0;
+bot(STEPS[0].ask, STEPS[0].chips);
+if(demo){ let i=0; const go=()=>{ if(i<demo){ const ch=STEPS[step].chips[0]; answer(ch.v||ch.t, ch.t, ch.img, ch.emo); i++; setTimeout(go,1300);} }; setTimeout(go,1000); }
+</script>
+</body>
+</html>

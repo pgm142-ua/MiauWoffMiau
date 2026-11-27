@@ -79,6 +79,24 @@
 .contrast .question-block,
 .contrast .caa-builder-box,
 .contrast .urgent-alert,
+.contrast .chat-app,
+.contrast .chat-pane,
+.contrast .chat-head,
+.contrast .chat-composer,
+.contrast .chat-report,
+.contrast .chat-report-foot,
+.contrast .chat-menu,
+.contrast .chat-pill,
+.contrast .chat-icon-btn,
+.contrast .chat-field,
+.contrast .chat-slot,
+.contrast .chat-slot-option,
+.contrast .chat-safe-note,
+.contrast .chat-place-hint,
+.contrast .chat-privacy-chip,
+.contrast .chat-sos-banner,
+.contrast .chat-sos-tel,
+.contrast .chat-quick-prompts .quick-prompt-btn,
 .contrast .chat-messages,
 .contrast .gear-toggle,
 .contrast .pill-option,
@@ -318,6 +336,85 @@
   border-color: #FFD400 !important;
 }
 
+.contrast .bubble.thinking {
+  color: #E5E5E5 !important;
+  border-style: dashed !important;
+}
+
+.contrast .bubble.crisis {
+  background: #0D0D0D !important;
+  color: #FFD400 !important;
+  border: 3px solid #FFD400 !important;
+  border-inline-start: 8px solid #FFD400 !important;
+}
+
+.contrast .chat-who-name,
+.contrast .chat-who-status,
+.contrast .chat-report-head-desk h2,
+.contrast .chat-report-sub,
+.contrast .chat-progress-label,
+.contrast .chat-slot-lbl,
+.contrast .chat-slot-val,
+.contrast .chat-foot-note,
+.contrast .chat-report-handle,
+.contrast .chat-menu button,
+.contrast .chat-speak-btn {
+  color: #FFFFFF !important;
+}
+
+.contrast .chat-slot.is-done {
+  border: 3px solid #FFD400 !important;
+}
+
+.contrast .chat-slot-edit,
+.contrast .chat-dot-online {
+  color: #FFD400 !important;
+}
+
+.contrast .chat-dot-online {
+  background: #FFD400 !important;
+}
+
+.contrast .chat-slot.is-done .chat-slot-state,
+.contrast .chat-progress-bar,
+.contrast .chat-mic-btn,
+.contrast .chat-send-btn,
+.contrast .chat-btn-send:not(:disabled),
+.contrast .chat-slot-option[aria-pressed="true"],
+.contrast .chat-report.is-ready:not(.is-open) .chat-report-handle,
+.contrast .chat-mobile-toast {
+  background: #FFD400 !important;
+  color: #000000 !important;
+  border-color: #FFD400 !important;
+}
+
+.contrast .chat-slot.is-done .chat-slot-state *,
+.contrast .chat-mic-btn *,
+.contrast .chat-send-btn *,
+.contrast .chat-btn-send:not(:disabled) *,
+.contrast .chat-slot-option[aria-pressed="true"] *,
+.contrast .chat-report.is-ready:not(.is-open) .chat-report-handle * {
+  color: #000000 !important;
+}
+
+.contrast .chat-btn-send:disabled {
+  background: #222222 !important;
+  color: #E5E5E5 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+.contrast .chat-progress {
+  background: #333333 !important;
+}
+
+.contrast .chat-avatar,
+.contrast .chat-mini-avatar,
+.contrast .chat-slot-pic,
+.contrast .chat-sent-icon {
+  background: #141414 !important;
+  border: 2px solid #FFD400 !important;
+}
+
 .contrast .toast {
   background: #FFD400 !important;
   color: #000000 !important;
@@ -358,7 +455,10 @@
 .easy .check-desc,
 .easy .lead-text,
 .easy .story-support-box,
-.easy .story-cause-desc {
+.easy .story-cause-desc,
+.easy .bubble,
+.easy .chat-slot-val,
+.easy .chat-safe-note {
   line-height: 1.85;
   letter-spacing: 0.03em;
 }
@@ -409,8 +509,14 @@
 
 .motor .tool-btn,
 .motor .nav-item,
-.motor .flow-back-btn {
-  min-height: 44px;
+.motor .flow-back-btn,
+.motor .chat-pill,
+.motor .chat-icon-btn,
+.motor .chat-slot-option,
+.motor .chat-slot-edit,
+.motor .chat-menu button,
+.motor .chat-quick-prompts .quick-prompt-btn {
+  min-height: 48px;
 }
 
 /* Sin movimiento (TEA) */
@@ -421,7 +527,16 @@
 .still .calm-orb .buddy,
 .still .story-loading,
 .still .story-loading *,
-.still .story-confirm-btn {
+.still .story-confirm-btn,
+.still .chat-avatar svg,
+.still .chat-row,
+.still .chat-typing i,
+.still .chat-mic-btn.rec::after,
+.still .chat-wave i,
+.still .chat-slot.is-flash,
+.still .chat-sent-icon,
+.still .chat-report,
+.still .chat-progress-bar {
   transition: none !important;
   animation: none !important;
 }

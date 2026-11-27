@@ -1,41 +1,332 @@
 /**
- * Módulo de Modo No Adaptado: Chatbot con voz, envío anónimo y configuración de API Gemini.
+ * Módulo de Modo No Adaptado: Chatbot «Nube» con voz, envío anónimo en vivo y proxy IA seguro.
  */
 
-import { $, all, node, on, put, show, submit, value, visible } from '../core/dom.js';
-import { addNotice, state } from '../core/state.js';
+import { $, all, on, put, show, submit, value } from '../core/dom.js';
+import { addNotice, state, uiState } from '../core/state.js';
 import { closeModal, registerPageHook } from '../core/router.js';
 import {
   askGemini,
+  checkServerAiAvailability,
   clearGeminiConfig,
-  getGeminiConfig,
+  detectSuggestedPlace,
+  getAiMode,
   setGeminiConfig,
   testGeminiConnection,
 } from '../services/gemini.js';
-import { onLanguageChange, t } from '../services/i18n.js';
+import { onLanguageChange, t, translatePlace, translateRecipient } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
+import {
+  detectRecipientFromMessage,
+  detectWhatPictogram,
+  detectWhoFromMessage,
+  mergeIncidentSummary,
+} from './chat-report-helpers.js';
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const ARASAAC_BASE = './assets/arasaac/';
+
+const WHO_VISUAL = {
+  victima: { img: 'yo.png', key: 'chat_who_victim' },
+  testigo: { img: 'companero.png', key: 'chat_who_witness' },
+  varios: { img: 'grupo.png', key: 'chat_who_several' },
+};
+
+const PLACE_VISUAL = {
+  patio: { img: 'patio.png' },
+  hallways: { img: 'pasillo.png' },
+  class: { img: 'clase.png' },
+  digital: { emo: '📱' },
+  entrance: { emo: '🚪' },
+};
+
+const TO_VISUAL = {
+  guidance: { img: 'ayuda.png' },
+  tutor: { img: 'profesor.png' },
+  director: { emo: '🏫' },
+};
+
+const reportState = {
+  who: 'victima',
+  whoManual: false,
+  where: '',
+  whereManual: false,
+  what: '',
+  whatManual: false,
+  whatPic: '',
+  to: 'guidance',
+  toManual: false,
+  sent: false,
+  openEditor: '',
+  readyToastShown: false,
+};
 
 let autoTts = true;
 let lastAnonCode = '';
+let lastDetectedPlace = '';
+let isSending = false;
+let mobileToastTimer = null;
+const flashTimers = new Map();
 
-function appendChatLine(text, own = false) {
+function createSvgUse(symbolId) {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('aria-hidden', 'true');
+  const use = document.createElementNS(SVG_NS, 'use');
+  use.setAttribute('href', symbolId);
+  svg.append(use);
+  return svg;
+}
+
+function createBuddyAvatar(symbolId) {
+  const span = document.createElement('span');
+  span.className = 'chat-mini-avatar';
+  span.append(createSvgUse(symbolId));
+  return span;
+}
+
+function scrollChatToBottom() {
+  const scroller = $('chat-scroll');
+  if (scroller) scroller.scrollTop = scroller.scrollHeight;
   const box = $('chat-messages');
-  if (!box) return;
-  box.append(node('p', text, 'bubble' + (own ? ' own' : '')));
-  box.scrollTop = box.scrollHeight;
+  if (box) box.scrollTop = box.scrollHeight;
+}
+
+function setSlotVisual(container, visual) {
+  if (!container) return;
+  container.replaceChildren();
+  if (visual?.img) {
+    const img = document.createElement('img');
+    img.src = ARASAAC_BASE + visual.img;
+    img.alt = '';
+    img.width = 44;
+    img.height = 44;
+    container.append(img);
+    return;
+  }
+  container.textContent = visual?.emo || '📝';
+}
+
+function flashSlot(slotKey) {
+  const slotEl = document.querySelector(`.chat-slot[data-slot="${slotKey}"]`);
+  if (!slotEl) return;
+  slotEl.classList.remove('is-flash');
+  void slotEl.offsetWidth;
+  slotEl.classList.add('is-flash');
+  clearTimeout(flashTimers.get(slotKey));
+  flashTimers.set(
+    slotKey,
+    setTimeout(() => slotEl.classList.remove('is-flash'), 900)
+  );
+}
+
+function showMobileReadyToast() {
+  const toast = $('chat-mobile-toast');
+  if (!toast) return;
+  toast.classList.add('show');
+  clearTimeout(mobileToastTimer);
+  mobileToastTimer = setTimeout(() => toast.classList.remove('show'), 4500);
+}
+
+function toggleReportSheet(force) {
+  const report = $('chat-report');
+  if (!report) return;
+  const open = typeof force === 'boolean' ? force : !report.classList.contains('is-open');
+  report.classList.toggle('is-open', open);
+  $('btn-report-handle')?.setAttribute('aria-expanded', String(open));
+}
+
+function setSosBannerOpen(open) {
+  show('chat-sos-banner', open);
+  $('btn-chat-sos')?.setAttribute('aria-expanded', String(open));
+}
+
+function setMenuOpen(open) {
+  const menu = $('chat-more-menu');
+  if (!menu) return;
+  menu.classList.toggle('open', open);
+  $('btn-chat-menu')?.setAttribute('aria-expanded', String(open));
+}
+
+function openSlotEditor(slotKey, toggle = true) {
+  const nextKey = toggle && reportState.openEditor === slotKey ? '' : slotKey;
+  reportState.openEditor = nextKey;
+
+  for (const key of ['who', 'where', 'what', 'to']) {
+    const isOpen = key === nextKey;
+    show('slot-editor-' + key, isOpen);
+    document
+      .querySelector(`[data-edit-slot="${key}"]`)
+      ?.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  if (nextKey === 'what') {
+    $('anon-extra')?.focus();
+  }
+}
+
+function syncQuickPromptsState() {
+  const box = $('chat-messages');
+  const hasUserMessages = Boolean(box?.querySelector('.bubble.own'));
+  $('chat-quick-prompts')?.classList.toggle('is-compact', hasUserMessages);
+}
+
+function appendChatLine(text, own = false, extraClass = '') {
+  const box = $('chat-messages');
+  if (!box) return null;
+
+  const row = document.createElement('div');
+  row.className = 'chat-row ' + (own ? 'chat-row-own' : 'chat-row-bot');
+  if (!own) {
+    row.append(createBuddyAvatar('#buddy'));
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble' + (own ? ' own' : '') + (extraClass ? ' ' + extraClass : '');
+
+  const textSpan = document.createElement('span');
+  textSpan.className = 'bubble-text';
+  textSpan.textContent = text;
+  bubble.append(textSpan);
+
+  if (!own) {
+    const speakBtn = document.createElement('button');
+    speakBtn.type = 'button';
+    speakBtn.className = 'chat-speak-btn';
+    speakBtn.setAttribute('aria-label', t('chat_speak_msg'));
+    speakBtn.title = t('chat_speak_msg');
+    speakBtn.append(createSvgUse('#i-speaker'));
+    speakBtn.addEventListener('click', () => say(text));
+    bubble.append(speakBtn);
+  }
+
+  row.append(bubble);
+  box.append(row);
+  syncQuickPromptsState();
+  scrollChatToBottom();
+  return bubble;
+}
+
+function appendThinkingRow() {
+  const box = $('chat-messages');
+  if (!box) return null;
+
+  const row = document.createElement('div');
+  row.className = 'chat-row chat-row-bot';
+  row.append(createBuddyAvatar('#buddy-calm'));
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble thinking';
+
+  const dots = document.createElement('span');
+  dots.className = 'chat-typing';
+  dots.setAttribute('aria-hidden', 'true');
+  dots.append(document.createElement('i'), document.createElement('i'), document.createElement('i'));
+
+  const sr = document.createElement('span');
+  sr.className = 'chat-thinking-sr';
+  sr.textContent = t('chat_thinking');
+
+  bubble.append(dots, sr);
+  row.append(bubble);
+  box.append(row);
+  scrollChatToBottom();
+  return row;
+}
+
+function syncWhoFromBranch() {
+  if (!reportState.whoManual) {
+    reportState.who = state.branch === 'testigo' ? 'testigo' : 'victima';
+  }
+}
+
+export function renderReportPanel({ notifyReady = false } = {}) {
+  const doneCount = 1 + (reportState.where ? 1 : 0) + (reportState.what ? 1 : 0) + 1;
+
+  const bar = $('chat-report-bar');
+  if (bar) bar.style.width = `${(doneCount / 4) * 100}%`;
+
+  put('chat-report-count', t('chat_report_progress', { done: doneCount }));
+  put('chat-report-count-m', reportState.sent ? '✓' : `${doneCount}/4`);
+
+  const whoMeta = WHO_VISUAL[reportState.who] || WHO_VISUAL.victima;
+  setSlotVisual($('slot-pic-who'), whoMeta);
+  put('slot-val-who', t(whoMeta.key));
+  all('[data-pick-who]').forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.pickWho === reportState.who));
+  });
+
+  const whereSlot = document.querySelector('.chat-slot[data-slot="where"]');
+  const hasWhere = Boolean(reportState.where);
+  whereSlot?.classList.toggle('is-done', hasWhere);
+  setSlotVisual($('slot-pic-where'), PLACE_VISUAL[reportState.where] || PLACE_VISUAL.patio);
+  put('slot-val-where', hasWhere ? translatePlace(reportState.where) : t('chat_slot_waiting'));
+  all('[data-pick-where]').forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.pickWhere === reportState.where));
+  });
+
+  const whatSlot = document.querySelector('.chat-slot[data-slot="what"]');
+  const cleanWhat = reportState.what.trim();
+  const hasWhat = Boolean(cleanWhat);
+  whatSlot?.classList.toggle('is-done', hasWhat);
+  setSlotVisual(
+    $('slot-pic-what'),
+    hasWhat && reportState.whatPic ? { img: reportState.whatPic } : { emo: '📝' }
+  );
+  put('slot-val-what', hasWhat ? cleanWhat : t('chat_slot_waiting'));
+
+  const toVisual = TO_VISUAL[reportState.to] || TO_VISUAL.guidance;
+  setSlotVisual($('slot-pic-to'), toVisual);
+  put('slot-val-to', translateRecipient(reportState.to));
+  all('[data-pick-to]').forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.pickTo === reportState.to));
+  });
+
+  const submitBtn = $('btn-submit-anon');
+  if (submitBtn) submitBtn.disabled = !hasWhat;
+
+  put(
+    'chat-report-foot-note',
+    hasWhat
+      ? t('chat_foot_recipient', { recipient: translateRecipient(reportState.to) })
+      : t('chat_foot_hint')
+  );
+
+  const report = $('chat-report');
+  const isReady = doneCount === 4 && !reportState.sent;
+  if (report) {
+    report.classList.toggle('is-ready', isReady);
+    report.classList.toggle('is-sent', reportState.sent);
+  }
+
+  if (notifyReady && isReady && !reportState.readyToastShown) {
+    reportState.readyToastShown = true;
+    showMobileReadyToast();
+  }
 }
 
 export function initChatWelcome() {
   const box = $('chat-messages');
   if (!box) return;
   box.replaceChildren();
+  syncWhoFromBranch();
   const welcome = t(state.branch === 'testigo' ? 'chat_welcome_witness' : 'chat_welcome_victim');
   appendChatLine(welcome, false);
+  renderReportPanel();
 }
 
 export function syncChat() {
-  const config = getGeminiConfig();
-  put('gemini-status-pill', t(config.key ? 'chat_status_gemini' : 'chat_status_local'));
+  put('gemini-status-pill', t(getAiMode() === 'server' ? 'chat_status_server' : 'chat_status_local'));
+}
+
+async function probeAndSyncChat() {
+  await checkServerAiAvailability();
+  syncChat();
+}
+
+function syncPlaceHint() {
+  if (!lastDetectedPlace) return;
+  put('chat-place-hint', t('chat_place_detected', { place: translatePlace(lastDetectedPlace) }));
+  show('chat-place-hint', true);
 }
 
 function syncBotVoiceButton() {
@@ -59,24 +350,152 @@ function currentModel() {
     : value('gemini-model-select');
 }
 
-export function initChat() {
-  registerPageHook('no-adapted', () => {
-    if (!$('chat-messages')?.children.length) {
-      initChatWelcome();
+function applyWhereSelection(place, { manual = false, showHint = true } = {}) {
+  if (!place) return;
+  const changed = reportState.where !== place;
+  reportState.where = place;
+  if (manual) reportState.whereManual = true;
+  if ($('anon-place')) $('anon-place').value = place;
+  lastDetectedPlace = place;
+  if (showHint) syncPlaceHint();
+  if (changed) flashSlot('where');
+}
+
+function applyWhoSelection(who, { manual = false } = {}) {
+  if (!WHO_VISUAL[who]) return;
+  const changed = reportState.who !== who;
+  reportState.who = who;
+  if (manual) reportState.whoManual = true;
+  if (who === 'victima' || who === 'testigo') {
+    state.branch = who;
+  }
+  if (changed) flashSlot('who');
+}
+
+function applyRecipientSelection(recipient, { manual = false } = {}) {
+  if (!TO_VISUAL[recipient]) return;
+  const changed = reportState.to !== recipient;
+  reportState.to = recipient;
+  if (manual) reportState.toManual = true;
+  if ($('anon-recipient')) $('anon-recipient').value = recipient;
+  if (changed) flashSlot('to');
+}
+
+function updateLiveReportFromUserMessage(text, serverPlace = null) {
+  if (reportState.sent) {
+    reportState.sent = false;
+    reportState.readyToastShown = false;
+    show('anon-confirm-msg', false);
+  }
+
+  const detectedPlace = serverPlace || detectSuggestedPlace(text);
+  const detectedRecipient = detectRecipientFromMessage(text);
+  const detectedWho = detectWhoFromMessage(text);
+
+  if (!reportState.whoManual && detectedWho) {
+    applyWhoSelection(detectedWho);
+  }
+
+  if (!reportState.toManual && detectedRecipient) {
+    applyRecipientSelection(detectedRecipient);
+  }
+
+  if ((!reportState.whereManual || !reportState.where) && detectedPlace) {
+    applyWhereSelection(detectedPlace, { showHint: true });
+  }
+
+  if (!reportState.whatManual) {
+    const merged = mergeIncidentSummary(reportState.what, text, {
+      detectedPlace,
+      detectedRecipient,
+    });
+    if (merged && merged !== reportState.what) {
+      reportState.what = merged;
+      reportState.whatPic = detectWhatPictogram(merged) || '';
+      if ($('anon-extra')) $('anon-extra').value = merged;
+      flashSlot('what');
     }
+  }
+
+  renderReportPanel({ notifyReady: true });
+}
+
+function buildAudioWaveBars() {
+  const wave = $('chat-wave');
+  if (!wave || wave.children.length) return;
+  for (let i = 0; i < 26; i++) {
+    const bar = document.createElement('i');
+    bar.style.animationDelay = `${((i % 9) * 0.1).toFixed(2)}s`;
+    wave.append(bar);
+  }
+}
+
+function cycleFontSizeFromMenu() {
+  const segs = all('.font-seg-btn');
+  if (!segs.length) return;
+  const activeIdx = segs.findIndex((btn) => btn.getAttribute('aria-pressed') === 'true');
+  const nextBtn = segs[(activeIdx + 1) % segs.length];
+  nextBtn?.click();
+}
+
+export function initChat() {
+  buildAudioWaveBars();
+
+  registerPageHook('no-adapted', () => {
+    const box = $('chat-messages');
+    if (!box?.children.length || !box.querySelector('.bubble.own')) {
+      initChatWelcome();
+    } else {
+      syncWhoFromBranch();
+      renderReportPanel();
+    }
+    probeAndSyncChat();
   });
 
   submit('form-chat', async () => {
+    if (isSending) return;
     const text = value('chat-input');
     if (!text) return;
-    if ($('chat-input')) $('chat-input').value = '';
-    if ($('anon-extra')) $('anon-extra').value = text;
-    appendChatLine(text, true);
 
-    const reply = await askGemini(text);
-    appendChatLine(reply, false);
-    if (autoTts && !$('gear-deaf-mode')?.checked) {
-      say(reply);
+    const inputEl = $('chat-input');
+    const sendBtn = $('btn-send-chat');
+    isSending = true;
+    if (inputEl) {
+      inputEl.value = '';
+      inputEl.disabled = true;
+    }
+    if (sendBtn) sendBtn.disabled = true;
+
+    updateLiveReportFromUserMessage(text);
+    appendChatLine(text, true);
+    const thinkingRow = appendThinkingRow();
+
+    try {
+      const result = await askGemini(text, { branch: state.branch });
+      thinkingRow?.remove();
+      if (!result) return;
+
+      appendChatLine(result.reply, false, result.crisis ? 'crisis' : '');
+
+      if (result.crisis) {
+        setSosBannerOpen(true);
+      }
+
+      if (result.suggestedPlace && (!reportState.whereManual || !reportState.where)) {
+        applyWhereSelection(result.suggestedPlace, { showHint: true });
+        renderReportPanel({ notifyReady: true });
+      }
+
+      syncChat();
+
+      if (autoTts && !$('gear-deaf-mode')?.checked) {
+        say(result.reply);
+      }
+    } finally {
+      thinkingRow?.remove();
+      isSending = false;
+      if (inputEl) inputEl.disabled = false;
+      if (sendBtn) sendBtn.disabled = false;
     }
   });
 
@@ -87,26 +506,153 @@ export function initChat() {
     if (!autoTts) window.speechSynthesis?.cancel();
   });
 
-  // Panel de envío anónimo
-  on('btn-open-anon-panel', () => show('anon-panel', !visible($('anon-panel'))));
+  on('btn-chat-sos', () => {
+    const banner = $('chat-sos-banner');
+    setSosBannerOpen(Boolean(banner?.classList.contains('hidden')));
+  });
+
+  on('btn-close-chat-sos', () => setSosBannerOpen(false));
+
+  on('btn-chat-menu', (e) => {
+    e.stopPropagation();
+    const isOpen = $('chat-more-menu')?.classList.contains('open');
+    setMenuOpen(!isOpen);
+  });
+
+  on('btn-chat-font-size', () => {
+    cycleFontSizeFromMenu();
+    setMenuOpen(false);
+  });
+
+  $('chat-more-menu')?.addEventListener('click', (e) => {
+    const item = e.target.closest('button[role="menuitem"]');
+    if (item && item.id !== 'btn-toggle-auto-tts') {
+      setMenuOpen(false);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.chat-head-actions')) {
+      setMenuOpen(false);
+    }
+  });
+
+  // Hoja inferior móvil y toast
+  on('btn-report-handle', () => toggleReportSheet());
+  on('btn-chat-toast-open', () => {
+    toggleReportSheet(true);
+    $('chat-mobile-toast')?.classList.remove('show');
+  });
+
+  // Edición inline de los 4 slots del aviso
+  all('[data-edit-slot]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      openSlotEditor(btn.dataset.editSlot || '');
+    });
+  });
+
+  all('[data-close-editor]').forEach((btn) => {
+    btn.addEventListener('click', () => openSlotEditor('', false));
+  });
+
+  all('[data-pick-who]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      applyWhoSelection(btn.dataset.pickWho, { manual: true });
+      openSlotEditor('', false);
+      renderReportPanel({ notifyReady: true });
+    });
+  });
+
+  all('[data-pick-where]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      applyWhereSelection(btn.dataset.pickWhere, { manual: true, showHint: false });
+      openSlotEditor('', false);
+      renderReportPanel({ notifyReady: true });
+    });
+  });
+
+  all('[data-pick-what-key]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const label = t(btn.dataset.pickWhatKey || '');
+      reportState.what = label;
+      reportState.whatManual = true;
+      reportState.whatPic = btn.dataset.pickPic || detectWhatPictogram(label) || '';
+      if ($('anon-extra')) $('anon-extra').value = label;
+      flashSlot('what');
+      openSlotEditor('', false);
+      renderReportPanel({ notifyReady: true });
+    });
+  });
+
+  all('[data-pick-to]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      applyRecipientSelection(btn.dataset.pickTo, { manual: true });
+      openSlotEditor('', false);
+      renderReportPanel({ notifyReady: true });
+    });
+  });
+
+  $('anon-extra')?.addEventListener('input', () => {
+    const val = $('anon-extra')?.value.trim() || '';
+    reportState.what = val;
+    reportState.whatManual = Boolean(val);
+    reportState.whatPic = detectWhatPictogram(val) || '';
+    renderReportPanel({ notifyReady: true });
+  });
+
+  $('anon-place')?.addEventListener('change', () => {
+    const val = value('anon-place');
+    if (val) {
+      applyWhereSelection(val, { manual: true, showHint: false });
+      renderReportPanel({ notifyReady: true });
+    }
+  });
+
+  $('anon-recipient')?.addEventListener('change', () => {
+    const val = value('anon-recipient');
+    if (val) {
+      applyRecipientSelection(val, { manual: true });
+      renderReportPanel({ notifyReady: true });
+    }
+  });
 
   on('btn-submit-anon', () => {
     const chatLines = all('#chat-messages .bubble.own')
-      .map((bubble) => bubble.textContent)
+      .map((bubble) => bubble.querySelector('.bubble-text')?.textContent || bubble.textContent)
       .join(' | ');
-    const text = value('anon-extra') || chatLines || t('chat_anon_default');
-    const place = value('anon-place') || 'patio';
-    const recipient = value('anon-recipient') || 'guidance';
+    const text = value('anon-extra') || reportState.what || chatLines || t('chat_anon_default');
+    const place = reportState.where || value('anon-place') || 'patio';
+    const recipient = reportState.to || value('anon-recipient') || 'guidance';
+
     const code = addNotice(text, place, recipient, '', { contextKey: 'chat_anon_context' });
     lastAnonCode = code;
+    state.place = place;
+    uiState.lastReport = text;
 
+    reportState.sent = true;
+    openSlotEditor('', false);
     put('anon-confirm-msg', t('chat_anon_confirm', { code }));
     show('anon-confirm-msg', true);
-    if ($('anon-extra')) $('anon-extra').value = '';
+    renderReportPanel();
+
+    appendChatLine(t('chat_anon_confirm', { code }), false);
     say(t('chat_anon_spoken'));
   });
 
-  // Modal API Gemini
+  on('btn-chat-keep-talking', () => {
+    reportState.sent = false;
+    reportState.what = '';
+    reportState.whatManual = false;
+    reportState.whatPic = '';
+    reportState.readyToastShown = false;
+    if ($('anon-extra')) $('anon-extra').value = '';
+    show('anon-confirm-msg', false);
+    renderReportPanel();
+    toggleReportSheet(false);
+    $('chat-input')?.focus();
+  });
+
+  // Modal API Gemini (ajustes / análisis US-ED-14)
   $('gemini-model-select')?.addEventListener('change', () => {
     show('custom-model-group', value('gemini-model-select') === 'custom');
   });
@@ -156,11 +702,24 @@ export function initChat() {
       initChatWelcome();
     }
 
+    all('#chat-messages .chat-speak-btn').forEach((btn) => {
+      btn.setAttribute('aria-label', t('chat_speak_msg'));
+      btn.title = t('chat_speak_msg');
+    });
+
+    if (lastDetectedPlace && $('chat-place-hint') && !$('chat-place-hint').classList.contains('hidden')) {
+      syncPlaceHint();
+    }
+
     if (lastAnonCode && $('anon-confirm-msg') && !$('anon-confirm-msg').classList.contains('hidden')) {
       put('anon-confirm-msg', t('chat_anon_confirm', { code: lastAnonCode }));
     }
+
+    renderReportPanel();
   });
 
   syncChat();
   syncBotVoiceButton();
+  renderReportPanel();
+  probeAndSyncChat();
 }

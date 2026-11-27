@@ -1,21 +1,53 @@
 /**
- * Servicio de IA conversacional (Google Gemini opcional + motor empático local offline).
+ * Servicio de IA conversacional (proxy seguro /api/chat + motor empático local offline)
+ * y análisis estructurado del relato diario (US-ED-14).
  */
 
 import { $ } from '../core/dom.js';
 import { read, save } from '../core/storage.js';
-import { t } from './i18n.js';
+import { getLang, t } from './i18n.js';
 
 let config = read('gemini') || { key: '', model: 'gemini-2.5-flash' };
 let conversation = [];
 let controller = null;
+let serverAiAvailable = false;
 
-const PATIO_RE =
-  /recreo|patio|solo|dejan|esbarjo|pati|recess|playground|alone|r[eé]cr[eé]|cour|seul|pause|hof|allein|p[aá]tio|sozinho|استراحة|ساحة|وحده|وحدي/i;
-const HALLWAY_RE =
-  /pasillo|baño|cambio|passad[ií]s|banys|hallway|restroom|corridor|couloir|toilette|flur|wechsel|corredor|ممر|ممرات|تبديل/i;
 const CALM_RE =
-  /calma|miedo|nervio|bloque|por|bloq|calm|scared|afraid|fear|peur|effray|angst|ruhig|medo|خوف|خائف|هدوء|أهدأ|تجم/i;
+  /calma|miedo|nervio|bloque|(?:tinc|fa|molta)\s+por\b|bloq|calm|scared|afraid|fear|peur|effray|angst|ruhig|medo|خوف|خائف|هدوء|أهدأ|تجم/i;
+
+const CRISIS_RE =
+  /suicid|quitarme la vida|matarme|no quiero vivir|hacerme daño|autolesi|cortarme|tirarme por|me van a matar|voy a matar|peligro inmediato|cuchillo|navaja|su[iï]cid|llevar-me la vida|matar-me|no vull viure|fer-me mal|tallar-me|perill immediat|ganivet|kill myself|end my life|want to die|hurt myself|self.?harm|cut myself|going to kill|gonna kill|in danger right now|\bknife\b|\bweapon\b|\bgun\b|me tuer|mettre fin [aà] mes jours|envie de mourir|me faire du mal|automutil|me couper|danger imm[eé]diat|couteau|suizid|mich umbringen|selbstmord|nicht mehr leben|mir wehtun|selbstverletz|mich schneiden|akute gefahr|messer|waffe|suic[ií]d|me matar|tirar a minha vida|n[aã]o quero viver|me machucar|magoar-me|me cortar|perigo imediato|\bfaca\b|انتحار|أنتحر|أقتل نفسي|أريد أن أموت|لا أريد أن أعيش|إيذاء نفسي|أجرح نفسي|سيقتلوني|خطر شديد|سكين|سلاح/i;
+
+const PLACE_RULES = [
+  {
+    place: 'digital',
+    re: /m[oó]vil|tel[eé]fono|redes|internet|whatsapp|tiktok|instagram|\bchat|mensaje|foto|v[ií]deo|pantalla|online|m[oò]bil|xarxes|phone|social media|t[eé]l[eé]phone|handy|telem[oó]vel|celular|هاتف|موبايل|إنترنت|رسائل/i,
+  },
+  {
+    place: 'hallways',
+    re: /pasillo|baño|aseo|escalera|vestuario|taquilla|cambio de clase|passad[ií]s|\bbany|lavabo|hallway|corridor|bathroom|restroom|locker|couloir|toilette|\bflur\b|wechsel|corredor|banheiro|casa de banho|ممر|ممرات|حمام/i,
+  },
+  {
+    place: 'entrance',
+    re: /entrada|salida|puerta|autob[uú]s|\bbus\b|camino|calle|porter[ií]a|sortida|\bporta\b|entrance|exit|gate|way home|entr[eé]e|sortie|eingang|ausgang|sa[ií]da|port[aã]o|بوابة|دخول|خروج|حافلة/i,
+  },
+  {
+    place: 'class',
+    re: /clase|aula|pupitre|pizarra|examen|\bprof|deberes|classe|pissarra|\bclass\b|classroom|teacher|\bdesk\b|\bcours\b|klasse|unterricht|lehrer|\bsala\b|فصل|صف|درس|معلم/i,
+  },
+  {
+    place: 'patio',
+    re: /patio|recreo|comedor|cancha|pista|f[uú]tbol|parque|esbarjo|\bpati\b|menjador|playground|recess|lunch|cafeteria|\bcour\b|r[eé]cr[eé]|cantine|pause|\bhof\b|mensa|p[aá]tio|refeit[oó]rio|ساحة|استراحة|ملعب|مقصف/i,
+  },
+];
+
+const PLACE_OFFLINE_KEY = {
+  patio: 'chat_offline_patio',
+  hallways: 'chat_offline_hallway',
+  class: 'chat_offline_class',
+  digital: 'chat_offline_digital',
+  entrance: 'chat_offline_entrance',
+};
 
 export function getGeminiConfig() {
   return config;
@@ -33,23 +65,93 @@ export function clearGeminiConfig() {
 
 export function abortGemini() {
   controller?.abort();
+  controller = null;
+}
+
+export function detectSuggestedPlace(text) {
+  const clean = String(text ?? '').trim();
+  if (!clean) return null;
+  for (const rule of PLACE_RULES) {
+    if (rule.re.test(clean)) return rule.place;
+  }
+  return null;
+}
+
+export function detectCrisis(text) {
+  return CRISIS_RE.test(String(text ?? ''));
+}
+
+export function getAiMode() {
+  return serverAiAvailable ? 'server' : 'local';
+}
+
+export async function checkServerAiAvailability() {
+  const probeController = new AbortController();
+  const timer = setTimeout(() => probeController.abort(), 3000);
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal: probeController.signal,
+    });
+    if (!res.ok) {
+      serverAiAvailable = false;
+      return false;
+    }
+    const data = await res.json().catch(() => null);
+    if (data && typeof data === 'object' && 'available' in data) {
+      serverAiAvailable = Boolean(data.available);
+    } else if (data && typeof data === 'object' && 'configured' in data) {
+      serverAiAvailable = Boolean(data.configured);
+    } else {
+      serverAiAvailable = true;
+    }
+    return serverAiAvailable;
+  } catch {
+    serverAiAvailable = false;
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export function buildLocalChatReply(text) {
+  const clean = String(text ?? '').trim();
+  const suggestedPlace = detectSuggestedPlace(clean);
+
+  if (detectCrisis(clean)) {
+    return {
+      reply: t('chat_crisis_reply'),
+      suggestedPlace,
+      source: 'safety',
+      crisis: true,
+    };
+  }
+
+  let reply;
+  if (suggestedPlace && PLACE_OFFLINE_KEY[suggestedPlace]) {
+    reply = t(PLACE_OFFLINE_KEY[suggestedPlace]);
+  } else if (CALM_RE.test(clean)) {
+    reply = t('chat_offline_calm');
+  } else {
+    reply = t('chat_offline_default');
+  }
+
+  return {
+    reply,
+    suggestedPlace,
+    source: 'local',
+    crisis: false,
+  };
 }
 
 export function offlineReply(text) {
-  if (PATIO_RE.test(text)) {
+  const result = buildLocalChatReply(text);
+  if (result.suggestedPlace) {
     const placeEl = $('anon-place');
-    if (placeEl) placeEl.value = 'patio';
-    return t('chat_offline_patio');
+    if (placeEl) placeEl.value = result.suggestedPlace;
   }
-  if (HALLWAY_RE.test(text)) {
-    const placeEl = $('anon-place');
-    if (placeEl) placeEl.value = 'hallways';
-    return t('chat_offline_hallway');
-  }
-  if (CALM_RE.test(text)) {
-    return t('chat_offline_calm');
-  }
-  return t('chat_offline_default');
+  return result.reply;
 }
 
 async function callGeminiApi(key, modelName, contents, signal) {
@@ -80,23 +182,68 @@ async function callGeminiApi(key, modelName, contents, signal) {
   );
 }
 
-export async function askGemini(userMessage) {
-  if (!config.key) {
-    return offlineReply(userMessage);
-  }
+export async function askGemini(userMessage, options = {}) {
+  const lang = options.lang || getLang();
+  const branch = options.branch || '';
   const turn = { role: 'user', parts: [{ text: userMessage }] };
-  controller = new AbortController();
+
+  controller?.abort();
+  const activeController = new AbortController();
+  controller = activeController;
+
   try {
-    const reply = await callGeminiApi(
-      config.key,
-      config.model,
-      [...conversation.slice(-6), turn],
-      controller.signal
-    );
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      signal: activeController.signal,
+      body: JSON.stringify({
+        message: userMessage,
+        history: conversation.slice(-6).map((h) => ({
+          role: h.role,
+          text: h.parts[0].text,
+        })),
+        lang,
+        branch,
+      }),
+    });
+
+    if (res.status === 404 || res.status === 503) {
+      serverAiAvailable = false;
+    }
+    if (!res.ok) {
+      throw new Error('Error ' + res.status);
+    }
+
+    const data = await res.json();
+    const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+    if (!reply) {
+      throw new Error('Empty reply');
+    }
+
     conversation.push(turn, { role: 'model', parts: [{ text: reply }] });
-    return reply;
-  } catch {
-    return offlineReply(userMessage);
+    serverAiAvailable = data.source === 'server' || serverAiAvailable;
+    const suggestedPlace = data.suggestedPlace || detectSuggestedPlace(userMessage);
+
+    return {
+      reply,
+      suggestedPlace,
+      source: data.source || 'server',
+      crisis: Boolean(data.crisis),
+    };
+  } catch (err) {
+    if (err?.name === 'AbortError' || activeController.signal.aborted) {
+      return null;
+    }
+    const local = buildLocalChatReply(userMessage);
+    conversation.push(turn, { role: 'model', parts: [{ text: local.reply }] });
+    return local;
+  } finally {
+    if (controller === activeController) {
+      controller = null;
+    }
   }
 }
 
@@ -190,29 +337,6 @@ const EMOTION_RULES = [
   {
     emotion: 'calm',
     re: /\bbien\b|tranquil|feliz|content|genial|alegre|calma|\bb[eé]\b|feli[cç]|\bcalm\b|\bgood\b|\bfine\b|happy|okay|great|calme|heureux|ruhig|\bgut\b|gl[uü]cklich|calmo|\bbem\b|هادئ|بخير|سعيد/i,
-  },
-];
-
-const PLACE_RULES = [
-  {
-    place: 'digital',
-    re: /m[oó]vil|tel[eé]fono|redes|internet|whatsapp|tiktok|instagram|\bchat|mensaje|foto|v[ií]deo|pantalla|online|m[oò]bil|xarxes|phone|social media|t[eé]l[eé]phone|handy|telem[oó]vel|celular|هاتف|موبايل|إنترنت|رسائل/i,
-  },
-  {
-    place: 'hallways',
-    re: /pasillo|baño|aseo|escalera|vestuario|taquilla|cambio de clase|passad[ií]s|\bbany|lavabo|hallway|corridor|bathroom|restroom|locker|couloir|toilette|\bflur\b|wechsel|corredor|banheiro|casa de banho|ممر|ممرات|حمام/i,
-  },
-  {
-    place: 'entrance',
-    re: /entrada|salida|puerta|autob[uú]s|\bbus\b|camino|calle|porter[ií]a|sortida|\bporta\b|entrance|exit|gate|way home|entr[eé]e|sortie|eingang|ausgang|sa[ií]da|port[aã]o|بوابة|دخول|خروج|حافلة/i,
-  },
-  {
-    place: 'class',
-    re: /clase|aula|pupitre|pizarra|examen|\bprof|deberes|classe|pissarra|\bclass\b|classroom|teacher|\bdesk\b|\bcours\b|klasse|unterricht|lehrer|\bsala\b|فصل|صف|درس|معلم/i,
-  },
-  {
-    place: 'patio',
-    re: /patio|recreo|comedor|cancha|pista|f[uú]tbol|parque|esbarjo|\bpati\b|menjador|playground|recess|lunch|cafeteria|\bcour\b|r[eé]cr[eé]|cantine|pause|\bhof\b|mensa|p[aá]tio|refeit[oó]rio|ساحة|استراحة|ملعب|مقصف/i,
   },
 ];
 

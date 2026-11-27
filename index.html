@@ -41,6 +41,7 @@
       <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11.5m0-1a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.7-2.3L4.4 15.6a1.5 1.5 0 0 1 2.3-1.9L9 16"/></symbol>
       <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.5"/><path d="M9.5 20.5v-6h5v6"/></symbol>
       <symbol id="i-stop" viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
 
       <!-- Caras de emociones (propias). Colores vía variables CSS: --face, --ink -->
       <symbol id="f-calm" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--face,#F4D27A)"/><g fill="none" stroke="var(--ink,#1F2A37)" stroke-width="4.5" stroke-linecap="round"><path d="M29 46q7-6 14 0M57 46q7-6 14 0"/><path d="M37 63q13 10 26 0"/></g><circle cx="27" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/><circle cx="73" cy="58" r="5" fill="var(--cheek,#EFA27F)" opacity=".55"/></symbol>
@@ -739,101 +740,328 @@
     </section>
 
     <!-- ================================================================
-         PANTALLA NO ADAPTADO: CHATBOT (CON VOZ) Y SERVICIO ANÓNIMO
+         PANTALLA NO ADAPTADO: CHATBOT (CON VOZ) Y AVISO ANÓNIMO EN VIVO
          ================================================================ -->
-    <section id="screen-no-adapted" class="card step-section hidden" aria-labelledby="title-no-adapted">
-      <div class="chat-header">
-        <div>
-          <div class="step-badge" data-i18n="chat_badge">Modo No Adaptado · Voz + Anónimo</div>
-          <h1 id="title-no-adapted" data-i18n="chat_title">Chat con Voz y Envío Anónimo</h1>
-        </div>
-        <div class="gemini-status-box">
-          <span id="gemini-status-pill" class="status-pill" data-i18n="chat_status_local">🔒 Modo Anónimo Local</span>
-          <button type="button" id="btn-toggle-auto-tts" class="btn-mini" aria-pressed="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
-          <button type="button" id="btn-open-api-modal" class="btn-mini" data-i18n="chat_api_btn">IA Gemini</button>
-        </div>
-      </div>
+    <section id="screen-no-adapted" class="step-section chat-screen hidden" aria-labelledby="title-no-adapted">
+      <div class="chat-shell" id="chat-shell">
+        <div class="chat-app" id="chat-app">
 
-      <p class="lead-text" id="chat-mode-subtitle" data-i18n="chat_subtitle">
-        Habla con tu voz o escribe. Abajo puedes enviarlo al profesor sin decir tu nombre.
-      </p>
+          <!-- ====================== CHAT CON NUBE ====================== -->
+          <div class="chat-pane" role="region" aria-labelledby="title-no-adapted">
+            <header class="chat-head">
+              <div class="chat-avatar">
+                <svg aria-hidden="true"><use href="#buddy"/></svg>
+              </div>
+              <div class="chat-who">
+                <h1 id="title-no-adapted" class="chat-who-name" data-i18n="chat_nube_name">Nube</h1>
+                <p class="chat-who-status">
+                  <i class="chat-dot-online" aria-hidden="true"></i>
+                  <span id="gemini-status-pill" data-i18n="chat_status_local">🔒 Modo Anónimo Local</span>
+                  <span class="chat-sub-extra"> · <span data-i18n="chat_nube_subtitle">nadie sabrá que eres tú</span></span>
+                </p>
+              </div>
+              <div class="chat-head-actions">
+                <button type="button" class="chat-pill chat-pill-calm" data-go="calm" title="Rincón de Calma" data-i18n-title="calm_badge">
+                  <span aria-hidden="true">🫧</span>
+                  <span class="chat-pill-label" data-i18n="nav_calm">Calma</span>
+                </button>
+                <button type="button" id="btn-chat-sos" class="chat-pill chat-pill-sos" aria-expanded="false" aria-controls="chat-sos-banner" title="Ayuda ya" data-i18n-title="chat_sos_btn">
+                  <span aria-hidden="true">🆘</span>
+                  <span class="chat-pill-label" data-i18n="chat_sos_btn">Ayuda ya</span>
+                </button>
+                <button type="button" id="btn-chat-menu" class="chat-icon-btn" aria-haspopup="true" aria-expanded="false" aria-controls="chat-more-menu" aria-label="Más opciones" data-i18n-aria-label="chat_more_options">⋯</button>
 
-      <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
+                <div class="chat-menu" id="chat-more-menu" role="menu">
+                  <button type="button" id="btn-toggle-auto-tts" role="menuitem" aria-pressed="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
+                  <button type="button" id="btn-chat-font-size" role="menuitem">
+                    <span aria-hidden="true">🔤</span>
+                    <span data-i18n="a11y_size_title">Cambiar tamaño de letra</span>
+                  </button>
+                  <hr />
+                  <button type="button" id="btn-chat-to-diary" role="menuitem">
+                    <span aria-hidden="true">📖</span>
+                    <span data-i18n="home_chip_diary">Mi diario</span>
+                  </button>
+                  <button type="button" id="btn-chat-to-questionnaire" role="menuitem">
+                    <span aria-hidden="true">🪜</span>
+                    <span data-i18n="home_chip_questionnaire">Cuestionario</span>
+                  </button>
+                  <button type="button" id="btn-to-feedback" role="menuitem">
+                    <span aria-hidden="true">⭐</span>
+                    <span data-i18n="chat_to_fb">Ver Feedback Final</span>
+                  </button>
+                  <hr />
+                  <button type="button" role="menuitem" data-action="go-back">
+                    <span aria-hidden="true">←</span>
+                    <span data-i18n="back">Volver</span>
+                  </button>
+                </div>
+              </div>
+            </header>
 
-      <div class="quick-prompts">
-        <button type="button" class="quick-prompt-btn" data-prompt="Se están metiendo con un compañero en el recreo y lo dejan solo." data-i18n="chat_qp1_btn" data-i18n-prompt="chat_qp1_prompt">Lo he visto en el recreo</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Se burlan de mí y no sé cómo pedir ayuda sin que se enteren." data-i18n="chat_qp2_btn" data-i18n-prompt="chat_qp2_prompt">Se burlan de mí</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Hay problemas en los pasillos cuando cambiamos de clase." data-i18n="chat_qp3_btn" data-i18n-prompt="chat_qp3_prompt">Problema en pasillos</button>
-        <button type="button" class="quick-prompt-btn" data-prompt="Ayúdame a calmarme ahora mismo." data-i18n="chat_qp4_btn" data-i18n-prompt="chat_qp4_prompt">Calmarme ahora</button>
-      </div>
+            <div id="chat-sos-banner" class="chat-sos-banner hidden" role="alert">
+              <div class="chat-sos-copy">
+                <span data-i18n="chat_sos_banner">Si estás en peligro ahora mismo, llama al 112 o al 900 018 018 (gratis, 24 h), o acude a un adulto cercano.</span>
+                <div class="chat-sos-links">
+                  <a href="tel:112" class="chat-sos-tel">📞 112</a>
+                  <a href="tel:900018018" class="chat-sos-tel">📞 900 018 018</a>
+                </div>
+              </div>
+              <button type="button" id="btn-close-chat-sos" class="chat-sos-close" aria-label="Cerrar" data-i18n-aria-label="close">✕</button>
+            </div>
 
-      <form id="form-chat" class="chat-input-row">
-        <button type="button" id="btn-chat-mic" class="btn btn-soft" data-i18n="chat_mic_btn">Hablar por voz</button>
-        <label for="chat-input" class="sr-only" data-i18n="chat_input_label">Mensaje</label>
-        <input type="text" id="chat-input" class="form-control" placeholder="Escribe aquí o pulsa «Hablar por voz»..." data-i18n-placeholder="chat_input_ph" autocomplete="off" />
-        <button type="submit" id="btn-send-chat" class="btn btn-primary">
-          <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="chat_send">Enviar</span>
-        </button>
-      </form>
+            <div class="chat-scroll" id="chat-scroll">
+              <span class="chat-privacy-chip" data-i18n="chat_privacy_chip">🔒 Esta conversación es anónima</span>
+              <div id="chat-messages" class="chat-messages-list" role="log" aria-live="polite"></div>
 
-      <!-- SERVICIO DE ENVÍO ANÓNIMO DIRECTO -->
-      <div class="anon-box">
-        <div class="anon-header">
-          <div>
-            <h2 style="margin: 0 0 4px;">
-              <svg class="i" aria-hidden="true"><use href="#i-lock"/></svg> <span data-i18n="chat_anon_title">Servicio de Envío Anónimo al Centro</span>
-            </h2>
-            <p style="margin: 0; color: var(--muted);" data-i18n="chat_anon_desc">Envía tu aviso al profesorado u orientación sin mostrar tu nombre.</p>
+              <div id="chat-quick-prompts" class="chat-quick-prompts quick-prompts">
+                <button type="button" class="quick-prompt-btn" data-prompt="Se están metiendo con un compañero en el recreo y lo dejan solo." data-i18n-prompt="chat_qp1_prompt">
+                  <img src="./assets/arasaac/patio.png" alt="" width="40" height="40" />
+                  <span data-i18n="chat_qp1_btn">Lo he visto en el recreo</span>
+                </button>
+                <button type="button" class="quick-prompt-btn" data-prompt="Se burlan de mí y no sé cómo pedir ayuda sin que se enteren." data-i18n-prompt="chat_qp2_prompt">
+                  <img src="./assets/arasaac/insultar.png" alt="" width="40" height="40" />
+                  <span data-i18n="chat_qp2_btn">Se burlan de mí</span>
+                </button>
+                <button type="button" class="quick-prompt-btn" data-prompt="Hay problemas en los pasillos cuando cambiamos de clase." data-i18n-prompt="chat_qp3_prompt">
+                  <img src="./assets/arasaac/pasillo.png" alt="" width="40" height="40" />
+                  <span data-i18n="chat_qp3_btn">Problema en pasillos</span>
+                </button>
+                <button type="button" class="quick-prompt-btn" data-prompt="Ayúdame a calmarme ahora mismo." data-i18n-prompt="chat_qp4_prompt">
+                  <img src="./assets/arasaac/calma.png" alt="" width="40" height="40" />
+                  <span data-i18n="chat_qp4_btn">Calmarme ahora</span>
+                </button>
+              </div>
+            </div>
+
+            <form id="form-chat" class="chat-composer">
+              <button type="button" id="btn-chat-mic" class="chat-mic-btn" aria-pressed="false" aria-label="Hablar por voz" data-i18n-aria-label="chat_mic_btn" data-i18n-title="chat_mic_btn">
+                <svg aria-hidden="true"><use href="#i-mic"/></svg>
+                <span class="sr-only" data-i18n="chat_mic_btn">Hablar por voz</span>
+              </button>
+              <div class="chat-field" id="chat-composer-field">
+                <label for="chat-input" class="sr-only" data-i18n="chat_input_label">Mensaje</label>
+                <input type="text" id="chat-input" autocomplete="off" placeholder="Escribe aquí o pulsa «Hablar por voz»..." data-i18n-placeholder="chat_input_ph" />
+                <div id="chat-wave" class="chat-wave" aria-hidden="true"></div>
+                <button type="submit" id="btn-send-chat" class="chat-send-btn" aria-label="Enviar" data-i18n-aria-label="chat_send" data-i18n-title="chat_send">
+                  <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                </button>
+              </div>
+            </form>
           </div>
-          <button type="button" id="btn-open-anon-panel" class="btn btn-soft" data-i18n="chat_anon_config">Configurar envío</button>
-        </div>
 
-        <div id="anon-panel" class="anon-panel">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="anon-recipient" class="form-label" data-i18n="chat_anon_who">¿A quién avisamos?</label>
-              <select id="anon-recipient" class="form-control">
-                <option value="guidance" data-i18n="recipient_guidance">Orientación y Bienestar</option>
-                <option value="tutor" data-i18n="recipient_tutor">Tutor/a del grupo</option>
-                <option value="director" data-i18n="recipient_director">Dirección / Convivencia</option>
-              </select>
+          <!-- ====================== PANEL TU AVISO EN VIVO ====================== -->
+          <aside class="chat-report" id="chat-report" aria-labelledby="chat-report-title">
+            <button type="button" class="chat-report-handle" id="btn-report-handle" aria-expanded="false">
+              <span aria-hidden="true">🔒</span>
+              <b data-i18n="chat_report_title">Tu aviso anónimo</b>
+              <span class="chat-handle-count" id="chat-report-count-m">2/4</span>
+              <span class="chat-handle-chev" aria-hidden="true">▲</span>
+            </button>
+
+            <div class="chat-report-inner">
+              <div class="chat-report-head-desk">
+                <h2 id="chat-report-title"><span aria-hidden="true">🔒</span> <span data-i18n="chat_report_title">Tu aviso anónimo</span></h2>
+                <p class="chat-report-sub" data-i18n="chat_report_sub">Se va rellenando solo mientras hablas. Tú decides si se envía.</p>
+              </div>
+
+              <div class="chat-slots-wrap" id="anon-panel">
+                <div>
+                  <div class="chat-progress" aria-hidden="true"><i id="chat-report-bar" class="chat-progress-bar"></i></div>
+                  <div class="chat-progress-label">
+                    <span id="chat-report-count">2 de 4 listos</span>
+                    <span data-i18n="chat_report_no_name">Sin tu nombre</span>
+                  </div>
+                </div>
+
+                <p id="chat-place-hint" class="chat-place-hint hidden" role="status" aria-live="polite"></p>
+
+                <!-- Slot 1: ¿A quién le pasa? -->
+                <div class="chat-slot is-done" data-slot="who">
+                  <div class="chat-slot-main">
+                    <div class="chat-slot-pic" id="slot-pic-who">
+                      <img src="./assets/arasaac/yo.png" alt="" width="44" height="44" />
+                    </div>
+                    <div class="chat-slot-txt">
+                      <div class="chat-slot-lbl" data-i18n="chat_slot_who">¿A quién le pasa?</div>
+                      <div class="chat-slot-val" id="slot-val-who" data-i18n="chat_who_victim">A mí</div>
+                    </div>
+                    <button type="button" class="chat-slot-edit" data-edit-slot="who" aria-expanded="false" aria-controls="slot-editor-who" data-i18n="chat_slot_change">Cambiar</button>
+                    <span class="chat-slot-state" aria-hidden="true">✓</span>
+                  </div>
+                  <div class="chat-slot-editor hidden" id="slot-editor-who">
+                    <div class="chat-slot-options">
+                      <button type="button" class="chat-slot-option" data-pick-who="victima" aria-pressed="true">
+                        <img src="./assets/arasaac/yo.png" alt="" width="30" height="30" />
+                        <span data-i18n="chat_who_victim">A mí</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-who="testigo" aria-pressed="false">
+                        <img src="./assets/arasaac/companero.png" alt="" width="30" height="30" />
+                        <span data-i18n="chat_who_witness">Un compañero/a</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-who="varios" aria-pressed="false">
+                        <img src="./assets/arasaac/grupo.png" alt="" width="30" height="30" />
+                        <span data-i18n="chat_who_several">A varios compañeros</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Slot 2: ¿Dónde? -->
+                <div class="chat-slot" data-slot="where">
+                  <div class="chat-slot-main">
+                    <div class="chat-slot-pic" id="slot-pic-where">
+                      <img src="./assets/arasaac/patio.png" alt="" width="44" height="44" />
+                    </div>
+                    <div class="chat-slot-txt">
+                      <div class="chat-slot-lbl" data-i18n="chat_slot_where">¿Dónde?</div>
+                      <div class="chat-slot-val" id="slot-val-where" data-i18n="chat_slot_waiting">Esperando…</div>
+                    </div>
+                    <button type="button" class="chat-slot-edit" data-edit-slot="where" aria-expanded="false" aria-controls="slot-editor-where" data-i18n="chat_slot_change">Cambiar</button>
+                    <span class="chat-slot-state" aria-hidden="true">✓</span>
+                  </div>
+                  <div class="chat-slot-editor hidden" id="slot-editor-where">
+                    <div class="chat-slot-options">
+                      <button type="button" class="chat-slot-option" data-pick-where="patio" aria-pressed="false">
+                        <img src="./assets/arasaac/patio.png" alt="" width="30" height="30" />
+                        <span data-i18n="place_patio">Patio / Recreo</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-where="hallways" aria-pressed="false">
+                        <img src="./assets/arasaac/pasillo.png" alt="" width="30" height="30" />
+                        <span data-i18n="place_hallways">Pasillos / Baños</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-where="class" aria-pressed="false">
+                        <img src="./assets/arasaac/clase.png" alt="" width="30" height="30" />
+                        <span data-i18n="place_class">En clase</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-where="digital" aria-pressed="false">
+                        <span class="chat-slot-opt-emo" aria-hidden="true">📱</span>
+                        <span data-i18n="place_digital">Móvil / Redes</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-where="entrance" aria-pressed="false">
+                        <span class="chat-slot-opt-emo" aria-hidden="true">🚪</span>
+                        <span data-i18n="place_entrance">Entrada / Salida</span>
+                      </button>
+                    </div>
+                    <label for="anon-place" class="sr-only" data-i18n="chat_anon_where">¿Dónde ocurre?</label>
+                    <select id="anon-place" class="sr-only" tabindex="-1" aria-hidden="true">
+                      <option value="patio" data-i18n="place_patio">Patio / Recreo</option>
+                      <option value="hallways" data-i18n="place_hallways">Pasillos / Baños</option>
+                      <option value="class" data-i18n="place_class">En clase</option>
+                      <option value="digital" data-i18n="place_digital">Móvil / Redes</option>
+                      <option value="entrance" data-i18n="place_entrance">Entrada / Salida</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Slot 3: ¿Qué ha pasado? -->
+                <div class="chat-slot" data-slot="what">
+                  <div class="chat-slot-main">
+                    <div class="chat-slot-pic" id="slot-pic-what">📝</div>
+                    <div class="chat-slot-txt">
+                      <div class="chat-slot-lbl" data-i18n="chat_slot_what">¿Qué ha pasado?</div>
+                      <div class="chat-slot-val" id="slot-val-what" data-i18n="chat_slot_waiting">Esperando…</div>
+                    </div>
+                    <button type="button" class="chat-slot-edit" data-edit-slot="what" aria-expanded="false" aria-controls="slot-editor-what" data-i18n="chat_slot_change">Cambiar</button>
+                    <span class="chat-slot-state" aria-hidden="true">✓</span>
+                  </div>
+                  <div class="chat-slot-editor hidden" id="slot-editor-what">
+                    <div class="chat-slot-options">
+                      <button type="button" class="chat-slot-option" data-pick-what-key="caa_tile_insultar" data-pick-pic="insultar.png">
+                        <img src="./assets/arasaac/insultar.png" alt="" width="30" height="30" />
+                        <span data-i18n="caa_tile_insultar">Se ríen de mí</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-what-key="caa_tile_empujar" data-pick-pic="empujar.png">
+                        <img src="./assets/arasaac/empujar.png" alt="" width="30" height="30" />
+                        <span data-i18n="caa_tile_empujar">Me empujan</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-what-key="caa_tile_solo" data-pick-pic="solo.png">
+                        <img src="./assets/arasaac/solo.png" alt="" width="30" height="30" />
+                        <span data-i18n="caa_tile_solo">Me dejan solo</span>
+                      </button>
+                    </div>
+                    <div class="chat-slot-what-input-row">
+                      <label for="anon-extra" class="sr-only" data-i18n="chat_anon_summary_label">Resumen o mensaje anónimo</label>
+                      <input type="text" id="anon-extra" class="form-control chat-slot-input" placeholder="Escribe qué ocurre (o se enviará lo hablado en el chat)" data-i18n-placeholder="chat_anon_summary_ph" />
+                      <button type="button" class="btn btn-primary chat-slot-done-btn" data-close-editor="what" data-i18n="chat_slot_done">Listo</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Slot 4: ¿A quién avisamos? -->
+                <div class="chat-slot is-done" data-slot="to">
+                  <div class="chat-slot-main">
+                    <div class="chat-slot-pic" id="slot-pic-to">
+                      <img src="./assets/arasaac/ayuda.png" alt="" width="44" height="44" />
+                    </div>
+                    <div class="chat-slot-txt">
+                      <div class="chat-slot-lbl" data-i18n="chat_slot_to">¿A quién avisamos?</div>
+                      <div class="chat-slot-val" id="slot-val-to" data-i18n="recipient_guidance">Orientación y Bienestar</div>
+                    </div>
+                    <button type="button" class="chat-slot-edit" data-edit-slot="to" aria-expanded="false" aria-controls="slot-editor-to" data-i18n="chat_slot_change">Cambiar</button>
+                    <span class="chat-slot-state" aria-hidden="true">✓</span>
+                  </div>
+                  <div class="chat-slot-editor hidden" id="slot-editor-to">
+                    <div class="chat-slot-options">
+                      <button type="button" class="chat-slot-option" data-pick-to="guidance" aria-pressed="true">
+                        <img src="./assets/arasaac/ayuda.png" alt="" width="30" height="30" />
+                        <span data-i18n="recipient_guidance">Orientación y Bienestar</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-to="tutor" aria-pressed="false">
+                        <img src="./assets/arasaac/profesor.png" alt="" width="30" height="30" />
+                        <span data-i18n="recipient_tutor">Tutor/a del grupo</span>
+                      </button>
+                      <button type="button" class="chat-slot-option" data-pick-to="director" aria-pressed="false">
+                        <span class="chat-slot-opt-emo" aria-hidden="true">🏫</span>
+                        <span data-i18n="recipient_director">Dirección / Convivencia</span>
+                      </button>
+                    </div>
+                    <label for="anon-recipient" class="sr-only" data-i18n="chat_anon_who">¿A quién avisamos?</label>
+                    <select id="anon-recipient" class="sr-only" tabindex="-1" aria-hidden="true">
+                      <option value="guidance" data-i18n="recipient_guidance">Orientación y Bienestar</option>
+                      <option value="tutor" data-i18n="recipient_tutor">Tutor/a del grupo</option>
+                      <option value="director" data-i18n="recipient_director">Dirección / Convivencia</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="chat-safe-note">
+                  <img src="./assets/arasaac/privado.png" alt="" width="34" height="34" />
+                  <span data-i18n-html="chat_safe_note"><b>No se envía</b> tu nombre, tu curso ni tu foto. Solo lo que ves aquí arriba.</span>
+                </div>
+              </div>
+
+              <div class="chat-report-sent" id="chat-report-sent" role="status">
+                <div class="chat-sent-icon" aria-hidden="true">💚</div>
+                <h2 data-i18n="chat_sent_title">¡Aviso enviado!</h2>
+                <div id="anon-confirm-msg" class="info-banner hidden" role="status"></div>
+                <p class="chat-report-sub" data-i18n="chat_sent_desc">El equipo del centro lo recibirá sin tu nombre. Has sido muy valiente. Puedes seguir hablando con Nube cuando quieras.</p>
+                <div class="chat-sent-actions">
+                  <button type="button" class="chat-pill chat-pill-calm" data-go="calm">
+                    <span aria-hidden="true">🫧</span>
+                    <span data-i18n="ad3_btn_calm">Ir al Rincón de Calma</span>
+                  </button>
+                  <button type="button" id="btn-chat-keep-talking" class="btn btn-ghost">
+                    <span aria-hidden="true">💬</span>
+                    <span data-i18n="chat_sent_keep_talking">Seguir hablando</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="anon-place" class="form-label" data-i18n="chat_anon_where">¿Dónde ocurre?</label>
-              <select id="anon-place" class="form-control">
-                <option value="patio" data-i18n="place_patio">Patio / Recreo</option>
-                <option value="hallways" data-i18n="place_hallways">Pasillos / Baños</option>
-                <option value="class" data-i18n="place_class">En clase</option>
-                <option value="digital" data-i18n="place_digital">Móvil / Redes</option>
-                <option value="entrance" data-i18n="place_entrance">Entrada / Salida</option>
-              </select>
+
+            <div class="chat-report-foot">
+              <button type="button" id="btn-submit-anon" class="chat-btn-send" disabled>
+                <span aria-hidden="true">📨</span>
+                <span data-i18n="chat_send_anon_short">Enviar sin mi nombre</span>
+              </button>
+              <p class="chat-foot-note" id="chat-report-foot-note" data-i18n="chat_foot_hint">Cuéntale a Nube qué pasa para poder enviarlo</p>
             </div>
-            <div class="form-group">
-              <label for="anon-extra" class="form-label" data-i18n="chat_anon_summary_label">Resumen o mensaje anónimo</label>
-              <input type="text" id="anon-extra" class="form-control" placeholder="Escribe qué ocurre (o se enviará lo hablado en el chat)" data-i18n-placeholder="chat_anon_summary_ph" />
-            </div>
+          </aside>
+
+          <div class="chat-mobile-toast" id="chat-mobile-toast" role="status">
+            <span data-i18n="chat_toast_ready">✓ Tu aviso está listo</span>
+            <button type="button" id="btn-chat-toast-open" data-i18n="chat_toast_view">Ver</button>
           </div>
-          <button type="button" id="btn-submit-anon" class="btn btn-primary">
-            <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="chat_anon_submit">Enviar aviso 100% anónimo al profesor</span>
-          </button>
-          <div id="anon-confirm-msg" class="info-banner hidden" role="status"></div>
-        </div>
-      </div>
-
-      <div class="nav-actions">
-        <button type="button" class="btn btn-ghost" data-action="go-back">
-          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
-        </button>
-        <div class="nav-right-group">
-          <button type="button" id="btn-chat-to-diary" class="btn btn-ghost">
-            <svg class="i" aria-hidden="true"><use href="#i-book"/></svg> <span data-i18n="quick_diary">Diario</span>
-          </button>
-          <button type="button" id="btn-chat-to-questionnaire" class="btn btn-soft">
-            <svg class="i" aria-hidden="true"><use href="#i-steps"/></svg> <span data-i18n="home_chip_questionnaire">Cuestionario</span>
-          </button>
-          <button type="button" id="btn-to-feedback" class="btn btn-primary">
-            <span data-i18n="chat_to_fb">Ver Feedback Final</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          </button>
         </div>
       </div>
     </section>

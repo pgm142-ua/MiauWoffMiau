@@ -202,9 +202,7 @@ export function initAccessibility() {
   ['btn-close-gear-modal', 'btn-gear-done', 'btn-close-api-modal'].forEach((id) =>
     on(id, closeModal)
   );
-  ['btn-api-settings', 'btn-open-api-modal'].forEach((id) =>
-    on(id, () => openModal('api-modal'))
-  );
+  on('btn-api-settings', () => openModal('api-modal'));
   all('.modal-backdrop').forEach((backdrop) =>
     backdrop.addEventListener('click', (e) => {
       if (e.target === backdrop) closeModal();

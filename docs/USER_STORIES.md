@@ -193,7 +193,7 @@ Este documento transforma el modelado del [Customer Journey](./CUSTOMER_JOURNEY.
   2. **Dado** que selecciono `victima` o `testigo`, **cuando** entro al chat o al cuestionario, **entonces** el mensaje de bienvenida (`chat_welcome_victim` / `chat_welcome_witness`) y el campo `#q-branch` se adaptan automáticamente a mi rol.
 
 ##### `US-ES-02` · Chatbot empático con texto, dictado por voz e IA segura gestionada en servidor
-- **Prioridad:** `Must` | **Release:** `R1` | **Estado actual:** `Parcial` (`#screen-no-adapted`, `src/js/modules/chat.js`, `src/js/services/gemini.js` funcionan con fallback offline y clave API introducida por el usuario en cliente) | **Asignado a:** Sin asignar
+- **Prioridad:** `Must` | **Release:** `R1` | **Estado actual:** `FINALIZADO` (`api/chat.js`, `api/_lib/chat-engine.js`, `#screen-no-adapted`, `src/js/modules/chat.js`, `src/js/services/gemini.js`, diccionarios `i18n` en 7 idiomas y `tests/us-es-02-chat.test.mjs`) | **Asignado a:** pgm142-ua
 - **Historia:** Como **estudiante que necesita desahogarse y orientarse**, quiero conversar por texto o dictado de voz con un asistente empático disponible 24/7 sin tener que configurar claves técnicas ni exponer mis datos, para aclarar qué me pasa y qué pasos seguir.
 - **Criterios de aceptación:**
   1. **Dado** que abro `#screen-no-adapted`, **cuando** escribo, uso uno de los 4 prompts rápidos o dicto con `#btn-chat-mic`, **entonces** recibo una respuesta breve, empática y con soporte de voz opcional (`#btn-toggle-auto-tts`).

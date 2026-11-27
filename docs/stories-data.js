@@ -1,7 +1,7 @@
 // Archivo generado automáticamente por scripts/sync-stories-board.mjs
 // Fuente: docs/USER_STORIES.md — No editar manualmente.
 window.CONTIGO_STORIES_DATA = {
-  "generatedAt": "2026-11-27T12:59:19.917Z",
+  "generatedAt": "2026-11-27T20:12:07.239Z",
   "sourceFile": "docs/USER_STORIES.md",
   "epics": [
     {
@@ -394,10 +394,10 @@ window.CONTIGO_STORIES_DATA = {
       "actorPrefix": "US-ES",
       "priority": "Must",
       "release": "R1",
-      "status": "Parcial",
-      "statusDetail": "#screen-no-adapted, src/js/modules/chat.js, src/js/services/gemini.js funcionan con fallback offline y clave API introducida por el usuario en cliente",
-      "assignee": "Sin asignar",
-      "isAvailable": true,
+      "status": "FINALIZADO",
+      "statusDetail": "api/chat.js, api/_lib/chat-engine.js, #screen-no-adapted, src/js/modules/chat.js, src/js/services/gemini.js, diccionarios i18n en 7 idiomas y tests/us-es-02-chat.test.mjs",
+      "assignee": "pgm142-ua",
+      "isAvailable": false,
       "story": "Como estudiante que necesita desahogarse y orientarse, quiero conversar por texto o dictado de voz con un asistente empático disponible 24/7 sin tener que configurar claves técnicas ni exponer mis datos, para aclarar qué me pasa y qué pasos seguir.",
       "acceptanceCriteria": [
         "1. Dado que abro #screen-no-adapted, cuando escribo, uso uno de los 4 prompts rápidos o dicto con #btn-chat-mic, entonces recibo una respuesta breve, empática y con soporte de voz opcional (#btn-toggle-auto-tts).",
