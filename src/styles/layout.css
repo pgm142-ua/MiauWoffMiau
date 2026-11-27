@@ -260,18 +260,32 @@
 }
 
 .progress-track {
+  display: block;
+  width: 100%;
   height: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
   background: var(--line);
   border-radius: 99px;
   overflow: hidden;
   margin-top: 0;
 }
 
-.progress-fill {
-  height: 100%;
+.progress-track::-webkit-progress-bar {
+  background: var(--line);
+  border-radius: 99px;
+}
+
+.progress-track::-webkit-progress-value {
   background: var(--primary);
   border-radius: 99px;
   transition: width 0.25s ease;
+}
+
+.progress-track::-moz-progress-bar {
+  background: var(--primary);
+  border-radius: 99px;
 }
 
 .dots {
@@ -746,11 +760,11 @@
   }
 
   .main-container {
-    padding: 12px 0 88px;
+    padding: 12px 0 calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
   .app-footer {
-    padding-bottom: 84px;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   }
 }
 

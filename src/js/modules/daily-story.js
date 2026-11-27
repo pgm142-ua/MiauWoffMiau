@@ -112,8 +112,8 @@ function renderCauses(analysis) {
     const descText = String(cause?.easyReadText || '').trim();
     const iconText = String(cause?.icon || '💬').trim();
 
+    const listItem = node('li', '', 'story-cause-item');
     const card = node('article', '', 'story-cause-card');
-    card.setAttribute('role', 'listitem');
 
     const header = node('div', '', 'story-cause-header');
     const iconEl = node('span', iconText, 'story-cause-icon');
@@ -146,7 +146,8 @@ function renderCauses(analysis) {
 
     updateCauseButtons(group, causeId);
     card.append(header, desc, group);
-    listEl.append(card);
+    listItem.append(card);
+    listEl.append(listItem);
   });
 }
 

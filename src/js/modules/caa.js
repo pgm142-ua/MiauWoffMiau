@@ -35,12 +35,19 @@ function getWordMeta(idOrWord) {
 }
 
 function selectCaaTab(activeCategory) {
+  let activeTabId = '';
   all('[data-caa-tab]').forEach((tab) => {
     const isActive = tab.dataset.caaTab === activeCategory;
     tab.classList.toggle('on', isActive);
-    tab.setAttribute('aria-pressed', String(isActive));
     tab.setAttribute('aria-selected', String(isActive));
+    tab.tabIndex = isActive ? 0 : -1;
+    if (isActive && tab.id) activeTabId = tab.id;
   });
+
+  const panel = $('caa-panel');
+  if (panel && activeTabId) {
+    panel.setAttribute('aria-labelledby', activeTabId);
+  }
 
   all('.caa-tile').forEach((tile) => {
     const cat = tile.dataset.caaCat || '';
@@ -114,17 +121,27 @@ export function addCaaWord(idOrWord) {
 
 export function initCaa() {
   const tabs = all('[data-caa-tab]');
-  tabs.forEach((tab) => {
+  tabs.forEach((tab, idx) => {
     tab.addEventListener('click', () => {
       selectCaaTab(tab.dataset.caaTab || 'todos');
+    });
+    tab.addEventListener('keydown', (e) => {
+      let nextIdx = -1;
+      if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') nextIdx = 0;
+      else if (e.key === 'End') nextIdx = tabs.length - 1;
+      if (nextIdx >= 0) {
+        e.preventDefault();
+        const nextTab = tabs[nextIdx];
+        selectCaaTab(nextTab.dataset.caaTab || 'todos');
+        nextTab.focus();
+      }
     });
   });
 
   const activeTab = tabs.find(
-    (tab) =>
-      tab.classList.contains('on') ||
-      tab.getAttribute('aria-pressed') === 'true' ||
-      tab.getAttribute('aria-selected') === 'true'
+    (tab) => tab.classList.contains('on') || tab.getAttribute('aria-selected') === 'true'
   );
   selectCaaTab(activeTab?.dataset.caaTab || 'todos');
 

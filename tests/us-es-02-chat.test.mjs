@@ -972,3 +972,34 @@ test('chat-report-helpers infers who, recipient, pictogram, and incident summary
     'Se burlan de mí en clase · También me quitan la mochila'
   );
 });
+
+test('index.html #screen-no-adapted includes native mobile input hints and accessible sheet/SOS attributes', async () => {
+  const html = await fs.readFile(path.join(ROOT_DIR, 'index.html'), 'utf8');
+  const section = extractScreenNoAdaptedSection(html);
+
+  const inputMatch = section.match(/<input\b[^>]*\bid="chat-input"[^>]*>/i);
+  assert.ok(inputMatch, 'Expected <input id="chat-input"> inside #screen-no-adapted');
+  assert.match(inputMatch[0], /\benterkeyhint="send"/);
+  assert.match(inputMatch[0], /\binputmode="text"/);
+
+  const handleMatch = section.match(/<button\b[^>]*\bid="btn-report-handle"[^>]*>/i);
+  assert.ok(handleMatch, 'Expected <button id="btn-report-handle"> inside #screen-no-adapted');
+  assert.match(handleMatch[0], /\baria-controls="chat-report-body"/);
+  assert.match(handleMatch[0], /\baria-expanded="false"/);
+
+  assert.match(section, /<div\b[^>]*\bclass="chat-report-inner"[^>]*\bid="chat-report-body"[^>]*\btabindex="-1"/i);
+  assert.match(section, /<h2\b[^>]*\bid="chat-report-title"[^>]*\btabindex="-1"/i);
+  assert.match(section, /<div\b[^>]*\bid="chat-sos-banner"[^>]*\brole="alert"[^>]*\btabindex="-1"/i);
+});
+
+test('src/js/modules/chat.js implements inert sheet management, keyboard navigation, and visualViewport handling', async () => {
+  const chatJs = await fs.readFile(path.join(ROOT_DIR, 'src/js/modules/chat.js'), 'utf8');
+
+  assert.match(chatJs, /matchMedia\(['"]\(max-width:\s*760px\)['"]\)/);
+  assert.match(chatJs, /\.inert\s*=\s*isInert/);
+  assert.match(chatJs, /aria-expanded/);
+  assert.match(chatJs, /window\.visualViewport/);
+  assert.match(chatJs, /ArrowDown/);
+  assert.match(chatJs, /ArrowUp/);
+  assert.match(chatJs, /Escape/);
+});

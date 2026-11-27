@@ -15,7 +15,8 @@
   color: #FFFFFF !important;
 }
 
-.contrast *:focus-visible {
+.contrast *:focus-visible,
+.contrast .emotion-card:has(:focus-visible) {
   outline: 4px solid #FFD400 !important;
   outline-offset: 4px;
 }
@@ -184,7 +185,6 @@
 .contrast .chip-btn[aria-pressed="true"],
 .contrast .caa-tab.on,
 .contrast .caa-tab[aria-selected="true"],
-.contrast .caa-tab[aria-pressed="true"],
 .contrast .pill-option:has(:checked),
 .contrast .gear-toggle:has(:checked),
 .contrast .story-dictate-bar [aria-pressed="true"],
@@ -215,7 +215,6 @@
 .contrast .chip-btn[aria-pressed="true"] *,
 .contrast .caa-tab.on *,
 .contrast .caa-tab[aria-selected="true"] *,
-.contrast .caa-tab[aria-pressed="true"] *,
 .contrast .pill-option:has(:checked) *,
 .contrast .gear-toggle:has(:checked) *,
 .contrast .story-dictate-bar [aria-pressed="true"] *,
@@ -244,7 +243,7 @@
 .contrast .visual-card.sel,
 .contrast .visual-card[aria-pressed="true"],
 .contrast .emotion-card.sel,
-.contrast .emotion-card[aria-checked="true"],
+.contrast .emotion-card:has(:checked),
 .contrast .choice-card.sel,
 .contrast .choice-card.selected,
 .contrast .choice-card[aria-pressed="true"],
@@ -295,12 +294,14 @@
 }
 
 .contrast .progress-track,
+.contrast .progress-track::-webkit-progress-bar,
 .contrast .dots i,
 .contrast .calm-prog i {
   background: #333333 !important;
 }
 
-.contrast .progress-fill,
+.contrast .progress-track::-webkit-progress-value,
+.contrast .progress-track::-moz-progress-bar,
 .contrast .dots i.on,
 .contrast .calm-prog i.on {
   background: #FFD400 !important;
@@ -401,6 +402,60 @@
   background: #222222 !important;
   color: #E5E5E5 !important;
   border: 2px solid #FFFFFF !important;
+}
+
+.contrast .chat-report-handle::before {
+  background: #FFD400 !important;
+}
+
+.contrast .chat-report.is-ready:not(.is-open) .chat-report-handle::before {
+  background: #000000 !important;
+}
+
+.contrast .chat-handle-count {
+  background: #000000 !important;
+  color: #FFD400 !important;
+  border: 1.5px solid #FFD400 !important;
+}
+
+.contrast .chat-report.is-ready:not(.is-open) .chat-handle-count {
+  background: #000000 !important;
+  color: #FFD400 !important;
+  border-color: #000000 !important;
+}
+
+.contrast .chat-mobile-toast button {
+  background: #000000 !important;
+  color: #FFD400 !important;
+  border: 2px solid #000000 !important;
+}
+
+.contrast .chat-pill:focus-visible,
+.contrast .chat-icon-btn:focus-visible,
+.contrast .chat-menu button:focus-visible,
+.contrast .chat-sos-tel:focus-visible,
+.contrast .chat-sos-close:focus-visible,
+.contrast .chat-speak-btn:focus-visible,
+.contrast .chat-quick-prompts .quick-prompt-btn:focus-visible,
+.contrast .chat-mic-btn:focus-visible,
+.contrast .chat-send-btn:focus-visible,
+.contrast .chat-slot-edit:focus-visible,
+.contrast .chat-slot-option:focus-visible,
+.contrast .chat-slot-done-btn:focus-visible,
+.contrast .chat-btn-send:focus-visible,
+.contrast .chat-mobile-toast button:focus-visible {
+  outline: 3px solid #FFD400 !important;
+  outline-offset: 2px;
+}
+
+.contrast .chat-report-handle:focus-visible {
+  outline: 3px solid #FFD400 !important;
+  outline-offset: -3px;
+}
+
+.contrast .chat-report.is-ready:not(.is-open) .chat-report-handle:focus-visible {
+  outline: 3px solid #000000 !important;
+  outline-offset: -3px;
 }
 
 .contrast .chat-progress {
@@ -512,11 +567,37 @@
 .motor .flow-back-btn,
 .motor .chat-pill,
 .motor .chat-icon-btn,
+.motor .chat-sos-tel,
+.motor .chat-sos-close,
+.motor .chat-speak-btn,
 .motor .chat-slot-option,
 .motor .chat-slot-edit,
+.motor .chat-slot-done-btn,
 .motor .chat-menu button,
+.motor .chat-mobile-toast button,
 .motor .chat-quick-prompts .quick-prompt-btn {
   min-height: 48px;
+}
+
+.motor .chat-pill,
+.motor .chat-icon-btn,
+.motor .chat-sos-close,
+.motor .chat-speak-btn,
+.motor .chat-slot-edit,
+.motor .chat-send-btn,
+.motor .chat-mic-btn {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.motor .chat-send-btn {
+  width: 48px;
+  height: 48px;
+}
+
+.motor .chat-mic-btn {
+  width: 52px;
+  height: 52px;
 }
 
 /* Sin movimiento (TEA) */

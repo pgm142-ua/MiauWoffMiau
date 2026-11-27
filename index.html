@@ -70,7 +70,7 @@
   <a href="#main-content" class="skip-link" data-i18n="skip_link">Saltar al contenido principal</a>
 
   <!-- Pantalla de salida rápida (Tecla Esc) -->
-  <div id="safe-exit-screen" class="safe-exit-screen hidden" role="dialog" aria-modal="true" aria-labelledby="safe-exit-title">
+  <dialog id="safe-exit-screen" class="safe-exit-screen hidden" aria-labelledby="safe-exit-title">
     <div class="safe-exit-card">
       <h1 id="safe-exit-title" data-i18n="safe_exit_title">Apuntes de Matemáticas — Ecuaciones de 1.º Grado</h1>
       <p data-i18n-html="safe_exit_desc">Una ecuación de primer grado tiene la forma <strong>ax + b = c</strong>. Para resolverla, despeja la incógnita paso a paso.</p>
@@ -80,10 +80,10 @@
       </ul>
       <button type="button" id="return-from-safe-exit" class="btn btn-primary" data-i18n="safe_exit_return">Volver a Contigo</button>
     </div>
-  </div>
+  </dialog>
 
   <!-- Cabecera delgada y navegación principal (Dirección C — Calma) -->
-  <header class="app-header" role="banner">
+  <header class="app-header">
     <div class="header-inner">
       <button type="button" class="brand" data-go="home" aria-label="Contigo · Ir al Inicio" data-i18n-aria-label="brand_aria">
         <svg aria-hidden="true"><use href="#logo"/></svg><span>contigo</span>
@@ -112,14 +112,14 @@
         </button>
       </nav>
 
-      <div class="toolbar" role="region" aria-label="Accesibilidad, idioma y controles rápidos" data-i18n-aria-label="toolbar_aria">
+      <section class="toolbar" aria-label="Accesibilidad, idioma y controles rápidos" data-i18n-aria-label="toolbar_aria">
         <button type="button" id="btn-read-page" class="tool-btn tool-btn-listen" aria-pressed="false" aria-label="Leer pantalla en voz alta" data-i18n-aria-label="a11y_listen_title" data-i18n-title="a11y_listen_title">
           <svg class="i" aria-hidden="true"><use id="read-page-icon" href="#i-speaker"/></svg>
           <span class="tool-label" data-i18n="a11y_listen">Escuchar</span>
         </button>
 
         <label for="lang-select" class="sr-only" data-i18n="lang_label">Idioma</label>
-        <select id="lang-select" class="lang-select" aria-label="Idioma" data-i18n-aria-label="lang_label">
+        <select id="lang-select" class="lang-select">
           <option value="es">ES</option>
           <option value="ca">CA/VA</option>
           <option value="en">EN</option>
@@ -139,7 +139,7 @@
           <svg class="i" aria-hidden="true"><use href="#i-exit"/></svg>
           <span data-i18n="nav_exit">Salir</span> <kbd>Esc</kbd>
         </button>
-      </div>
+      </section>
     </div>
 
     <div id="visual-alert-strip" class="visual-alert-strip hidden" role="status" aria-live="polite"></div>
@@ -160,9 +160,7 @@
           <span id="adaptation-badge" class="adaptation-badge hidden" data-i18n="badge_a11y">Apoyo activo</span>
         </div>
       </div>
-      <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress-bar">
-        <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
-      </div>
+      <progress class="progress-track" id="progress-bar" max="5" value="1" aria-labelledby="progress-label"></progress>
     </div>
 
     <!-- ================================================================
@@ -183,7 +181,7 @@
             </button>
           </div>
 
-          <div class="home-chips" role="navigation" aria-label="Accesos directos" data-i18n-aria-label="home_chips_aria">
+          <nav class="home-chips" aria-label="Accesos directos" data-i18n-aria-label="home_chips_aria">
             <button type="button" class="chip" data-go="caa">
               <span class="d" style="background:var(--butter-t)" aria-hidden="true"><svg class="i"><use href="#i-picto"/></svg></span>
               <span data-i18n="home_chip_caa">Dibujos</span>
@@ -200,7 +198,7 @@
               <span class="d" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-steps"/></svg></span>
               <span data-i18n="home_chip_questionnaire">Cuestionario</span>
             </button>
-          </div>
+          </nav>
 
           <div class="home-adults">
             <span class="home-adults-label" data-i18n="home_adults_label">Docentes y familias</span>
@@ -352,7 +350,7 @@
       <h1 id="title-screen-1" data-i18n="s1_title">Hola. ¿Quién eres?</h1>
       <p class="lead-text" data-i18n="s1_desc">Toca tu opción:</p>
 
-      <div class="choice-grid" role="group">
+      <div class="choice-grid" role="group" aria-labelledby="title-screen-1">
         <button type="button" class="choice-card" data-action="choose-user-type" data-value="profesor" data-key="1">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-people"/></svg></span>
           <span class="choice-title" data-i18n="prof_title">1. Profesor / a</span>
@@ -387,7 +385,7 @@
       <h1 id="title-screen-2" data-i18n="s2_title">¿Cómo quieres hablar?</h1>
       <p class="lead-text" data-i18n="s2_desc">Elige el modo más fácil para ti:</p>
 
-      <div class="choice-grid" role="group">
+      <div class="choice-grid" role="group" aria-labelledby="title-screen-2">
         <button type="button" class="choice-card" data-action="choose-mode" data-value="adaptado" data-key="1">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-picto"/></svg></span>
           <span class="choice-title" data-i18n="mode_ad_title">1. Adaptado</span>
@@ -416,7 +414,7 @@
       <h1 id="title-screen-3" data-i18n="s3_title">¿Qué pasa?</h1>
       <p class="lead-text" data-i18n="s3_desc">Toca una opción:</p>
 
-      <div class="choice-grid" role="group">
+      <div class="choice-grid" role="group" aria-labelledby="title-screen-3">
         <button type="button" class="choice-card" data-action="choose-branch" data-value="victima" data-key="1">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-hand"/></svg></span>
           <span class="choice-title" data-i18n="br_vic_title">1. Víctima</span>
@@ -574,12 +572,12 @@
       <div id="adapted-summary-box" class="soft-box" style="font-size: 1.35rem; font-weight: 700;"></div>
 
       <div class="soft-box">
-        <span class="form-label" data-i18n="ad3_where_label">¿Dónde ha pasado? (Toca uno):</span>
-        <div class="chip-grid" id="adapted-place-pills">
-          <button type="button" class="chip-btn selected" data-adapted-place="patio" data-i18n="place_patio">Patio / Recreo</button>
-          <button type="button" class="chip-btn" data-adapted-place="hallways" data-i18n="place_hallways">Pasillos / Baños</button>
-          <button type="button" class="chip-btn" data-adapted-place="class" data-i18n="place_class">En clase</button>
-          <button type="button" class="chip-btn" data-adapted-place="entrance" data-i18n="place_entrance">Entrada / Salida</button>
+        <span id="adapted-place-label" class="form-label" data-i18n="ad3_where_label">¿Dónde ha pasado? (Toca uno):</span>
+        <div class="chip-grid" id="adapted-place-pills" role="group" aria-labelledby="adapted-place-label">
+          <button type="button" class="chip-btn selected" data-adapted-place="patio" aria-pressed="true" data-i18n="place_patio">Patio / Recreo</button>
+          <button type="button" class="chip-btn" data-adapted-place="hallways" aria-pressed="false" data-i18n="place_hallways">Pasillos / Baños</button>
+          <button type="button" class="chip-btn" data-adapted-place="class" aria-pressed="false" data-i18n="place_class">En clase</button>
+          <button type="button" class="chip-btn" data-adapted-place="entrance" aria-pressed="false" data-i18n="place_entrance">Entrada / Salida</button>
         </div>
       </div>
 
@@ -696,7 +694,7 @@
 
         <div id="daily-story-meta" class="story-meta-pills"></div>
 
-        <div id="daily-story-causes" class="story-cause-list" role="list"></div>
+        <ul id="daily-story-causes" class="story-cause-list"></ul>
 
         <div class="story-send-box">
           <div class="form-group">
@@ -747,7 +745,7 @@
         <div class="chat-app" id="chat-app">
 
           <!-- ====================== CHAT CON NUBE ====================== -->
-          <div class="chat-pane" role="region" aria-labelledby="title-no-adapted">
+          <section class="chat-pane" aria-labelledby="title-no-adapted">
             <header class="chat-head">
               <div class="chat-avatar">
                 <svg aria-hidden="true"><use href="#buddy"/></svg>
@@ -769,10 +767,10 @@
                   <span aria-hidden="true">🆘</span>
                   <span class="chat-pill-label" data-i18n="chat_sos_btn">Ayuda ya</span>
                 </button>
-                <button type="button" id="btn-chat-menu" class="chat-icon-btn" aria-haspopup="true" aria-expanded="false" aria-controls="chat-more-menu" aria-label="Más opciones" data-i18n-aria-label="chat_more_options">⋯</button>
+                <button type="button" id="btn-chat-menu" class="chat-icon-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="chat-more-menu" aria-label="Más opciones" data-i18n-aria-label="chat_more_options">⋯</button>
 
-                <div class="chat-menu" id="chat-more-menu" role="menu">
-                  <button type="button" id="btn-toggle-auto-tts" role="menuitem" aria-pressed="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
+                <div class="chat-menu" id="chat-more-menu" role="menu" aria-label="Más opciones" data-i18n-aria-label="chat_more_options">
+                  <button type="button" id="btn-toggle-auto-tts" role="menuitemcheckbox" aria-checked="true" data-i18n="chat_bot_voice_on">🔊 Voz bot: Sí</button>
                   <button type="button" id="btn-chat-font-size" role="menuitem">
                     <span aria-hidden="true">🔤</span>
                     <span data-i18n="a11y_size_title">Cambiar tamaño de letra</span>
@@ -799,7 +797,7 @@
               </div>
             </header>
 
-            <div id="chat-sos-banner" class="chat-sos-banner hidden" role="alert">
+            <div id="chat-sos-banner" class="chat-sos-banner hidden" role="alert" tabindex="-1">
               <div class="chat-sos-copy">
                 <span data-i18n="chat_sos_banner">Si estás en peligro ahora mismo, llama al 112 o al 900 018 018 (gratis, 24 h), o acude a un adulto cercano.</span>
                 <div class="chat-sos-links">
@@ -841,27 +839,27 @@
               </button>
               <div class="chat-field" id="chat-composer-field">
                 <label for="chat-input" class="sr-only" data-i18n="chat_input_label">Mensaje</label>
-                <input type="text" id="chat-input" autocomplete="off" placeholder="Escribe aquí o pulsa «Hablar por voz»..." data-i18n-placeholder="chat_input_ph" />
+                <input type="text" id="chat-input" autocomplete="off" inputmode="text" enterkeyhint="send" placeholder="Escribe aquí o pulsa «Hablar por voz»..." data-i18n-placeholder="chat_input_ph" />
                 <div id="chat-wave" class="chat-wave" aria-hidden="true"></div>
                 <button type="submit" id="btn-send-chat" class="chat-send-btn" aria-label="Enviar" data-i18n-aria-label="chat_send" data-i18n-title="chat_send">
                   <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
                 </button>
               </div>
             </form>
-          </div>
+          </section>
 
           <!-- ====================== PANEL TU AVISO EN VIVO ====================== -->
           <aside class="chat-report" id="chat-report" aria-labelledby="chat-report-title">
-            <button type="button" class="chat-report-handle" id="btn-report-handle" aria-expanded="false">
+            <button type="button" class="chat-report-handle" id="btn-report-handle" aria-expanded="false" aria-controls="chat-report-body">
               <span aria-hidden="true">🔒</span>
               <b data-i18n="chat_report_title">Tu aviso anónimo</b>
               <span class="chat-handle-count" id="chat-report-count-m">2/4</span>
               <span class="chat-handle-chev" aria-hidden="true">▲</span>
             </button>
 
-            <div class="chat-report-inner">
+            <div class="chat-report-inner" id="chat-report-body" tabindex="-1">
               <div class="chat-report-head-desk">
-                <h2 id="chat-report-title"><span aria-hidden="true">🔒</span> <span data-i18n="chat_report_title">Tu aviso anónimo</span></h2>
+                <h2 id="chat-report-title" tabindex="-1"><span aria-hidden="true">🔒</span> <span data-i18n="chat_report_title">Tu aviso anónimo</span></h2>
                 <p class="chat-report-sub" data-i18n="chat_report_sub">Se va rellenando solo mientras hablas. Tú decides si se envía.</p>
               </div>
 
@@ -1319,31 +1317,38 @@
       <h1 id="title-feedback" data-i18n="fb_title">¿Cómo te sientes ahora?</h1>
       <p class="lead-text" data-i18n="fb_desc">Toca una de las 4 caras para ver tu plan de ayuda:</p>
 
-      <div class="emotion-grid" role="radiogroup">
-        <button type="button" class="emotion-card emotion-happy" style="--face:#F1DE9C" data-emotion="feliz" data-key="1" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-calm"/></svg></span>
-          <span class="emotion-label" data-i18n="fb_happy">1. Aliviado/a</span>
-          <span class="emotion-sub" data-i18n="fb_happy_s">Me siento escuchado/a</span>
-        </button>
+      <fieldset class="emotion-fieldset">
+        <legend class="sr-only" data-i18n="fb_title">¿Cómo te sientes ahora?</legend>
+        <div class="emotion-grid">
+          <label class="emotion-card emotion-happy" style="--face:#F1DE9C" data-emotion="feliz" data-key="1">
+            <input type="radio" name="feedback-emotion" value="feliz" class="sr-only emotion-radio" />
+            <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-calm"/></svg></span>
+            <span class="emotion-label" data-i18n="fb_happy">1. Aliviado/a</span>
+            <span class="emotion-sub" data-i18n="fb_happy_s">Me siento escuchado/a</span>
+          </label>
 
-        <button type="button" class="emotion-card emotion-sad" style="--face:#B6D3E2" data-emotion="triste" data-key="2" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-sad"/></svg></span>
-          <span class="emotion-label" data-i18n="fb_sad">2. Triste</span>
-          <span class="emotion-sub" data-i18n="fb_sad_s">Todavía me duele</span>
-        </button>
+          <label class="emotion-card emotion-sad" style="--face:#B6D3E2" data-emotion="triste" data-key="2">
+            <input type="radio" name="feedback-emotion" value="triste" class="sr-only emotion-radio" />
+            <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-sad"/></svg></span>
+            <span class="emotion-label" data-i18n="fb_sad">2. Triste</span>
+            <span class="emotion-sub" data-i18n="fb_sad_s">Todavía me duele</span>
+          </label>
 
-        <button type="button" class="emotion-card emotion-angry" style="--face:#F0C3AA" data-emotion="enfadada" data-key="3" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-angry"/></svg></span>
-          <span class="emotion-label" data-i18n="fb_angry">3. Enfadado/a</span>
-          <span class="emotion-sub" data-i18n="fb_angry_s">Siento rabia</span>
-        </button>
+          <label class="emotion-card emotion-angry" style="--face:#F0C3AA" data-emotion="enfadada" data-key="3">
+            <input type="radio" name="feedback-emotion" value="enfadada" class="sr-only emotion-radio" />
+            <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-angry"/></svg></span>
+            <span class="emotion-label" data-i18n="fb_angry">3. Enfadado/a</span>
+            <span class="emotion-sub" data-i18n="fb_angry_s">Siento rabia</span>
+          </label>
 
-        <button type="button" class="emotion-card emotion-surprised" style="--face:#CFC7EA" data-emotion="sorprendida" data-key="4" aria-checked="false" role="radio">
-          <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-scared"/></svg></span>
-          <span class="emotion-label" data-i18n="fb_surp">4. Con más calma</span>
-          <span class="emotion-sub" data-i18n="fb_surp_s">Ya sé cómo pedir apoyo</span>
-        </button>
-      </div>
+          <label class="emotion-card emotion-surprised" style="--face:#CFC7EA" data-emotion="sorprendida" data-key="4">
+            <input type="radio" name="feedback-emotion" value="sorprendida" class="sr-only emotion-radio" />
+            <span class="emotion-svg" aria-hidden="true"><svg class="face"><use href="#f-scared"/></svg></span>
+            <span class="emotion-label" data-i18n="fb_surp">4. Con más calma</span>
+            <span class="emotion-sub" data-i18n="fb_surp_s">Ya sé cómo pedir apoyo</span>
+          </label>
+        </div>
+      </fieldset>
 
       <div id="full-explanation-panel" class="explanation-panel hidden" aria-live="polite">
         <div class="explanation-header">
@@ -1407,15 +1412,15 @@
       <div id="caa-sent-feedback" class="info-banner hidden" role="status"></div>
 
       <div class="caa-tabs" role="tablist" aria-label="Categorías de pictogramas" data-i18n-aria-label="caa_tabs_aria">
-        <button type="button" class="caa-tab on" data-caa-tab="todos" role="tab" aria-selected="true" aria-pressed="true"><i style="background:var(--primary)"></i><span data-i18n="caa_tab_all">Todos</span></button>
-        <button type="button" class="caa-tab" data-caa-tab="quien" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--butter)"></i><span data-i18n="caa_tab_who">Quién</span></button>
-        <button type="button" class="caa-tab" data-caa-tab="que" role="tab" aria-selected="false" aria-pressed="false"><i style="background:#9CC3AE"></i><span data-i18n="caa_tab_what">Qué pasa</span></button>
-        <button type="button" class="caa-tab" data-caa-tab="sentir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--sky)"></i><span data-i18n="caa_tab_feel">Cómo me siento</span></button>
-        <button type="button" class="caa-tab" data-caa-tab="donde" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--peach)"></i><span data-i18n="caa_tab_where">Dónde</span></button>
-        <button type="button" class="caa-tab" data-caa-tab="pedir" role="tab" aria-selected="false" aria-pressed="false"><i style="background:var(--lav)"></i><span data-i18n="caa_tab_ask">Pedir</span></button>
+        <button type="button" id="caa-tab-todos" class="caa-tab on" data-caa-tab="todos" role="tab" aria-selected="true" aria-controls="caa-panel" tabindex="0"><i aria-hidden="true" style="background:var(--primary)"></i><span data-i18n="caa_tab_all">Todos</span></button>
+        <button type="button" id="caa-tab-quien" class="caa-tab" data-caa-tab="quien" role="tab" aria-selected="false" aria-controls="caa-panel" tabindex="-1"><i aria-hidden="true" style="background:var(--butter)"></i><span data-i18n="caa_tab_who">Quién</span></button>
+        <button type="button" id="caa-tab-que" class="caa-tab" data-caa-tab="que" role="tab" aria-selected="false" aria-controls="caa-panel" tabindex="-1"><i aria-hidden="true" style="background:#9CC3AE"></i><span data-i18n="caa_tab_what">Qué pasa</span></button>
+        <button type="button" id="caa-tab-sentir" class="caa-tab" data-caa-tab="sentir" role="tab" aria-selected="false" aria-controls="caa-panel" tabindex="-1"><i aria-hidden="true" style="background:var(--sky)"></i><span data-i18n="caa_tab_feel">Cómo me siento</span></button>
+        <button type="button" id="caa-tab-donde" class="caa-tab" data-caa-tab="donde" role="tab" aria-selected="false" aria-controls="caa-panel" tabindex="-1"><i aria-hidden="true" style="background:var(--peach)"></i><span data-i18n="caa_tab_where">Dónde</span></button>
+        <button type="button" id="caa-tab-pedir" class="caa-tab" data-caa-tab="pedir" role="tab" aria-selected="false" aria-controls="caa-panel" tabindex="-1"><i aria-hidden="true" style="background:var(--lav)"></i><span data-i18n="caa_tab_ask">Pedir</span></button>
       </div>
 
-      <div class="caa-grid">
+      <div id="caa-panel" class="caa-grid" role="tabpanel" aria-labelledby="caa-tab-todos">
         <!-- Quién (.tone-y) -->
         <button type="button" class="caa-tile tone-y" data-caa-id="yo" data-caa="Yo" data-i18n-caa="caa_say_yo" data-caa-cat="quien" data-caa-img="./assets/arasaac/yo.png">
           <span class="caa-pic caa-pic-wrap"><img src="./assets/arasaac/yo.png" alt="" loading="lazy" /></span>
@@ -1591,7 +1596,7 @@
       </div>
 
       <div class="hotspot-box">
-        <h3 style="margin-top: 0;" data-i18n="tp_hotspot_title">Mapa de Puntos Calientes (Momentos No Estructurados)</h3>
+        <h2 style="margin-top: 0;" data-i18n="tp_hotspot_title">Mapa de Puntos Calientes (Momentos No Estructurados)</h2>
         <div id="teacher-hotspot-bars" class="hotspot-bars" style="font-weight: 700; color: var(--primary);"></div>
       </div>
 
@@ -1600,11 +1605,11 @@
         <span data-i18n="tp_tea_body">1. No exponer al alumno frente al grupo · 2. Facilitar regulación en el Rincón de Calma antes de preguntar · 3. Reforzar vigilancia en Patio y Pasillos.</span>
       </div>
 
-      <div class="teacher-filters">
+      <div class="teacher-filters" role="group" aria-labelledby="title-teacher-panel">
         <button type="button" class="chip-btn" data-teacher-filter="todos" aria-pressed="true" data-i18n="tp_filter_all">Todos</button>
-        <button type="button" class="chip-btn" data-teacher-filter="pendiente" data-i18n="tp_filter_pending">Pendientes</button>
-        <button type="button" class="chip-btn" data-teacher-filter="seguimiento" data-i18n="tp_filter_tracking">En seguimiento</button>
-        <button type="button" class="chip-btn" data-teacher-filter="resuelto" data-i18n="tp_filter_resolved">Resueltos</button>
+        <button type="button" class="chip-btn" data-teacher-filter="pendiente" aria-pressed="false" data-i18n="tp_filter_pending">Pendientes</button>
+        <button type="button" class="chip-btn" data-teacher-filter="seguimiento" aria-pressed="false" data-i18n="tp_filter_tracking">En seguimiento</button>
+        <button type="button" class="chip-btn" data-teacher-filter="resuelto" aria-pressed="false" data-i18n="tp_filter_resolved">Resueltos</button>
       </div>
 
       <div id="teacher-inbox-list" class="teacher-inbox-list" aria-live="polite"></div>
@@ -1643,7 +1648,7 @@
   <!-- ================================================================
        MODAL AJUSTES Y HERRAMIENTAS
        ================================================================ -->
-  <div id="gear-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="gear-modal-title">
+  <dialog id="gear-modal" class="modal-backdrop hidden" aria-labelledby="gear-modal-title">
     <div class="modal-card modal-gear">
       <div class="modal-header">
         <h2 id="gear-modal-title">
@@ -1730,10 +1735,10 @@
         <button type="button" id="btn-gear-done" class="btn btn-primary" data-i18n="gear_done">Listo</button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- Modal API de Gemini -->
-  <div id="api-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
+  <dialog id="api-modal" class="modal-backdrop hidden" aria-labelledby="api-modal-title">
     <div class="modal-card">
       <div class="modal-header">
         <h2 id="api-modal-title" data-i18n="api_title">Configurar IA Gemini (Opcional)</h2>
@@ -1775,9 +1780,9 @@
         <button type="button" id="btn-save-api-key" class="btn btn-primary" data-i18n="api_save">Guardar</button>
       </div>
     </div>
-  </div>
+  </dialog>
 
-  <footer class="app-footer" role="contentinfo">
+  <footer class="app-footer">
     <span data-i18n-html="footer_danger">¿Peligro ahora? <b>112</b></span>
     <span data-i18n-html="footer_helpline">Acoso escolar: <b>900 018 018</b> · gratis, 24 h</span>
     <button type="button" class="footer-link" data-go="parents" data-i18n="footer_parents">Familias</button>

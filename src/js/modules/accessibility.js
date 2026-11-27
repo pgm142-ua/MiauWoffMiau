@@ -142,17 +142,29 @@ export function quickExit() {
   show('toast', false);
   background(true);
   document.title = t('safe_exit_page_title');
+  const safeExit = $('safe-exit-screen');
   show('safe-exit-screen', true);
+  if (typeof safeExit?.showModal === 'function' && !safeExit.open) {
+    safeExit.showModal();
+  }
   $('return-from-safe-exit')?.focus();
 }
 
 export function initAccessibility() {
   on('btn-safe-exit', quickExit);
   on('return-from-safe-exit', () => {
+    const safeExit = $('safe-exit-screen');
+    if (safeExit?.open && typeof safeExit.close === 'function') {
+      safeExit.close();
+    }
     show('safe-exit-screen', false);
     background(false);
     document.title = t('page_title');
     $('btn-safe-exit')?.focus();
+  });
+
+  $('safe-exit-screen')?.addEventListener('cancel', (e) => {
+    e.preventDefault();
   });
 
   document.addEventListener('keydown', (e) => {
@@ -203,11 +215,15 @@ export function initAccessibility() {
     on(id, closeModal)
   );
   on('btn-api-settings', () => openModal('api-modal'));
-  all('.modal-backdrop').forEach((backdrop) =>
+  all('.modal-backdrop').forEach((backdrop) => {
     backdrop.addEventListener('click', (e) => {
       if (e.target === backdrop) closeModal();
-    })
-  );
+    });
+    backdrop.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      closeModal();
+    });
+  });
 
   on('btn-read-page', () => {
     if (isSpeaking()) {

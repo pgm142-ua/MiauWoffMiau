@@ -37,10 +37,13 @@ function renderExplanation(button, speak = false) {
   if (speak) say(t('fb_spoken_thanks'));
 }
 
-export function selectFeedbackEmotion(button) {
-  selectedEmotionButton = button;
-  all('[data-emotion]').forEach((el) => el.setAttribute('aria-checked', String(el === button)));
-  renderExplanation(button, true);
+export function selectFeedbackEmotion(card) {
+  if (!card) return;
+  selectedEmotionButton = card;
+  const radio = card.querySelector('.emotion-radio');
+  if (radio && !radio.checked) radio.checked = true;
+  all('[data-emotion]').forEach((el) => el.classList.toggle('sel', el === card));
+  renderExplanation(card, true);
 }
 
 function reportText() {
@@ -55,6 +58,14 @@ function reportText() {
 }
 
 export function initFeedback() {
+  all('.emotion-radio').forEach((input) => {
+    input.addEventListener('change', () => {
+      if (input.checked) {
+        selectFeedbackEmotion(input.closest('[data-emotion]'));
+      }
+    });
+  });
+
   on('btn-read-explanation', () => say(reportText()));
 
   on('btn-copy-report', async () => {

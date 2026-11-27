@@ -43,9 +43,15 @@ export function drawInbox() {
   ];
 
   for (const item of rows) {
+    const recipientLabel = translateRecipient(item.recipient);
+    const placeLabel = translatePlace(item.place);
+    const senderLabel = item.contextKey ? t(item.contextKey) : item.context || t('tp_anon_sender');
+    const bodyText = item.textKey ? t(item.textKey) : item.text;
+
     const card = node('article', '', 'record');
     const select = node('select', '', 'form-control');
     select.style.marginTop = '8px';
+    select.setAttribute('aria-label', `${item.id || 'SAFE'} — ${placeLabel}`);
     for (const [val, label] of statuses) {
       select.add(new Option(label, val));
     }
@@ -55,11 +61,6 @@ export function drawInbox() {
       save('panel', inbox);
       drawInbox();
     };
-
-    const recipientLabel = translateRecipient(item.recipient);
-    const placeLabel = translatePlace(item.place);
-    const senderLabel = item.contextKey ? t(item.contextKey) : item.context || t('tp_anon_sender');
-    const bodyText = item.textKey ? t(item.textKey) : item.text;
 
     card.append(
       node(

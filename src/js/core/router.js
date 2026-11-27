@@ -75,15 +75,10 @@ function updateProgressLabel() {
   const badgeText = vp?.querySelector('.step-badge')?.innerText;
   put('progress-label', badgeText || t('step_progress', stepInfo));
 
-  const progressFill = $('progress-fill');
-  if (progressFill) {
-    progressFill.style.width = (stepInfo.current / stepInfo.total) * 100 + '%';
-  }
   const progressBar = $('progress-bar');
   if (progressBar) {
-    progressBar.setAttribute('aria-valuemin', '1');
-    progressBar.setAttribute('aria-valuemax', String(stepInfo.total));
-    progressBar.setAttribute('aria-valuenow', String(stepInfo.current));
+    progressBar.max = stepInfo.total;
+    progressBar.value = stepInfo.current;
   }
 }
 
@@ -111,6 +106,10 @@ export function background(inert) {
 
 export function closeModal() {
   if (!uiState.modal) return;
+  const dialog = $(uiState.modal);
+  if (dialog?.open && typeof dialog.close === 'function') {
+    dialog.close();
+  }
   show(uiState.modal, false);
   uiState.modal = '';
   background(false);
@@ -119,11 +118,16 @@ export function closeModal() {
 
 export function openModal(id) {
   closeModal();
+  const dialog = $(id);
+  if (!dialog) return;
   uiState.opener = document.activeElement;
   uiState.modal = id;
   background(true);
   show(id, true);
-  $(id)?.querySelector('button')?.focus();
+  if (typeof dialog.showModal === 'function' && !dialog.open) {
+    dialog.showModal();
+  }
+  dialog.querySelector('button')?.focus();
 }
 
 export function go(target, push = true, syncHash = true) {

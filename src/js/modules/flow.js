@@ -9,7 +9,6 @@ import { t, translateCause, translateFeeling } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
 import { applyDisabilitySupport, applyPreferences } from './accessibility.js';
 import { addCaaWord } from './caa.js';
-import { selectFeedbackEmotion } from './feedback.js';
 import { setTeacherFilter } from './teacher-panel.js';
 
 const YES_TOKENS = new Set(['1', 'sí', 'si', 's', 'yes', 'y', 'oui', 'o', 'ja', 'j', 'sim', 'نعم', 'أجل', 'ايوه', 'اي']);
@@ -77,8 +76,11 @@ export function initFlow() {
     }
 
     if (data.adaptedPlace) {
-      all('[data-adapted-place]').forEach((el) => el.classList.remove('selected'));
-      button.classList.add('selected');
+      all('[data-adapted-place]').forEach((el) => {
+        const active = el === button;
+        el.classList.toggle('selected', active);
+        el.setAttribute('aria-pressed', String(active));
+      });
       state.place = data.adaptedPlace;
     }
 
@@ -89,7 +91,6 @@ export function initFlow() {
 
     if (data.caaId || data.caa) addCaaWord(data.caaId || data.caa);
     if (data.teacherFilter) setTeacherFilter(data.teacherFilter);
-    if (data.emotion) selectFeedbackEmotion(button);
 
     if (data.prompt) {
       if ($('chat-input')) $('chat-input').value = data.prompt;
