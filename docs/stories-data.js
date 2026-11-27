@@ -1,14 +1,14 @@
 // Archivo generado automáticamente por scripts/sync-stories-board.mjs
 // Fuente: docs/USER_STORIES.md — No editar manualmente.
 window.CONTIGO_STORIES_DATA = {
-  "generatedAt": "2026-11-27T12:12:34.937Z",
+  "generatedAt": "2026-11-27T12:35:09.205Z",
   "sourceFile": "docs/USER_STORIES.md",
   "epics": [
     {
       "id": "EP-09",
       "actor": "Estudiantes con discapacidad + Docentes",
-      "range": "US-ED-10 a US-ED-13, US-PR-09",
-      "objective": "Descubrimiento guiado sin «¿Por qué?»: comunicar malestar sin causa identificada mediante sensaciones, rutina, tarjetas Sí/No/No lo sé, patrones e intervención sin interrogatorio.",
+      "range": "US-ED-10 a US-ED-14, US-PR-09",
+      "objective": "Descubrimiento guiado sin «¿Por qué?»: comunicar malestar sin causa identificada mediante sensaciones, rutina, tarjetas Sí/No/No lo sé, relato diario asistido por IA (Google Gemini), patrones e intervención sin interrogatorio.",
       "release": "R1 / R2"
     },
     {
@@ -146,6 +146,26 @@ window.CONTIGO_STORIES_DATA = {
       "acceptanceCriteria": [
         "1. Dado que abro el registro rápido pictográfico (solo o acompañado por familia/apoyo), cuando toco un pictograma de sensación y un momento de la rutina/lugar, entonces la entrada se guarda con fecha y hora reales en menos de 10 segundos sin exigir texto escrito.",
         "2. Dado que se acumulan 2 o más registros de malestar sin causa definida en la misma franja o lugar durante una ventana de 7 días, cuando se evalúa el patrón (con permiso de envío o desde el historial compartido), entonces se genera una alerta de patrón recurrente para el equipo docente."
+      ]
+    },
+    {
+      "id": "US-ED-14",
+      "title": "Relato guiado del día con identificación de posibles causas mediante API de Google (Gemini)",
+      "epicId": "EP-09",
+      "epicTitle": "Descubrimiento guiado sin «¿Por qué?» (Malestar sin causa identificada)",
+      "actorGroup": "Estudiantes con discapacidad",
+      "actorPrefix": "US-ED",
+      "priority": "Must",
+      "release": "R1",
+      "status": "PARA INICIAR",
+      "statusDetail": "extensión de src/js/services/gemini.js, src/js/modules/flow.js y src/js/services/speech.js para analizar el relato diario del alumno con discapacidad cognitiva",
+      "assignee": "pgm142-ua",
+      "isAvailable": false,
+      "story": "Como estudiante con discapacidad cognitiva que puede contar lo que le ha pasado durante el día pero no identificar por sí solo si sufre acoso o cuál es la causa, quiero explicar mi día por voz o texto sencillo para que la aplicación, mediante la API de Google (Gemini), identifique posibles causas, emociones y lugares de riesgo y me ayude a confirmarlos y avisar a un adulto.",
+      "acceptanceCriteria": [
+        "1. Dado que accedo al flujo adaptado para alumnado con discapacidad cognitiva, cuando entro en la opción de contar mi día, entonces puedo relatar lo ocurrido mediante dictado por voz (Web Speech API) o texto libre sencillo con apoyo de Lectura Fácil y lectura en voz alta (TTS).",
+        "2. Dado que envío mi relato diario, cuando se procesa con la API de Google Gemini (con fallback local por reglas si no hay conexión o clave configurada), entonces el sistema devuelve un análisis estructurado con posibles causas (burlas, exclusión, agresión, sobrecarga sensorial u otras), emoción probable, lugar/momento y nivel de alerta.",
+        "3. Dado que el sistema identifica posibles causas a partir de mi relato, cuando se muestran en pantalla, entonces las presenta en Lectura Fácil con tarjetas visuales de confirmación (Sí, es eso / No / No lo sé) y permite enviar el aviso estructurado al Panel Docente con código SAFE-XXX sin interrogar ni bloquear al estudiante."
       ]
     },
     {
