@@ -16,6 +16,7 @@ const FLOW_STEPS = {
   'adapted-1': { current: 1, total: 3 },
   'adapted-2': { current: 2, total: 3 },
   'adapted-3': { current: 3, total: 3 },
+  'daily-story': { current: 2, total: 3 },
 };
 
 const NAV_TAB_MAP = {
@@ -31,6 +32,7 @@ const NAV_TAB_MAP = {
   'adapted-1': 'talk',
   'adapted-2': 'talk',
   'adapted-3': 'talk',
+  'daily-story': 'talk',
   'no-adapted': 'talk',
   questionnaire: 'talk',
   feedback: 'talk',

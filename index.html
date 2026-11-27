@@ -482,6 +482,16 @@
         </button>
       </div>
 
+      <div class="story-entry-banner">
+        <div>
+          <strong data-i18n="story_entry_title">¿Prefieres contar tu día con tus palabras?</strong>
+          <p data-i18n="story_entry_desc">Cuéntame qué ha pasado hoy y te ayudo a entenderlo poco a poco.</p>
+        </div>
+        <button type="button" class="btn btn-soft" data-go="daily-story">
+          <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> <span data-i18n="story_entry_btn">Contar mi día</span>
+        </button>
+      </div>
+
       <div class="nav-actions">
         <button type="button" class="btn btn-ghost" data-action="go-back">
           <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
@@ -532,6 +542,16 @@
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-steps"/></svg></span>
           <span class="choice-title" data-i18n="c_otr">6. Otra cosa</span>
           <span class="choice-desc" data-i18n="c_otr_d">Otro motivo</span>
+        </button>
+      </div>
+
+      <div class="story-entry-banner">
+        <div>
+          <strong data-i18n="story_entry_title">¿Prefieres contar tu día con tus palabras?</strong>
+          <p data-i18n="story_entry_desc">Cuéntame qué ha pasado hoy y te ayudo a entenderlo poco a poco.</p>
+        </div>
+        <button type="button" class="btn btn-soft" data-go="daily-story">
+          <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg> <span data-i18n="story_entry_btn">Contar mi día</span>
         </button>
       </div>
 
@@ -613,6 +633,99 @@
             <span data-i18n="ad3_btn_feedback">Ver Feedback (4 caras)</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </button>
           <button type="button" id="btn-adapted-to-teacher-panel" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="ad3_btn_teacher">Ver en Panel Profe</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button type="button" class="btn btn-ghost" data-action="go-back">
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         PANTALLA CONTAR MI DÍA (LECTURA FÁCIL + ANÁLISIS + CONFIRMACIÓN)
+         ================================================================ -->
+    <section id="screen-daily-story" class="card step-section hidden" aria-labelledby="title-daily-story">
+      <div class="chat-header">
+        <div>
+          <div class="step-badge" data-i18n="story_badge">Modo Adaptado · Contar mi día</div>
+          <h1 id="title-daily-story" data-i18n="story_title">Cuéntame tu día</h1>
+        </div>
+      </div>
+
+      <p class="lead-text" data-i18n="story_desc">
+        Puedes escribir o hablar con tu voz. Te ayudaré a ordenar lo que pasó sin prisas.
+      </p>
+
+      <div class="inline-voice-action">
+        <button type="button" id="btn-story-read-intro" class="btn btn-soft">
+          <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="story_btn_read_intro">Escuchar explicación</span>
+        </button>
+      </div>
+
+      <div class="story-input-card">
+        <label for="daily-story-input" class="form-label" data-i18n="story_input_label">¿Qué ha pasado hoy?</label>
+        <textarea id="daily-story-input" class="form-control" rows="4" placeholder="Escribe o pulsa el botón para hablar..." data-i18n-placeholder="story_input_ph"></textarea>
+        <div class="story-dictate-bar">
+          <button type="button" id="btn-voice-daily-story" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="story_btn_dictate">Dictar con voz</span>
+          </button>
+          <button type="button" id="btn-analyze-daily-story" class="btn btn-primary">
+            <svg class="i" aria-hidden="true"><use href="#i-check"/></svg> <span data-i18n="story_btn_analyze">Ayúdame a entenderlo</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="daily-story-loading" class="story-loading hidden" role="status" aria-live="polite">
+        <span data-i18n="story_loading_text">Leyendo tu historia despacio...</span>
+      </div>
+
+      <div id="daily-story-results" class="story-results hidden" aria-live="polite">
+        <div class="chat-header">
+          <h2 id="daily-story-results-title" data-i18n="story_results_title">Esto es lo que he entendido</h2>
+          <button type="button" id="btn-story-read-results" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="story_btn_read_results">Escuchar resultado</span>
+          </button>
+        </div>
+
+        <p id="daily-story-support" class="story-support-box"></p>
+
+        <div id="daily-story-meta" class="story-meta-pills"></div>
+
+        <div id="daily-story-causes" class="story-cause-list" role="list"></div>
+
+        <div class="story-send-box">
+          <div class="form-group">
+            <label for="daily-story-school" class="form-label" data-i18n="story_school_label">Tu nombre o clase (opcional, puede ser anónimo)</label>
+            <input type="text" id="daily-story-school" class="form-control" placeholder="Ej. Leo - 2.º B (o déjalo vacío)" data-i18n-placeholder="story_school_ph" />
+          </div>
+
+          <div class="send-teacher-cta">
+            <button type="button" id="btn-story-send-teacher" class="btn btn-primary btn-huge">
+              <svg class="i" aria-hidden="true"><use href="#i-send"/></svg> <span data-i18n="story_btn_send">Enviar al profesor</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="daily-story-sent-confirm" class="info-banner hidden" role="status">
+        <strong style="font-size: 1.25rem;">
+          <svg class="i" aria-hidden="true"><use href="#i-check"/></svg> <span data-i18n="story_sent_prefix">Enviado al profesor. Código:</span> <span id="daily-story-safe-code">SAFE-200</span>
+        </strong>
+        <div class="report-actions">
+          <button type="button" id="btn-story-speak-sent" class="btn btn-soft">
+            <svg class="i" aria-hidden="true"><use href="#i-speaker"/></svg> <span data-i18n="ad3_btn_speak_teacher">Leer en voz alta al profesor</span>
+          </button>
+          <button type="button" id="btn-story-to-calm" class="btn btn-soft" data-go="calm">
+            <svg class="i" aria-hidden="true"><use href="#i-leaf"/></svg> <span data-i18n="ad3_btn_calm">Ir al Rincón de Calma</span>
+          </button>
+          <button type="button" id="btn-story-to-feedback" class="btn btn-primary" data-go="feedback">
+            <span data-i18n="ad3_btn_feedback">Ver Feedback (4 caras)</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </button>
+          <button type="button" id="btn-story-to-teacher-panel" class="btn btn-soft" data-go="teacher-panel">
             <svg class="i" aria-hidden="true"><use href="#i-people"/></svg> <span data-i18n="ad3_btn_teacher">Ver en Panel Profe</span>
           </button>
         </div>

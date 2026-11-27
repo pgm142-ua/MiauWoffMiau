@@ -10,6 +10,7 @@ import { initAccessibility } from './modules/accessibility.js';
 import { initCaa } from './modules/caa.js';
 import { initCalm } from './modules/calm.js';
 import { initChat } from './modules/chat.js';
+import { initDailyStory } from './modules/daily-story.js';
 import { initDiary } from './modules/diary.js';
 import { initFeedback } from './modules/feedback.js';
 import { initFlow } from './modules/flow.js';
@@ -23,6 +24,7 @@ function bootstrap() {
   initDiary();
   initTeacherPanel();
   initChat();
+  initDailyStory();
   initQuestionnaire();
   initParents();
   initCalm();

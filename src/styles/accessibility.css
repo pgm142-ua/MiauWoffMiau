@@ -98,11 +98,48 @@
 .contrast .hero-cta-secondary,
 .contrast .adult-pill,
 .contrast .quick-input-details,
-.contrast .font-seg-btn {
+.contrast .font-seg-btn,
+.contrast .story-entry-banner,
+.contrast .story-input-card,
+.contrast .story-loading,
+.contrast .story-support-box,
+.contrast .story-cause-card,
+.contrast .story-confirm-btn,
+.contrast .story-send-box,
+.contrast .story-alert-badge {
   background: #0D0D0D !important;
   color: #FFFFFF !important;
   border: 2px solid #FFFFFF !important;
   box-shadow: none !important;
+}
+
+.contrast .story-support-box {
+  border-inline-start: 6px solid #FFD400 !important;
+}
+
+.contrast .story-cause-icon {
+  background: #141414 !important;
+  color: #FFD400 !important;
+  border: 2px solid #FFD400 !important;
+}
+
+.contrast .story-entry-banner p,
+.contrast .story-cause-desc,
+.contrast .story-cause-header {
+  color: #FFFFFF !important;
+}
+
+.contrast .story-alert-badge--low,
+.contrast .story-alert-badge--medium {
+  background: #0D0D0D !important;
+  color: #FFD400 !important;
+  border: 2px solid #FFD400 !important;
+}
+
+.contrast .story-alert-badge--high {
+  background: #FFD400 !important;
+  color: #000000 !important;
+  border: 2px solid #FFD400 !important;
 }
 
 .contrast .modal-gear .modal-header,
@@ -131,7 +168,11 @@
 .contrast .caa-tab[aria-selected="true"],
 .contrast .caa-tab[aria-pressed="true"],
 .contrast .pill-option:has(:checked),
-.contrast .gear-toggle:has(:checked) {
+.contrast .gear-toggle:has(:checked),
+.contrast .story-dictate-bar [aria-pressed="true"],
+.contrast .story-confirm-btn.is-yes[aria-pressed="true"],
+.contrast .story-confirm-btn.is-no[aria-pressed="true"],
+.contrast .story-confirm-btn.is-unsure[aria-pressed="true"] {
   background: #FFD400 !important;
   color: #000000 !important;
   border: 2px solid #FFD400 !important;
@@ -158,7 +199,12 @@
 .contrast .caa-tab[aria-selected="true"] *,
 .contrast .caa-tab[aria-pressed="true"] *,
 .contrast .pill-option:has(:checked) *,
-.contrast .gear-toggle:has(:checked) * {
+.contrast .gear-toggle:has(:checked) *,
+.contrast .story-dictate-bar [aria-pressed="true"] *,
+.contrast .story-confirm-btn.is-yes[aria-pressed="true"] *,
+.contrast .story-confirm-btn.is-no[aria-pressed="true"] *,
+.contrast .story-confirm-btn.is-unsure[aria-pressed="true"] *,
+.contrast .story-alert-badge--high * {
   color: #000000 !important;
 }
 
@@ -186,7 +232,9 @@
 .contrast .choice-card[aria-pressed="true"],
 .contrast .caa-tile.on,
 .contrast .caa-tile.sel,
-.contrast .caa-tile[aria-pressed="true"] {
+.contrast .caa-tile[aria-pressed="true"],
+.contrast .story-cause-card.selected,
+.contrast .story-cause-card[aria-pressed="true"] {
   background: #141414 !important;
   color: #FFFFFF !important;
   border: 3px solid #FFD400 !important;
@@ -308,9 +356,35 @@
 .easy p,
 .easy .choice-desc,
 .easy .check-desc,
-.easy .lead-text {
-  line-height: 1.8;
+.easy .lead-text,
+.easy .story-support-box,
+.easy .story-cause-desc {
+  line-height: 1.85;
   letter-spacing: 0.03em;
+}
+
+.easy .story-support-box,
+.easy .story-cause-desc {
+  font-size: 1.12rem;
+}
+
+.easy .story-cause-header {
+  font-size: 1.18rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.easy .story-results {
+  gap: 22px;
+}
+
+.easy .story-cause-list {
+  gap: 18px;
+}
+
+.easy .story-cause-card {
+  padding: 20px 22px;
+  gap: 14px;
 }
 
 /* Modo motor: botones más grandes */
@@ -327,6 +401,12 @@
   min-height: 50px;
 }
 
+.motor .story-confirm-btn {
+  min-height: 60px;
+  padding: 18px 22px;
+  font-size: 1.08rem;
+}
+
 .motor .tool-btn,
 .motor .nav-item,
 .motor .flow-back-btn {
@@ -338,7 +418,14 @@
 .still .breathing-circle,
 .still .calm-orb span,
 .still .calm-orb svg.buddy,
-.still .calm-orb .buddy {
+.still .calm-orb .buddy,
+.still .story-loading,
+.still .story-loading *,
+.still .story-confirm-btn {
   transition: none !important;
   animation: none !important;
+}
+
+.still .story-confirm-btn:hover {
+  transform: none !important;
 }

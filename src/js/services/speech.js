@@ -84,6 +84,7 @@ export function initSpeechRecognition() {
     'btn-chat-mic': ['chat-input', 'mic_sample_chat'],
     'btn-voice-q': ['q-situation-text', 'mic_sample_q'],
     'btn-voice-diary': ['diary-desc', 'mic_sample_diary'],
+    'btn-voice-daily-story': ['daily-story-input', 'mic_sample_daily_story'],
   };
 
   Object.entries(micMap).forEach(([btnId, [inputId, sampleKey]]) => {

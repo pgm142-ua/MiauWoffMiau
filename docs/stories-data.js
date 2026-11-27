@@ -1,7 +1,7 @@
 // Archivo generado automáticamente por scripts/sync-stories-board.mjs
 // Fuente: docs/USER_STORIES.md — No editar manualmente.
 window.CONTIGO_STORIES_DATA = {
-  "generatedAt": "2026-11-27T12:35:09.205Z",
+  "generatedAt": "2026-11-27T12:59:19.917Z",
   "sourceFile": "docs/USER_STORIES.md",
   "epics": [
     {
@@ -157,8 +157,8 @@ window.CONTIGO_STORIES_DATA = {
       "actorPrefix": "US-ED",
       "priority": "Must",
       "release": "R1",
-      "status": "PARA INICIAR",
-      "statusDetail": "extensión de src/js/services/gemini.js, src/js/modules/flow.js y src/js/services/speech.js para analizar el relato diario del alumno con discapacidad cognitiva",
+      "status": "Implementado",
+      "statusDetail": "#screen-daily-story, src/js/modules/daily-story.js, src/js/services/gemini.js, src/js/services/speech.js, src/js/core/router.js, src/styles/components.css, src/styles/accessibility.css y diccionarios i18n",
       "assignee": "pgm142-ua",
       "isAvailable": false,
       "story": "Como estudiante con discapacidad cognitiva que puede contar lo que le ha pasado durante el día pero no identificar por sí solo si sufre acoso o cuál es la causa, quiero explicar mi día por voz o texto sencillo para que la aplicación, mediante la API de Google (Gemini), identifique posibles causas, emociones y lugares de riesgo y me ayude a confirmarlos y avisar a un adulto.",
