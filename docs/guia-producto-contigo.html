@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contigo — Guía de Producto, Features y Arquitectura Inclusiva</title>
+  <style>
+    :root {
+      --bg: #EEF2EF;
+      --surface: #FFFFFF;
+      --text: #1E2B25;
+      --muted: #3A4B44;
+      --line: #C7D3CC;
+      --primary: #1F4A39;
+      --primary-t: #DCE9E2;
+      --sky: #164E63;
+      --sky-t: #E7F1F6;
+      --lav: #4C347A;
+      --lav-t: #ECE9F7;
+      --butter: #5C4308;
+      --butter-t: #FBF5DF;
+      --peach: #7C2D12;
+      --peach-t: #FBEDE5;
+      --font: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    }
+
+    @page {
+      size: A4;
+      margin: 14mm 15mm 16mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    html {
+      font-size: 14px;
+      line-height: 1.5;
+      font-family: var(--font);
+      color: var(--text);
+      background: #E4EBE7;
+    }
+
+    body {
+      margin: 0 auto;
+      max-width: 820px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 28px 34px;
+    }
+
+    @media print {
+      html {
+        background: var(--surface);
+      }
+      body {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+      }
+      .page-break {
+        break-before: page;
+        page-break-before: always;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--text);
+      line-height: 1.22;
+      break-after: avoid;
+      page-break-after: avoid;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 1.34rem;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary-t);
+      padding-bottom: 5px;
+      margin-top: 4px;
+      margin-bottom: 9px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin: 0 0 10px;
+    }
+
+    ul, ol {
+      margin: 0 0 10px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    a {
+      color: var(--primary);
+      font-weight: 600;
+      text-underline-offset: 3px;
+    }
+
+    a:focus-visible {
+      outline: 3px solid #D97706;
+      outline-offset: 2px;
+    }
+
+    code {
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 0.88em;
+      background: #F1F5F3;
+      color: #1A2E26;
+      padding: 1px 5px;
+      border-radius: 4px;
+      border: 1px solid #D7E1DC;
+    }
+
+    .cover-header {
+      background: linear-gradient(145deg, #F6FAF7 0%, #E7F1F6 100%);
+      border: 1.5px solid var(--line);
+      border-radius: 18px;
+      padding: 24px 26px;
+      margin-bottom: 18px;
+      break-inside: avoid;
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .cover-kicker {
+      display: inline-block;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 99px;
+      margin-bottom: 8px;
+    }
+
+    .lead {
+      font-size: 1.04rem;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+      break-inside: avoid;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+    }
+
+    .kpi-card strong {
+      display: block;
+      font-size: 1.12rem;
+      color: var(--primary);
+      margin-bottom: 2px;
+    }
+
+    .kpi-card span {
+      font-size: 0.84rem;
+      color: var(--muted);
+      display: block;
+      line-height: 1.3;
+    }
+
+    .toc-nav {
+      background: #F8FAF9;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+
+    .toc-nav h2 {
+      font-size: 1.12rem;
+      margin-top: 0;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc-list li a {
+      text-decoration: none;
+      display: block;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-size: 0.93rem;
+    }
+
+    .toc-list li a:hover {
+      background: var(--primary-t);
+      text-decoration: underline;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      background: var(--primary-t);
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-bottom: 6px;
+    }
+
+    .callout {
+      border-left: 5px solid var(--primary);
+      background: #F4F9F6;
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      border-radius: 0 12px 12px 0;
+      padding: 9px 14px;
+      margin: 8px 0 10px;
+      font-size: 0.92rem;
+      line-height: 1.44;
+      break-inside: avoid;
+    }
+
+    .callout-warn {
+      border-left-color: var(--peach);
+      background: var(--peach-t);
+    }
+
+    .callout-info {
+      border-left-color: var(--sky);
+      background: var(--sky-t);
+    }
+
+    .callout > strong:first-child {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 8px 0 12px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 13px;
+      padding: 10px 13px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .feature-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .feature-card h3 {
+      margin: 0;
+      font-size: 0.97rem;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+
+    .feature-card ul {
+      font-size: 0.85rem;
+      margin-bottom: 0;
+      padding-left: 17px;
+      line-height: 1.38;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 99px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .b-proto {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .b-r1 {
+      background: var(--sky);
+      color: #FFFFFF;
+    }
+
+    .b-up {
+      background: var(--lav);
+      color: #FFFFFF;
+    }
+
+    .b-r2 {
+      background: var(--butter-t);
+      color: var(--butter);
+      border: 1px solid #D9B75E;
+    }
+
+    figure {
+      margin: 8px 0 10px;
+      padding: 9px 11px;
+      background: #FAFCFB;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    figure svg {
+      width: 100%;
+      max-width: 635px;
+      margin-inline: auto;
+      height: auto;
+      display: block;
+    }
+
+    figcaption {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .layers-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin: 8px 0 10px;
+    }
+
+    .layer-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      align-items: start;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 11px;
+      padding: 7px 11px;
+      break-inside: avoid;
+    }
+
+    .layer-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      font-size: 0.94rem;
+    }
+
+    .layer-item h3 {
+      margin-bottom: 2px;
+      font-size: 0.94rem;
+    }
+
+    .layer-item p {
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.38;
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 10px;
+      font-size: 0.82rem;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 5px 8px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.36;
+    }
+
+    th {
+      background: var(--primary);
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #F6F9F7;
+    }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 10px 0 14px;
+    }
+
+    .release-card {
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 13px;
+      background: var(--surface);
+      break-inside: avoid;
+    }
+
+    .release-card h3 {
+      color: var(--primary);
+      border-bottom: 1.5px solid var(--primary-t);
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .release-card ul {
+      padding-left: 16px;
+      font-size: 0.86rem;
+      margin-bottom: 0;
+    }
+
+    .doc-footer {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1.5px solid var(--line);
+      font-size: 0.83rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       SECCIÓN 1: PORTADA E ÍNDICE NAVEGABLE
+       ================================================================ -->
+  <header id="sec-portada" class="cover-header">
+    <div class="cover-top">
+      <svg width="72" height="72" viewBox="0 0 80 80" role="img" aria-labelledby="nube-logo-title nube-logo-desc">
+        <title id="nube-logo-title">Logotipo de Nube, asistente de Contigo</title>
+        <desc id="nube-logo-desc">Ilustración amable de una nube blanca sonriente sobre un círculo verde suave</desc>
+        <circle cx="40" cy="40" r="38" fill="#DCE9E2" stroke="#1F4A39" stroke-width="2" />
+        <path d="M25 50c-6.5 0-11-4.3-11-10.2 0-5.2 3.8-9.5 8.8-10.1C24.5 23.3 30.6 19 38 19c8.6 0 15.6 6.2 16.5 14.3 4.8.8 8.5 4.8 8.5 9.8 0 5.5-4.4 9.9-10.2 9.9H25z" fill="#FFFFFF" stroke="#1F4A39" stroke-width="2.2" />
+        <circle cx="33" cy="37" r="2.3" fill="#1E2B25" />
+        <circle cx="45" cy="37" r="2.3" fill="#1E2B25" />
+        <path d="M35 43c2.5 2.4 5.5 2.4 8 0" fill="none" stroke="#1E2B25" stroke-width="2.2" stroke-linecap="round" />
+      </svg>
+      <div>
+        <span class="cover-kicker">Guía de Producto y Features · Contigo</span>
+        <h1>Prevención y comunicación accesible del acoso escolar</h1>
+        <p class="lead">Mapa visual de funcionalidades por actor, Service Blueprint por capas, solución para estudiantes que no saben por qué están mal y estándar técnico HTML nativo + WAI-ARIA.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <strong>4 Actores</strong>
+        <span>Alumnado con discapacidad, sin discapacidad, profesorado y familias</span>
+      </div>
+      <div class="kpi-card">
+        <strong>5 Capas</strong>
+        <span>Flujo para expresar malestar aunque no se sepa explicar el motivo</span>
+      </div>
+      <div class="kpi-card">
+        <strong>7 Idiomas + RTL</strong>
+        <span>Español, catalán, inglés, francés, alemán, portugués y árabe RTL</span>
+      </div>
+      <div class="kpi-card">
+        <strong>HTML + WAI-ARIA</strong>
+        <span>Controles semánticos nativos primero y ARIA solo como refuerzo</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc-nav" aria-label="Índice del documento">
+    <h2>Índice de contenidos</h2>
+    <ol class="toc-list">
+      <li><a href="#sec-blueprint">1. Visión y Service Blueprint por capas</a></li>
+      <li><a href="#sec-sin-porque">2. Reto central: «Estoy mal y no sé por qué»</a></li>
+      <li><a href="#sec-actor-ed">3. Features · Estudiantes con discapacidad</a></li>
+      <li><a href="#sec-actor-es">4. Features · Estudiantes sin discapacidad</a></li>
+      <li><a href="#sec-actor-pr">5. Features · Profesores y Orientación</a></li>
+      <li><a href="#sec-actor-fa">6. Features · Padres, Madres y Tutores</a></li>
+      <li><a href="#sec-plataforma">7. Plataforma y regla HTML nativo + WAI-ARIA</a></li>
+      <li><a href="#sec-roadmap">8. Hoja de ruta (R1 → R2 → R3) y Sprint 1</a></li>
+    </ol>
+  </nav>
+
+  <div class="callout callout-info">
+    <strong>Cómo leer las etiquetas de estado en esta guía</strong>
+    Cada funcionalidad indica su punto real respecto al prototipo actual del repositorio:
+    <span class="badge b-proto">Ya en prototipo</span> operativa en el navegador actual;
+    <span class="badge b-up">Mejora R1</span> existe en interfaz pero requiere completar persistencia, prioridad o flujo;
+    <span class="badge b-r1">Nuevo R1</span> imprescindible para el primer piloto en centro escolar;
+    <span class="badge b-r2">Nuevo R2–R3</span> evolución operativa y escala.
+  </div>
+
+  <main>
+
+    <!-- ================================================================
+         SECCIÓN 2: VISIÓN Y SERVICE BLUEPRINT VISUAL
+         ================================================================ -->
+    <section id="sec-blueprint" class="page-break" aria-labelledby="h-blueprint">
+      <span class="section-kicker">Sección 1 · Visión Global</span>
+      <h2 id="h-blueprint">Visión del producto y Service Blueprint por capas</h2>
+      <p><strong>Contigo</strong> une la accesibilidad sensorial, cognitiva y comunicativa con un canal de alerta temprana entre alumnado, familias y equipo educativo. Frente al prototipo actual (100 % en navegador con <code>sessionStorage</code>), la versión profesional conecta los dispositivos del centro de forma segura manteniendo el anonimato y la privacidad de los menores.</p>
+
+      <figure>
+        <svg viewBox="0 0 720 435" role="img" aria-labelledby="sb-svg-title sb-svg-desc">
+          <title id="sb-svg-title">Service Blueprint por capas de Contigo</title>
+          <desc id="sb-svg-desc">Diagrama de cuatro capas horizontales separadas por una línea de visibilidad que conecta las acciones del usuario, la interfaz visible, el trabajo interno del centro y el soporte técnico</desc>
+
+          <!-- Capa 1: Acciones usuario -->
+          <rect x="8" y="8" width="704" height="84" rx="10" fill="#FBF5DF" stroke="#D4BE7A" stroke-width="1.5" />
+          <text x="20" y="28" font-size="11.5" font-weight="700" fill="#5C4308">1. ACCIONES DEL ESTUDIANTE Y FAMILIA</text>
+          <rect x="20" y="38" width="156" height="42" rx="8" fill="#FFFFFF" stroke="#5C4308" stroke-width="1.2" />
+          <text x="98" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Acceso y Apoyos</text>
+          <text x="98" y="71" text-anchor="middle" font-size="9.5" fill="#3A4B44">Voz, TEA, CAA, lectura fácil</text>
+
+          <rect x="192" y="38" width="174" height="42" rx="8" fill="#FFFFFF" stroke="#5C4308" stroke-width="1.2" />
+          <text x="279" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Expresa malestar</text>
+          <text x="279" y="71" text-anchor="middle" font-size="9.5" fill="#3A4B44">Adaptado, «No sé por qué» o Chat</text>
+
+          <rect x="382" y="38" width="154" height="42" rx="8" fill="#FFFFFF" stroke="#5C4308" stroke-width="1.2" />
+          <text x="459" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Se calma o registra</text>
+          <text x="459" y="71" text-anchor="middle" font-size="9.5" fill="#3A4B44">Rincón de Calma / Diario</text>
+
+          <rect x="552" y="38" width="148" height="42" rx="8" fill="#FFFFFF" stroke="#5C4308" stroke-width="1.2" />
+          <text x="626" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Recibe acuse y apoyo</text>
+          <text x="626" y="71" text-anchor="middle" font-size="9.5" fill="#3A4B44">Código SAFE-XXX y seguimiento</text>
+
+          <!-- Capa 2: Frontstage -->
+          <rect x="8" y="104" width="704" height="86" rx="10" fill="#E7F1F6" stroke="#9DC3D6" stroke-width="1.5" />
+          <text x="20" y="124" font-size="11.5" font-weight="700" fill="#164E63">2. FRONTSTAGE VISIBLE (lo que ve y escucha el usuario)</text>
+          <rect x="20" y="134" width="156" height="44" rx="8" fill="#FFFFFF" stroke="#164E63" stroke-width="1.2" />
+          <text x="98" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Pantallas HTML nativo</text>
+          <text x="98" y="167" text-anchor="middle" font-size="9.5" fill="#3A4B44">Teclado 1–6, Esc Salida Rápida</text>
+
+          <rect x="192" y="134" width="174" height="44" rx="8" fill="#FFFFFF" stroke="#164E63" stroke-width="1.2" />
+          <text x="279" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Pictogramas y Tarjetas</text>
+          <text x="279" y="167" text-anchor="middle" font-size="9.5" fill="#3A4B44">ARASAAC, cuerpo, Sí/No/No sé</text>
+
+          <rect x="382" y="134" width="154" height="44" rx="8" fill="#FFFFFF" stroke="#164E63" stroke-width="1.2" />
+          <text x="459" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Voz TTS y Calma</text>
+          <text x="459" y="167" text-anchor="middle" font-size="9.5" fill="#3A4B44">«Hablar por mí» o alertas visuales</text>
+
+          <rect x="552" y="134" width="148" height="44" rx="8" fill="#FFFFFF" stroke="#164E63" stroke-width="1.2" />
+          <text x="626" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Acogida discreta</text>
+          <text x="626" y="167" text-anchor="middle" font-size="9.5" fill="#3A4B44">Docente acoge sin interrogar</text>
+
+          <!-- Línea de visibilidad -->
+          <line x1="8" y1="205" x2="712" y2="205" stroke="#7C2D12" stroke-width="2" stroke-dasharray="7 5" />
+          <rect x="206" y="194" width="308" height="22" rx="11" fill="#7C2D12" />
+          <text x="360" y="209" text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFFFFF">LÍNEA DE VISIBILIDAD (interno del centro escolar)</text>
+
+          <!-- Capa 3: Backstage -->
+          <rect x="8" y="222" width="704" height="96" rx="10" fill="#DCE9E2" stroke="#9DBCAE" stroke-width="1.5" />
+          <text x="20" y="242" font-size="11.5" font-weight="700" fill="#1F4A39">3. BACKSTAGE DEL CENTRO (Tutor, Orientación y Dirección)</text>
+          <rect x="20" y="253" width="160" height="52" rx="8" fill="#FFFFFF" stroke="#1F4A39" stroke-width="1.2" />
+          <text x="100" y="271" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Bandeja y Prioridad</text>
+          <text x="100" y="286" text-anchor="middle" font-size="9.5" fill="#3A4B44">Triaje peligro inmediato y</text>
+          <text x="100" y="298" text-anchor="middle" font-size="9.5" fill="#3A4B44">avisos sin causa definida</text>
+
+          <rect x="194" y="253" width="166" height="52" rx="8" fill="#FFFFFF" stroke="#1F4A39" stroke-width="1.2" />
+          <text x="277" y="271" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Pauta TEA / Sin Interrogar</text>
+          <text x="277" y="286" text-anchor="middle" font-size="9.5" fill="#3A4B44">Cuerpo + rutina + Sí/No/No sé</text>
+          <text x="277" y="298" text-anchor="middle" font-size="9.5" fill="#3A4B44">evitando «¿por qué lloras?»</text>
+
+          <rect x="374" y="253" width="160" height="52" rx="8" fill="#FFFFFF" stroke="#1F4A39" stroke-width="1.2" />
+          <text x="454" y="271" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Triangulación Casa–Centro</text>
+          <text x="454" y="286" text-anchor="middle" font-size="9.5" fill="#3A4B44">Cruzar franjas repetidas y</text>
+          <text x="454" y="298" text-anchor="middle" font-size="9.5" fill="#3A4B44">señales enviadas por familias</text>
+
+          <rect x="548" y="253" width="152" height="52" rx="8" fill="#FFFFFF" stroke="#1F4A39" stroke-width="1.2" />
+          <text x="624" y="271" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Prevención y Respuesta</text>
+          <text x="624" y="286" text-anchor="middle" font-size="9.5" fill="#3A4B44">Puntos calientes, notas y</text>
+          <text x="624" y="298" text-anchor="middle" font-size="9.5" fill="#3A4B44">respuesta a SAFE-XXX</text>
+
+          <!-- Capa 4: Soporte -->
+          <rect x="8" y="330" width="704" height="92" rx="10" fill="#ECE9F7" stroke="#BDB3DF" stroke-width="1.5" />
+          <text x="20" y="350" font-size="11.5" font-weight="700" fill="#4C347A">4. PROCESOS Y PLATAFORMA DE SOPORTE</text>
+          <rect x="20" y="361" width="160" height="48" rx="8" fill="#FFFFFF" stroke="#4C347A" stroke-width="1.2" />
+          <text x="100" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Backend Multi-centro</text>
+          <text x="100" y="396" text-anchor="middle" font-size="9.5" fill="#3A4B44">Cifrado y cola offline-first</text>
+
+          <rect x="194" y="361" width="166" height="48" rx="8" fill="#FFFFFF" stroke="#4C347A" stroke-width="1.2" />
+          <text x="277" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Autenticación RBAC</text>
+          <text x="277" y="396" text-anchor="middle" font-size="9.5" fill="#3A4B44">Roles Tutor / Orientación / Dir.</text>
+
+          <rect x="374" y="361" width="160" height="48" rx="8" fill="#FFFFFF" stroke="#4C347A" stroke-width="1.2" />
+          <text x="454" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Motor de Patrones e IA</text>
+          <text x="454" y="396" text-anchor="middle" font-size="9.5" fill="#3A4B44">Recurrencia y proxy moderado</text>
+
+          <rect x="548" y="361" width="152" height="48" rx="8" fill="#FFFFFF" stroke="#4C347A" stroke-width="1.2" />
+          <text x="624" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#1E2B25">Privacidad y Calidad</text>
+          <text x="624" y="396" text-anchor="middle" font-size="9.5" fill="#3A4B44">RGPD / LOPIVI + Tests WCAG</text>
+        </svg>
+        <figcaption>Figura 1. Service Blueprint de Contigo: cómo las acciones visibles del alumno y su familia se conectan con el trabajo interno docente y la plataforma segura.</figcaption>
+      </figure>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Qué ya funciona hoy (Prototipo)</th>
+            <th scope="col">Qué falta para uso profesional en centros</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Configuración guiada de voz y 6 perfiles de apoyo, flujo Adaptado de 3 pasos, Tablero CAA con ARASAAC, Chatbot local/Gemini, Cuestionario con alerta <code>112</code>/<code>900 018 018</code>, Diario local, Rincón de Calma, Salida Rápida (<code>Esc</code>), 7 idiomas + árabe RTL y panel docente demo.</td>
+            <td>Flujo específico para alumnado que <strong>no sabe por qué está mal</strong>, persistencia real en servidor multi-centro, acceso autenticado al Panel Docente, código <code>SAFE-XXX</code> con consulta bidireccional, proxy seguro de IA, lugares reales en CAA/Familias y prioridad automática ante peligro inmediato.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 3: RETO CENTRAL — NO SABE POR QUÉ ESTÁ MAL
+         ================================================================ -->
+    <section id="sec-sin-porque" class="page-break" aria-labelledby="h-sin-porque">
+      <span class="section-kicker">Sección 2 · Foco Prioritario nº 1</span>
+      <h2 id="h-sin-porque">Ayudar al estudiante con discapacidad cuando NO sabe por qué está mal</h2>
+
+      <div class="callout callout-warn">
+        <strong>Por qué el flujo actual bloquea a quien más lo necesita</strong>
+        Hoy el prototipo obliga al alumno a definirse como <code>Víctima</code> o <code>Testigo</code>, nombrar una de 4 emociones abstractas (<em>Tranquilo, Triste, Con miedo, Enfadado</em>) y contestar directamente <strong>«¿Por qué pasa?»</strong>. En alumnado con TEA, alexitimia, dificultad interoceptiva o discapacidad intelectual, exigir esa explicación genera bloqueo o abandono.
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 720 265" role="img" aria-labelledby="flow5-title flow5-desc">
+          <title id="flow5-title">Flujo progresivo en 5 capas sin preguntar por qué</title>
+          <desc id="flow5-desc">Cinco pasos secuenciales desde la puerta Estoy mal y no sé por qué hasta el descubrimiento de la causa por patrones docentes y familiares</desc>
+
+          <rect x="10" y="20" width="128" height="190" rx="12" fill="#FBEDE5" stroke="#7C2D12" stroke-width="1.5" />
+          <circle cx="74" cy="44" r="14" fill="#7C2D12" />
+          <text x="74" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+          <text x="74" y="75" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E2B25">Puerta sin culpa</text>
+          <text x="74" y="96" text-anchor="middle" font-size="9.5" fill="#3A4B44">«Estoy mal y no</text>
+          <text x="74" y="109" text-anchor="middle" font-size="9.5" fill="#3A4B44">sé por qué»</text>
+          <text x="74" y="132" text-anchor="middle" font-size="9.5" fill="#3A4B44">Opción rápida:</text>
+          <text x="74" y="145" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7C2D12">«Que venga un</text>
+          <text x="74" y="158" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7C2D12">adulto ya»</text>
+          <text x="74" y="188" text-anchor="middle" font-size="9" fill="#3A4B44">Sin etiquetas</text>
+
+          <path d="M140 115 L154 115" stroke="#1F4A39" stroke-width="2.2" />
+          <polygon points="154,110 162,115 154,120" fill="#1F4A39" />
+
+          <rect x="164" y="20" width="128" height="190" rx="12" fill="#FBF5DF" stroke="#5C4308" stroke-width="1.5" />
+          <circle cx="228" cy="44" r="14" fill="#5C4308" />
+          <text x="228" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+          <text x="228" y="75" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E2B25">Señales cuerpo</text>
+          <text x="228" y="96" text-anchor="middle" font-size="9.5" fill="#3A4B44">• Duele tripa/cabeza</text>
+          <text x="228" y="111" text-anchor="middle" font-size="9.5" fill="#3A4B44">• Mucho ruido/luz</text>
+          <text x="228" y="126" text-anchor="middle" font-size="9.5" fill="#3A4B44">• Quiero esconderme</text>
+          <text x="228" y="141" text-anchor="middle" font-size="9.5" fill="#3A4B44">• Corazón rápido</text>
+          <text x="228" y="156" text-anchor="middle" font-size="9.5" fill="#3A4B44">• Bloqueo / No hablo</text>
+          <text x="228" y="176" text-anchor="middle" font-size="9.5" font-weight="700" fill="#5C4308">• «No lo sé» válido</text>
+
+          <path d="M294 115 L308 115" stroke="#1F4A39" stroke-width="2.2" />
+          <polygon points="308,110 316,115 308,120" fill="#1F4A39" />
+
+          <rect x="318" y="20" width="128" height="190" rx="12" fill="#E7F1F6" stroke="#164E63" stroke-width="1.5" />
+          <circle cx="382" cy="44" r="14" fill="#164E63" />
+          <text x="382" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+          <text x="382" y="75" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E2B25">Hechos concretos</text>
+          <text x="382" y="96" text-anchor="middle" font-size="9.5" font-weight="700" fill="#164E63">A) Rutina del día:</text>
+          <text x="382" y="109" text-anchor="middle" font-size="9.5" fill="#3A4B44">Entrada, clase, patio,</text>
+          <text x="382" y="122" text-anchor="middle" font-size="9.5" fill="#3A4B44">pasillo, comedor...</text>
+          <text x="382" y="144" text-anchor="middle" font-size="9.5" font-weight="700" fill="#164E63">B) Escenas 1 a 1:</text>
+          <text x="382" y="159" text-anchor="middle" font-size="9.5" fill="#3A4B44">Botones iguales:</text>
+          <text x="382" y="174" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1E2B25">Sí / No / No lo sé</text>
+
+          <path d="M448 115 L462 115" stroke="#1F4A39" stroke-width="2.2" />
+          <polygon points="462,110 470,115 462,120" fill="#1F4A39" />
+
+          <rect x="472" y="20" width="114" height="190" rx="12" fill="#DCE9E2" stroke="#1F4A39" stroke-width="1.5" />
+          <circle cx="529" cy="44" r="14" fill="#1F4A39" />
+          <text x="529" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">4</text>
+          <text x="529" y="75" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E2B25">Envío y Calma</text>
+          <text x="529" y="98" text-anchor="middle" font-size="9.5" fill="#3A4B44">Envía aunque</text>
+          <text x="529" y="111" text-anchor="middle" font-size="9.5" fill="#3A4B44">todo sea «No lo sé»</text>
+          <text x="529" y="136" text-anchor="middle" font-size="9.5" fill="#3A4B44">Pasa a respirar</text>
+          <text x="529" y="149" text-anchor="middle" font-size="9.5" fill="#3A4B44">en Calma o usa</text>
+          <text x="529" y="162" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1F4A39">«Leer por mí»</text>
+
+          <path d="M588 115 L600 115" stroke="#1F4A39" stroke-width="2.2" />
+          <polygon points="600,110 608,115 600,120" fill="#1F4A39" />
+
+          <rect x="610" y="20" width="102" height="190" rx="12" fill="#ECE9F7" stroke="#4C347A" stroke-width="1.5" />
+          <circle cx="661" cy="44" r="14" fill="#4C347A" />
+          <text x="661" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">5</text>
+          <text x="661" y="75" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E2B25">Patrones</text>
+          <text x="661" y="98" text-anchor="middle" font-size="9.5" fill="#3A4B44">Cruce de franja,</text>
+          <text x="661" y="111" text-anchor="middle" font-size="9.5" fill="#3A4B44">rutina y casa</text>
+          <text x="661" y="136" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4C347A">El docente</text>
+          <text x="661" y="149" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4C347A">descubre la</text>
+          <text x="661" y="162" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4C347A">causa real</text>
+
+          <rect x="10" y="224" width="702" height="30" rx="8" fill="#1F4A39" />
+          <text x="361" y="243" text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFFFFF">REGLA DE ORO: Responder «No lo sé» en cualquier paso es 100 % válido y nunca bloquea el envío de ayuda</text>
+        </svg>
+        <figcaption>Figura 2. Diseño en 5 capas para sustituir la pregunta abstracta «¿Por qué pasa?» por pistas concretas accesibles.</figcaption>
+      </figure>
+
+      <div class="layers-list">
+        <div class="layer-item">
+          <div class="layer-num">1</div>
+          <div>
+            <h3>Puerta sin culpa ni etiquetas (<span class="badge b-r1">Nuevo R1 · US-ED-10</span>)</h3>
+            <p>Botón directo <strong>«Estoy mal y no sé por qué»</strong> en portada y paso de situación. Incluye atajo de emergencia emocional <strong>«Solo quiero que venga un adulto»</strong> para pedir ayuda en 1 toque cuando hay bloqueo completo.</p>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-num">2</div>
+          <div>
+            <h3>Mapa de sensaciones corporales y sensoriales (<span class="badge b-r1">Nuevo R1 · US-ED-11</span>)</h3>
+            <p>Pictogramas concretos con lectura en voz alta (TTS): <em>me duele la tripa o la cabeza</em>, <em>hay demasiado ruido o luz</em>, <em>me quiero esconder o irme</em>, <em>me late fuerte el corazón</em>, <em>no me salen las palabras</em> y <em>no lo sé</em>.</p>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-num">3</div>
+          <div>
+            <h3>Rutina del día + micro-tarjetas «Sí / No / No lo sé» (<span class="badge b-r1">Nuevo R1 · US-ED-12</span>)</h3>
+            <p>Primero ubica cuándo empezó en la rutina visual (<em>antes de llegar, entrada, clase, recreo/patio, pasillo/baño, comedor, salida</em>). Después muestra una sola escena concreta cada vez (<em>¿se rieron de ti?, ¿te dejaron solo?, ¿te empujaron?, ¿mucho ruido?, ¿cambio inesperado?</em>) con tres opciones iguales.</p>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-num">4</div>
+          <div>
+            <h3>Regulación y lectura presencial (<span class="badge b-proto">Ya en prototipo</span> + <span class="badge b-r1">R1</span>)</h3>
+            <p>Incluso si respondió «No lo sé» a todo, el aviso se envía al docente como <em>«Malestar sin causa identificada»</em> con sus pistas y abre el Rincón de Calma o el botón <em>Leer en voz alta por mí</em>.</p>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-num">5</div>
+          <div>
+            <h3>Patrones longitudinales + triangulación casa–centro (<span class="badge b-r2">Nuevo R2 · US-ED-13</span>)</h3>
+            <p>Un diario pictográfico en 2 toques (<em>sensación + rutina</em>) y los avisos de casa permiten al profesorado ver que el alumno se bloquea siempre tras el mismo recreo o cambio de clase y descubrir la causa sin interrogarle.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 4: ACTOR 1 — ESTUDIANTES CON DISCAPACIDAD
+         ================================================================ -->
+    <section id="sec-actor-ed" class="page-break" aria-labelledby="h-actor-ed">
+      <span class="section-kicker">Sección 3 · Actor 1</span>
+      <h2 id="h-actor-ed">Estudiantes con discapacidad — Todas las Features</h2>
+      <p>Pensado para alumnado con <strong>TEA</strong>, <strong>baja visión o ceguera</strong>, <strong>sordera</strong>, <strong>comunicación no verbal (CAA)</strong>, <strong>discapacidad intelectual</strong> y <strong>motora</strong>, tanto si pide ayuda por sí mismo como si es testigo.</p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Onboarding de voz y 6 apoyos (Pasos 0 y 0B)</h3>
+            <span class="badge b-proto">Ya en prototipo</span>
+          </div>
+          <p>Activa en segundos lectura en voz alta (TTS), letra grande/alto contraste, modo sordo con franja visual, pictogramas CAA, lectura fácil, sin animaciones TEA y botones grandes.</p>
+          <ul>
+            <li>Soporte de teclado numérico (<code>1</code>–<code>6</code>), clic o dictado por voz.</li>
+            <li>Modal de ajustes (<code>gear-modal</code>) accesible desde cualquier pantalla.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Perfil guardado y enrutado inteligente</h3>
+            <span class="badge b-r1">Nuevo R1 · US-ED-02</span>
+          </div>
+          <p>Recuerda la configuración de accesibilidad en el dispositivo y simplifica el camino según las necesidades marcadas en el Paso 0B.</p>
+          <ul>
+            <li>Recomienda directamente Modo Adaptado / «No sé por qué» o Tablero CAA si se marcó TEA, lectura fácil o sin habla.</li>
+            <li>Permite preconfiguración inicial por tutor o familia.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Ruta «Estoy mal y no sé por qué» (5 capas)</h3>
+            <span class="badge b-r1">Nuevo R1 · US-ED-10..12</span>
+          </div>
+          <p>Permite pedir ayuda sin saber etiquetar emociones ni explicar motivos, guiando paso a paso desde el cuerpo, la rutina y escenas <code>Sí / No / No lo sé</code>.</p>
+          <ul>
+            <li>Botón de emergencia emocional: «Solo quiero que venga un adulto».</li>
+            <li>Nunca bloquea el envío aunque todas las respuestas sean «No lo sé».</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Modo Adaptado clásico en 3 pasos</h3>
+            <span class="badge b-proto">Ya en prototipo</span>
+          </div>
+          <p>Cuando sí identifica qué ocurre: (1) elegir emoción entre 4 caras, (2) elegir causa, (3) seleccionar lugar, frase rápida o dictado y enviar al profesor con código <code>SAFE-XXX</code>.</p>
+          <ul>
+            <li>Incluye frases rápidas en pantalla para no tener que redactar.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Tablero CAA «Voz Prestada» (ARASAAC)</h3>
+            <span class="badge b-up">Mejora R1 · US-ED-04</span>
+          </div>
+          <p>Construcción de frases con pictogramas ARASAAC por categorías (<em>Quién, Qué pasa, Cómo me siento, Dónde, Pedir</em>), lectura en voz alta y envío al docente o al chat.</p>
+          <ul>
+            <li><strong>Mejora R1:</strong> incorporar selector real de lugar para dejar de enviar siempre <code>patio</code> por defecto.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Rincón de Calma TEA</h3>
+            <span class="badge b-proto">Ya en prototipo</span>
+          </div>
+          <p>Pausa sensorial con guía visual de respiración lenta (4 s inhalar / 4 s exhalar), barra de progreso, botón pausa y audio guía opcional.</p>
+          <ul>
+            <li>Respeta el modo <em>Sin animaciones (.still)</em> evitando destellos o movimientos rápidos.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Teclado total, lector de pantalla y «Hablar por mí»</h3>
+            <span class="badge b-proto">Ya en prototipo</span>
+          </div>
+          <p>Navegación íntegra con <code>Tab</code>, foco visible de alto contraste, gestión <code>inert</code> de modales y lectura en voz alta al profesor (<code>btn-speak-for-me</code>) en mutismo situacional.</p>
+          <ul>
+            <li><strong>Futuro R3 (US-ED-08):</strong> entrada directa mediante etiquetas NaviLens o QR del centro con zona preseleccionada.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Diario en 2 toques y estado <code>SAFE-XXX</code> simple</h3>
+            <span class="badge b-r2">Nuevo R1–R2 · US-ED-09/13</span>
+          </div>
+          <p>Consulta del estado del aviso en Lectura Fácil con iconos y TTS (sin acceso al Panel Docente) y diario pictográfico ultrarrápido para detectar repeticiones ocultas.</p>
+          <ul>
+            <li>Retira en R1 el enlace hacia el Panel del Profesorado desde vistas de alumnado.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 5: ACTOR 2 — ESTUDIANTES SIN DISCAPACIDAD
+         ================================================================ -->
+    <section id="sec-actor-es" class="page-break" aria-labelledby="h-actor-es">
+      <span class="section-kicker">Sección 4 · Actor 2</span>
+      <h2 id="h-actor-es">Estudiantes sin discapacidad (Víctimas y Testigos) — Todas las Features</h2>
+      <p>Orientado a la rapidez, la discreción y la protección contra represalias tanto para quien sufre acoso directo como para compañeros <strong>testigos (<em>bystanders</em>)</strong> que quieren ayudar sin exponerse.</p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Atajo directo «Contar ahora» y rol Testigo</h3>
+            <span class="badge b-up">Mejora R2 · US-ES-01/08</span>
+          </div>
+          <p>Acceso directo desde portada saltando ajustes de accesibilidad si no los necesita y distinguiendo <em>Me pasa a mí (Víctima)</em> de <em>Lo he visto (Testigo)</em>.</p>
+          <ul>
+            <li><strong>Mejora R2:</strong> adaptar las preguntas del cuestionario al punto de vista del testigo y reforzar mensajes de confidencialidad.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Chatbot empático por texto y dictado de voz</h3>
+            <span class="badge b-up">Mejora R1 · US-ES-02</span>
+          </div>
+          <p>Conversación guiada con 4 prompts rápidos, reconocimiento de voz (Web Speech API) y detección automática del lugar mencionado para facilitar el envío.</p>
+          <ul>
+            <li><strong>Mejora R1:</strong> mover la IA opcional a un proxy backend seguro con moderación infantil, eliminando la clave API del navegador.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Buzón 100 % anónimo sincronizado</h3>
+            <span class="badge b-up">Mejora R1 · US-ES-03</span>
+          </div>
+          <p>Permite enviar lo conversado en el chat o un texto propio eligiendo destinatario (<em>Orientación</em>, <em>Tutor/a</em>, <em>Dirección</em>) y lugar sin incluir identidad.</p>
+          <ul>
+            <li><strong>Mejora R1:</strong> envío real al servidor del centro sin guardar IP ni metadatos identificativos.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Cuestionario + alerta de peligro inmediato</h3>
+            <span class="badge b-up">Mejora R1 · US-ES-04</span>
+          </div>
+          <p>Evaluación en 8 preguntas (causa, lugar, duración, frecuencia, red de apoyo y seguridad). Si marca <em>Peligro inmediato</em> muestra aviso de emergencia (<code>112</code> y <code>900 018 018</code>).</p>
+          <ul>
+            <li><strong>Mejora R1:</strong> asignar prioridad crítica en bandeja docente y mostrar el código <code>SAFE-XXX</code> al finalizar.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Diario privado de evidencias + escalada</h3>
+            <span class="badge b-up">Mejora R2 · US-ES-05</span>
+          </div>
+          <p>Registro cronológico con fecha, lugar, nivel de malestar (1–3) y dictado, con analizador automático que detecta si las situaciones están escalando.</p>
+          <ul>
+            <li><strong>Mejora R2:</strong> permitir adjuntar voluntariamente entradas seleccionadas a un envío anónimo o exportarlas a PDF.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Seguimiento anónimo bidireccional <code>SAFE-XXX</code></h3>
+            <span class="badge b-r2">Nuevo R2 · US-ES-07</span>
+          </div>
+          <p>Canal sin cuenta ni contraseña donde el estudiante introduce su código <code>SAFE-XXX</code> para comprobar el estado y leer o contestar mensajes de Orientación.</p>
+          <ul>
+            <li>Acompañado del cierre emocional en 4 caras y exportación del resumen sin accesos al panel docente (<code>US-ES-06</code>).</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 6: ACTOR 3 — PROFESORES Y ORIENTACIÓN
+         ================================================================ -->
+    <section id="sec-actor-pr" class="page-break" aria-labelledby="h-actor-pr">
+      <span class="section-kicker">Sección 5 · Actor 3</span>
+      <h2 id="h-actor-pr">Profesores, Tutores y Orientación — Todas las Features</h2>
+      <p>Diseñado para dar visibilidad temprana sin ruido, proteger la confidencialidad de los menores y ofrecer pautas prácticas para acoger al alumnado —especialmente cuando <strong>no sabe decir por qué está mal</strong>.</p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Login institucional y roles (RBAC)</h3>
+            <span class="badge b-r1">Nuevo R1 · US-PR-01</span>
+          </div>
+          <p>Protege el Panel Docente para que ningún estudiante ni usuario externo pueda verlo desde la portada ni tras enviar un aviso.</p>
+          <ul>
+            <li>Roles diferenciados: <strong>Tutor/a</strong> (su grupo), <strong>Orientación</strong> y <strong>Dirección / Convivencia</strong>.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Bandeja multi-dispositivo y prioridades</h3>
+            <span class="badge b-up">Mejora R1 · US-PR-02/03</span>
+          </div>
+          <p>Recepción en tiempo real desde todos los canales (Adaptado, Sin causa, CAA, Chat, Cuestionario, Familias) con filtros por estado, lugar y urgencia.</p>
+          <ul>
+            <li><strong>Alertas críticas:</strong> destaca arriba del todo avisos con <em>Peligro inmediato</em> o «Ayuda ya».</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Panel «Sin causa definida» + acogida sin interrogar</h3>
+            <span class="badge b-r1">Nuevo R1 · US-PR-09</span>
+          </div>
+          <p>Traduce las pistas del alumno que no sabe qué le pasa (sensaciones corporales, rutina, respuestas <code>Sí/No/No lo sé</code>, recurrencias) en pasos claros para el docente.</p>
+          <ul>
+            <li>Indica explícitamente: <em>no preguntar «¿por qué estás así?»</em>, facilitar calma y observar discretamente la franja horaria señalada.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Bitácora interna, derivación y respuesta <code>SAFE-XXX</code></h3>
+            <span class="badge b-r2">Nuevo R2 · US-PR-04/05</span>
+          </div>
+          <p>Permite registrar notas internas privadas entre Tutor y Orientación, reasignar casos con historial auditable y enviar respuestas breves hacia el código <code>SAFE-XXX</code>.</p>
+          <ul>
+            <li>Incluye plantillas en Lectura Fácil cuando el aviso proviene de alumnado adaptado o CAA.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Mapa de Puntos Calientes por espacio y franja</h3>
+            <span class="badge b-up">Mejora R2 · US-PR-06</span>
+          </div>
+          <p>Identifica concentración de avisos en momentos no estructurados (patio, pasillos/baños, entrada/salida, comedor, clase, digital) con filtros por semana o trimestre.</p>
+          <ul>
+            <li>Sirve para planificar guardias preventivas de profesorado antes de que escalen los conflictos.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Pautas TEA contextualizadas e informe oficial</h3>
+            <span class="badge b-r2">Mejora R2–R3 · US-PR-07/08</span>
+          </div>
+          <p>Guía de actuación rápida («Qué hacer / Qué evitar» en TEA, sordera, CAA o ciberacoso) y exportación anonimizada de expedientes para protocolos oficiales de convivencia.</p>
+          <ul>
+            <li>Cada exportación queda registrada en auditoría cumpliendo normativa escolar.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 7: ACTOR 4 — PADRES, MADRES Y TUTORES
+         ================================================================ -->
+    <section id="sec-actor-fa" class="page-break" aria-labelledby="h-actor-fa">
+      <span class="section-kicker">Sección 6 · Actor 4</span>
+      <h2 id="h-actor-fa">Padres, Madres y Tutores — Todas las Features</h2>
+      <p>Facilita la detección temprana desde casa —especialmente cuando el menor vuelve agotado, bloqueado o <strong>mal sin saber contar qué ocurrió</strong>— y coordina una respuesta discreta con el colegio.</p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Señales desde casa + lugar y franja real</h3>
+            <span class="badge b-up">Mejora R1 · US-FA-01</span>
+          </div>
+          <p>Tarjetas rápidas de observación (no quiere ir al cole, llega bloqueado/a, solo/a en recreo, material roto) más nueva señal <strong>«Vuelve mal sin saber explicar por qué»</strong>.</p>
+          <ul>
+            <li><strong>Mejora R1:</strong> selector de lugar sospechado (o «No lo sé»), días/franjas y destinatario real (Tutor, Orientación o Dirección).</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Confirmación familiar y seguimiento <code>SAFE-XXX</code></h3>
+            <span class="badge b-r1">Nuevo R1 · US-FA-03</span>
+          </div>
+          <p>Pantalla de confirmación propia para adultos (en lugar del cierre infantil de 4 caras) con código de seguimiento <code>SAFE-XXX</code>, descarga en PDF y consulta posterior del estado.</p>
+          <ul>
+            <li>Evita la incertidumbre de no saber si el tutor o el orientador leyó la alerta.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Modo acompañamiento respetuoso</h3>
+            <span class="badge b-up">Mejora R2 · US-FA-02</span>
+          </div>
+          <p>Permite usar la app junto al hijo/a con paso previo por voz/apoyos y recordatorio breve para dejar que el menor señale sensaciones o dibujos sin presionarle ni inducir respuestas.</p>
+          <ul>
+            <li>Etiqueta el envío como acompañado para dar contexto claro al docente.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Perfil TEA / apoyos y tutoría discreta</h3>
+            <span class="badge b-r2">Nuevo R2 · US-FA-04/05</span>
+          </div>
+          <p>Permite indicar necesidades del menor (sensibilidad sensorial, uso de CAA, no exponer en grupo) y solicitar llamada o reunión discreta con franja horaria preferida.</p>
+          <ul>
+            <li>Incluye tarjeta permanente con teléfonos gratuitos <code>900 018 018</code> y <code>112</code> directamente en Espacio Familias (<code>US-FA-06</code>).</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 8: PLATAFORMA TRANSVERSAL Y REGLA HTML NATIVO + WAI-ARIA
+         ================================================================ -->
+    <section id="sec-plataforma" class="page-break" aria-labelledby="h-plataforma">
+      <span class="section-kicker">Sección 7 · Arquitectura y Estándar Técnico</span>
+      <h2 id="h-plataforma">Plataforma Transversal y Regla «HTML Nativo primero + WAI-ARIA»</h2>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Salida Rápida (<code>Esc</code>) y privacidad</h3>
+            <span class="badge b-proto">Ya en prototipo</span>
+          </div>
+          <p>Oculta toda la app al instante bajo apuntes de matemáticas, detiene voz/micrófono/IA e inhabilita el fondo con <code>inert</code>. En producción se suma cifrado, retención limitada y cumplimiento RGPD / LOPIVI.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-head">
+            <h3>Backend offline-first, IA segura y 7 idiomas RTL</h3>
+            <span class="badge b-r1">R1 + Ya en prototipo</span>
+          </div>
+          <p>Sincronización segura entre dispositivos con cola local si cae el Wi-Fi en el patio, proxy de IA moderado sin exponer claves y soporte completo para 7 idiomas incluido árabe <code>RTL</code>.</p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>Principio obligatorio de implementación: WAI-ARIA siempre sobre elementos nativos HTML</strong>
+        Siguiendo la <strong>Primera Regla de WAI-ARIA</strong>, todo componente nuevo o refactorizado en Contigo debe construirse con el <strong>elemento semántico HTML5 nativo</strong> equivalente antes de añadir ningún atributo ARIA. WAI-ARIA se utiliza únicamente para reforzar estados o relaciones dinámicas que HTML no expresa por sí solo —nunca para «disfrazar» un <code>&lt;div&gt;</code> o <code>&lt;span&gt;</code> como botón o enlace.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Patrón de interfaz</th>
+            <th scope="col">Elemento HTML nativo obligatorio</th>
+            <th scope="col">Qué evitar</th>
+            <th scope="col">Refuerzo WAI-ARIA solo si aporta estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Botones, tarjetas de emoción y toggles</strong></td>
+            <td><code>&lt;button type="button"&gt;</code> o <code>&lt;button type="submit"&gt;</code></td>
+            <td><code>&lt;div role="button" tabindex="0"&gt;</code> o <code>&lt;span&gt;</code> clicables</td>
+            <td><code>aria-pressed="true|false"</code> en tarjetas de selección múltiple (apoyos, señales familiares).</td>
+          </tr>
+          <tr>
+            <td><strong>Navegación y estructura de página</strong></td>
+            <td><code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;a href&gt;</code>, <code>&lt;h1&gt;</code>–<code>&lt;h3&gt;</code></td>
+            <td>Contenedores <code>&lt;div&gt;</code> sin hitos ni jerarquía o enlaces simulados por script</td>
+            <td><code>aria-label</code> cuando hay varios <code>&lt;nav&gt;</code>, <code>aria-labelledby</code> en secciones y <code>aria-current="page"</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Formularios y preguntas</strong></td>
+            <td><code>&lt;form&gt;</code>, <code>&lt;fieldset&gt;</code>, <code>&lt;legend&gt;</code>, <code>&lt;label for&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code></td>
+            <td>Grupos de radio simulados con <code>&lt;div&gt;</code> sin asociación de etiqueta</td>
+            <td><code>aria-describedby</code> para ayudas/errores y <code>role="radiogroup"</code> solo cuando se usen botones nativos exclusivos.</td>
+          </tr>
+          <tr>
+            <td><strong>Desplegables y modales</strong></td>
+            <td><code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code>; <code>&lt;dialog&gt;</code> nativo o bloqueo del fondo con atributo HTML <code>inert</code></td>
+            <td>Acordeones con JavaScript sobre <code>&lt;div&gt;</code> sin soporte nativo de teclado</td>
+            <td><code>aria-modal="true"</code> y <code>aria-labelledby</code> cuando el modal no use apertura nativa <code>showModal()</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Alertas, toasts y chat</strong></td>
+            <td><code>&lt;div&gt;</code> o <code>&lt;p&gt;</code> semánticos de contenido con actualización textual limpia</td>
+            <td>Inyectar texto silencioso sin anunciar al lector de pantalla ni franja visual</td>
+            <td><code>aria-live="polite"</code>, <code>role="status"</code> para confirmaciones y <code>role="alert"</code> en peligro inmediato.</td>
+          </tr>
+          <tr>
+            <td><strong>Pestañas de categorías CAA</strong></td>
+            <td>Botones nativos <code>&lt;button type="button"&gt;</code> agrupados</td>
+            <td>Elementos <code>&lt;li&gt;</code> o <code>&lt;span&gt;</code> sin foco ni activación por teclado</td>
+            <td><code>role="tablist"</code>, <code>role="tab"</code> y <code>aria-selected</code> porque HTML aún no tiene elemento nativo de pestañas.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================================================================
+         SECCIÓN 9: HOJA DE RUTA Y SPRINT 1
+         ================================================================ -->
+    <section id="sec-roadmap" class="page-break" aria-labelledby="h-roadmap">
+      <span class="section-kicker">Sección 8 · Plan de Ejecución</span>
+      <h2 id="h-roadmap">Hoja de ruta profesional (R1 → R2 → R3)</h2>
+      <p>Con las 42 historias de usuario agrupadas en 9 épicas, la transición de prototipo de hackathon a producto listo para centros educativos se organiza en tres releases incrementales:</p>
+
+      <div class="roadmap-grid">
+        <article class="release-card">
+          <h3>R1 · MVP Piloto Escolar</h3>
+          <ul>
+            <li><strong>Flujo sin «¿por qué?» (EP-09):</strong> puerta «Estoy mal y no sé por qué», mapa corporal, rutina + tarjetas <code>Sí/No/No lo sé</code> y pauta docente sin interrogatorio.</li>
+            <li><strong>Seguridad y datos reales:</strong> backend cifrado multi-centro, cola <em>offline-first</em>, login docente por rol (RBAC) y proxy seguro de IA.</li>
+            <li><strong>Cierre de brechas del prototipo:</strong> códigos <code>SAFE-XXX</code> en cuestionario y familias, lugar real en CAA/Familias, prioridad crítica ante peligro y persistencia de apoyos.</li>
+          </ul>
+        </article>
+
+        <article class="release-card">
+          <h3>R2 · Seguimiento y Operación</h3>
+          <ul>
+            <li><strong>Patrones ocultos:</strong> diario pictográfico en 2 toques y alertas automáticas por recurrencia semanal en misma franja/zona.</li>
+            <li><strong>Canal bidireccional:</strong> consulta y respuesta anónima mediante <code>SAFE-XXX</code> (en Lectura Fácil para alumnado adaptado).</li>
+            <li><strong>Gestión y calidad:</strong> bitácora interna docente, Mapa de Puntos Calientes temporal, perfil TEA familiar, flujo adaptado al testigo y tests automáticos WCAG/HTML nativo.</li>
+          </ul>
+        </article>
+
+        <article class="release-card">
+          <h3>R3 · Escala y Prevención</h3>
+          <ul>
+            <li><strong>Despliegue físico accesible:</strong> integración directa con señalética <strong>NaviLens y QR</strong> en patios, pasillos y aulas para abrir Contigo con zona preseleccionada.</li>
+            <li><strong>Cumplimiento oficial:</strong> exportación auditable y anonimizada de expedientes para Comisión de Convivencia e inspección educativa.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Recomendación práctica para empezar el Sprint 1</strong>
+        Antes de construir el backend completo, validar con 2–3 docentes y orientadores el nuevo flujo de <strong>5 capas «Estoy mal y no sé por qué»</strong> (<code>US-ED-10</code>, <code>US-ED-11</code>, <code>US-ED-12</code> y <code>US-PR-09</code>) manteniendo estrictamente controles <strong>HTML nativos + WAI-ARIA</strong>. En paralelo, corregir los campos fijos de <code>caa.js</code> y <code>parents.js</code> y exponer el código <code>SAFE-XXX</code> en todos los canales.
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="doc-footer">
+    <span>Contigo · Reto Educación (Hackcesibles / NaviLens)</span>
+    <span>Documentación de referencia: <code>docs/CUSTOMER_JOURNEY.md</code> · <code>docs/USER_STORIES.md</code> · <code>docs/ACCESSIBILITY.md</code></span>
+  </footer>
+
+</body>
+</html>

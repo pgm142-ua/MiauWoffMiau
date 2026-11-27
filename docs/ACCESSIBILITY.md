@@ -25,6 +25,16 @@
 
 ---
 
+## Principio WAI-ARIA: HTML nativo primero
+
+Todo el desarrollo de interfaz en **Contigo** aplica la **Primera Regla de WAI-ARIA**: implementar siempre los controles, estructuras y regiones interactivas con **elementos nativos de HTML5** siempre que exista un elemento estándar equivalente, reservando WAI-ARIA únicamente como refuerzo para estados o relaciones que HTML no expresa por sí solo.
+
+- **Controles e hitos en HTML nativo:** usar `<button type="button">` para acciones y toggles, `<a href>` para enlaces de navegación, `<header>`, `<nav>`, `<main>`, `<footer>`, `<section>` y encabezados jerárquicos (`<h1>`–`<h3>`) para regiones de página, `<fieldset>` + `<legend>` + `<label for>` + `<input>` / `<select>` para formularios, y `<details>` / `<summary>` para bloques desplegables.
+- **Uso de WAI-ARIA solo como refuerzo semántico:** emplear atributos como `aria-pressed` (tarjetas seleccionables o pausa), `aria-expanded`, `aria-current="page"`, `aria-live="polite"`, `aria-labelledby`, `aria-describedby`, `role="status"` y `role="alert"` sobre los elementos nativos correspondientes —o en patrones compuestos sin equivalente nativo estable como pestañas (`role="tablist"` / `role="tab"` sobre `<button>`).
+- **Regla en revisión de código:** queda prohibido construir controles interactivos sobre `<div>` o `<span>` con `role="button"` y `tabindex="0"` artificiales cuando pueda usarse un elemento nativo HTML (`<button>`, `<a>`, `<input>`).
+
+---
+
 ## Soporte multilingüe y direccionalidad
 
 El selector de idioma (`#lang-select`) soporta 7 idiomas (`es`, `ca`, `en`, `fr`, `de`, `pt`, `ar`), ajustando tanto el atributo `lang` como la direccionalidad `dir="rtl"` para árabe y el idioma de síntesis de voz (`SpeechSynthesisUtterance.lang`).

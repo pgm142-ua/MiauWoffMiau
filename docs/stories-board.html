@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contigo — Tablón Kanban de Historias de Usuario</title>
+  <style>
+    :root {
+      --bg: #EEF2EF;
+      --surface: #FFFFFF;
+      --surface-soft: #F6F9F7;
+      --text: #1E2B25;
+      --muted: #3A4B44;
+      --line: #C7D3CC;
+      --line-strong: #9EB3A7;
+      --primary: #1F4A39;
+      --primary-hover: #163629;
+      --primary-t: #DCE9E2;
+      --sky: #164E63;
+      --sky-t: #E7F1F6;
+      --lav: #4C347A;
+      --lav-t: #ECE9F7;
+      --butter: #5C4308;
+      --butter-t: #FBF5DF;
+      --butter-line: #D4B458;
+      --peach: #7C2D12;
+      --peach-t: #FBEDE5;
+      --teal: #115E59;
+      --teal-t: #E2F4F1;
+      --focus: #D97706;
+      --shadow-sm: 0 1px 2px rgba(30, 43, 37, 0.06);
+      --shadow-md: 0 4px 12px rgba(30, 43, 37, 0.09);
+      --shadow-lg: 0 16px 40px rgba(20, 32, 27, 0.22);
+      --font: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      --mono: Consolas, 'Courier New', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 15px;
+      line-height: 1.48;
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--primary);
+      font-weight: 600;
+      text-underline-offset: 3px;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      background: #F1F5F3;
+      color: #1A2E26;
+      padding: 1px 5px;
+      border-radius: 4px;
+      border: 1px solid #D7E1DC;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--primary);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      font-weight: 700;
+      z-index: 100;
+      border-radius: 0 0 8px 0;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      left: 8px;
+      top: 8px;
+      border-radius: 8px;
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1640px;
+      margin: 0 auto;
+      padding: 18px 20px 28px;
+      flex: 1;
+    }
+
+    /* Header & KPI strip */
+    .board-header {
+      background: linear-gradient(145deg, #F8FBF9 0%, #E7F1F6 100%);
+      border: 1.5px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 260px;
+      flex: 1;
+    }
+
+    .brand-kicker {
+      display: inline-block;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-bottom: 5px;
+    }
+
+    .brand-block h1 {
+      margin: 0 0 3px;
+      font-size: 1.55rem;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+
+    .brand-subtitle {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .source-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      color: var(--muted);
+    }
+
+    .source-pill.is-live {
+      background: var(--primary-t);
+      border-color: #9BC0AE;
+      color: var(--primary);
+    }
+
+    .source-pill.is-warn {
+      background: var(--butter-t);
+      border-color: var(--butter-line);
+      color: var(--butter);
+    }
+
+    .btn {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.2;
+      padding: 8px 13px;
+      border-radius: 10px;
+      border: 1.5px solid var(--line-strong);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.14s ease, border-color 0.14s ease;
+    }
+
+    .btn:hover {
+      background: var(--primary-t);
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    .btn-subtle {
+      background: var(--surface-soft);
+      font-weight: 600;
+    }
+
+    .file-upload-label {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-upload-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-upload-label:focus-within {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .kpi-value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--primary);
+    }
+
+    .kpi-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .kpi-card.kpi-urgent .kpi-value {
+      color: var(--peach);
+    }
+
+    .kpi-card.kpi-progress .kpi-value {
+      color: var(--lav);
+    }
+
+    .kpi-card.kpi-pending .kpi-value {
+      color: var(--sky);
+    }
+
+    /* Alert / Fallback Banner */
+    .status-banner {
+      background: var(--butter-t);
+      border: 1.5px solid var(--butter-line);
+      border-left: 5px solid var(--butter);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+      color: var(--text);
+      display: none;
+    }
+
+    .status-banner.is-visible {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Controls & Filters */
+    .controls-panel {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.8fr) repeat(4, minmax(140px, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .field input[type="search"],
+    .field select {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--surface-soft);
+      border: 1.5px solid var(--line-strong);
+      border-radius: 9px;
+      padding: 7px 10px;
+      min-height: 38px;
+    }
+
+    .field input[type="search"]:hover,
+    .field select:hover {
+      border-color: var(--primary);
+    }
+
+    .toolbar-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .toggles-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 99px;
+      border: 1.5px solid var(--line-strong);
+      background: var(--surface-soft);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-chip:has(input:checked) {
+      background: var(--primary-t);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .toggle-chip input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .view-and-count {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .results-summary {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .view-switcher {
+      display: inline-flex;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: 10px;
+      border: 1.5px solid var(--line);
+      gap: 3px;
+    }
+
+    .view-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .view-btn[aria-pressed="true"] {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    /* Kanban Board */
+    .kanban-wrapper {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(265px, 1fr));
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      align-items: start;
+      scroll-snap-type: x proximity;
+    }
+
+    .kanban-column {
+      background: #E4EBE7;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      max-height: 75vh;
+      scroll-snap-align: start;
+    }
+
+    .col-header {
+      padding: 11px 13px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .col-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .col-header h2 {
+      margin: 0;
+      font-size: 0.94rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .col-subtitle {
+      font-size: 0.74rem;
+      opacity: 0.9;
+    }
+
+    .col-count {
+      min-width: 28px;
+      height: 26px;
+      padding: 0 8px;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    /* Differentiated WCAG AA/AAA Column Headers */
+    .col-para-iniciar .col-header {
+      background: var(--sky);
+      color: #FFFFFF;
+    }
+
+    .col-parcial .col-header {
+      background: var(--butter-t);
+      color: var(--butter);
+      border-bottom: 2px solid var(--butter-line);
+    }
+
+    .col-parcial .col-count {
+      background: var(--butter);
+      color: #FFFFFF;
+    }
+
+    .col-en-curso .col-header {
+      background: var(--lav);
+      color: #FFFFFF;
+    }
+
+    .col-finalizado .col-header {
+      background: var(--teal);
+      color: #FFFFFF;
+    }
+
+    .col-implementado .col-header {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .col-list {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .col-empty {
+      margin: 8px 4px;
+      padding: 18px 12px;
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--muted);
+      border: 1.5px dashed var(--line-strong);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    /* Kanban Story Card (Native Button) */
+    .story-card {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .story-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .story-card.is-must {
+      border-left: 4px solid var(--peach);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .story-id {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--primary-t);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 0.91rem;
+      font-weight: 700;
+      line-height: 1.34;
+      color: var(--text);
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-top: 6px;
+      border-top: 1px solid #E7ECE9;
+      font-size: 0.77rem;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 99px;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+
+    .prio-must {
+      background: var(--peach);
+      color: #FFFFFF;
+    }
+
+    .prio-should {
+      background: var(--sky-t);
+      color: var(--sky);
+      border: 1px solid #B5D2E0;
+    }
+
+    .prio-could {
+      background: #EDF2EF;
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+
+    .tag-release {
+      background: #F0F5F2;
+      color: var(--primary);
+      border: 1px solid #C2D6CB;
+    }
+
+    .tag-epic {
+      background: var(--lav-t);
+      color: var(--lav);
+      border: 1px solid #CFC6EA;
+    }
+
+    .tag-actor {
+      background: #F4F6F5;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .assignee-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .assignee-free {
+      background: var(--butter-t);
+      color: var(--butter);
+      border: 1px solid var(--butter-line);
+    }
+
+    .assignee-taken {
+      background: var(--primary-t);
+      color: var(--primary);
+    }
+
+    .criteria-count {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Compact List View */
+    .list-view-container {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stories-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.87rem;
+      min-width: 860px;
+    }
+
+    .stories-table th,
+    .stories-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    .stories-table th {
+      background: var(--primary);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .stories-table tbody tr:nth-child(even) {
+      background: #F8FBF9;
+    }
+
+    .stories-table tbody tr:hover {
+      background: #EDF5F0;
+    }
+
+    .table-open-btn {
+      appearance: none;
+      background: transparent;
+      border: none;
+      padding: 2px 0;
+      margin: 0;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: 3px;
+    }
+
+    .table-open-btn:hover {
+      color: var(--primary);
+      text-decoration-color: var(--primary);
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 99px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-para-iniciar { background: var(--sky); color: #FFFFFF; }
+    .status-parcial { background: var(--butter-t); color: var(--butter); border: 1px solid var(--butter-line); }
+    .status-en-curso { background: var(--lav); color: #FFFFFF; }
+    .status-finalizado { background: var(--teal); color: #FFFFFF; }
+    .status-implementado { background: var(--primary); color: #FFFFFF; }
+
+    /* Empty Global State */
+    .empty-global {
+      background: var(--surface);
+      border: 1.5px dashed var(--line-strong);
+      border-radius: 16px;
+      padding: 34px 20px;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .empty-global h2 {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .empty-global p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    /* Native Accessible Modal <dialog> */
+    dialog.story-dialog {
+      width: min(760px, calc(100vw - 28px));
+      max-height: min(88vh, 880px);
+      border: 1.5px solid var(--line-strong);
+      border-radius: 18px;
+      padding: 0;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    dialog.story-dialog::backdrop {
+      background: rgba(20, 34, 28, 0.58);
+      backdrop-filter: blur(2px);
+    }
+
+    .dialog-shell {
+      display: flex;
+      flex-direction: column;
+      max-height: min(88vh, 880px);
+    }
+
+    .dialog-header {
+      padding: 16px 20px;
+      background: linear-gradient(145deg, #F6FAF7 0%, #E7F1F6 100%);
+      border-bottom: 1.5px solid var(--line);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .dialog-header-main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dialog-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.28;
+      color: var(--text);
+    }
+
+    .dialog-close-x {
+      appearance: none;
+      background: var(--surface);
+      border: 1.5px solid var(--line-strong);
+      border-radius: 10px;
+      min-width: 36px;
+      height: 36px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dialog-close-x:hover {
+      background: var(--primary-t);
+      border-color: var(--primary);
+    }
+
+    .dialog-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .meta-box {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 10px 12px;
+    }
+
+    .meta-box-label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .meta-box-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .meta-box-detail {
+      margin-top: 5px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .detail-section h3 {
+      margin: 0 0 7px;
+      font-size: 0.96rem;
+      color: var(--primary);
+      border-bottom: 1.5px solid var(--primary-t);
+      padding-bottom: 4px;
+    }
+
+    .story-quote {
+      margin: 0;
+      background: #F4F9F6;
+      border-left: 5px solid var(--primary);
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      border-radius: 0 12px 12px 0;
+      padding: 11px 14px;
+      font-size: 0.95rem;
+      line-height: 1.52;
+    }
+
+    .criteria-list {
+      margin: 0;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.91rem;
+      line-height: 1.48;
+    }
+
+    .criteria-list li {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 8px 11px;
+    }
+
+    .dialog-footer {
+      padding: 12px 20px;
+      border-top: 1.5px solid var(--line);
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .copy-feedback {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .board-footer {
+      max-width: 1640px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px 20px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 1180px) {
+      .kpi-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .filters-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .field-search {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page-shell {
+        padding: 12px 12px 22px;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+      .kanban-wrapper {
+        grid-template-columns: repeat(5, minmax(280px, 84vw));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-board">Saltar al tablón de historias</a>
+
+  <div class="page-shell">
+    <header class="board-header">
+      <div class="header-top">
+        <div class="brand-block">
+          <svg width="56" height="56" viewBox="0 0 80 80" role="img" aria-labelledby="nube-board-title nube-board-desc">
+            <title id="nube-board-title">Logotipo de Nube, asistente de Contigo</title>
+            <desc id="nube-board-desc">Nube blanca sonriente sobre círculo verde suave de Contigo</desc>
+            <circle cx="40" cy="40" r="38" fill="#DCE9E2" stroke="#1F4A39" stroke-width="2" />
+            <path d="M25 50c-6.5 0-11-4.3-11-10.2 0-5.2 3.8-9.5 8.8-10.1C24.5 23.3 30.6 19 38 19c8.6 0 15.6 6.2 16.5 14.3 4.8.8 8.5 4.8 8.5 9.8 0 5.5-4.4 9.9-10.2 9.9H25z" fill="#FFFFFF" stroke="#1F4A39" stroke-width="2.2" />
+            <circle cx="33" cy="37" r="2.3" fill="#1E2B25" />
+            <circle cx="45" cy="37" r="2.3" fill="#1E2B25" />
+            <path d="M35 43c2.5 2.4 5.5 2.4 8 0" fill="none" stroke="#1E2B25" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+          <div>
+            <span class="brand-kicker">Contigo · Backlog de Producto</span>
+            <h1>Tablón Kanban de Historias de Usuario</h1>
+            <p class="brand-subtitle">Seguimiento visual de épicas, prioridades MoSCoW, asignación y criterios de aceptación desde <code>docs/USER_STORIES.md</code>.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <span id="source-status" class="source-pill" role="status" aria-live="polite">Cargando datos…</span>
+          <button type="button" id="btn-reload" class="btn btn-primary">
+            <span aria-hidden="true">↻</span> Recargar
+          </button>
+          <label class="btn btn-subtle file-upload-label" for="input-md-file">
+            <span aria-hidden="true">📄</span> Cargar USER_STORIES.md
+            <input id="input-md-file" class="file-upload-input" type="file" accept=".md,text/markdown,text/plain" />
+          </label>
+        </div>
+      </div>
+
+      <section aria-label="Indicadores resumen del backlog" class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Total historias</span>
+          <strong class="kpi-value" id="kpi-total">0</strong>
+          <span class="kpi-note">Backlog completo</span>
+        </div>
+        <div class="kpi-card kpi-pending">
+          <span class="kpi-label">Pendientes</span>
+          <strong class="kpi-value" id="kpi-pending">0</strong>
+          <span class="kpi-note">PARA INICIAR + Parcial</span>
+        </div>
+        <div class="kpi-card kpi-progress">
+          <span class="kpi-label">En curso</span>
+          <strong class="kpi-value" id="kpi-progress">0</strong>
+          <span class="kpi-note">En desarrollo activo</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Completadas</span>
+          <strong class="kpi-value" id="kpi-done">0</strong>
+          <span class="kpi-note">FINALIZADO + Implementado</span>
+        </div>
+        <div class="kpi-card kpi-urgent">
+          <span class="kpi-label">Must sin asignar</span>
+          <strong class="kpi-value" id="kpi-must-free">0</strong>
+          <span class="kpi-note">Prioridad obligatoria libre</span>
+        </div>
+      </section>
+    </header>
+
+    <div id="status-banner" class="status-banner" role="alert">
+      <div id="status-banner-text"></div>
+    </div>
+
+    <section class="controls-panel" aria-label="Filtros y vista del tablón">
+      <div class="filters-grid">
+        <div class="field field-search">
+          <label for="filter-search">Buscar (ID, título o historia)</label>
+          <input id="filter-search" type="search" placeholder="Ej. US-ED-10, SAFE-XXX, calma, TEA…" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="filter-priority">Prioridad</label>
+          <select id="filter-priority">
+            <option value="">Todas</option>
+            <option value="Must">Must</option>
+            <option value="Should">Should</option>
+            <option value="Could">Could</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="filter-release">Release</label>
+          <select id="filter-release">
+            <option value="">Todas</option>
+            <option value="R1">R1 · MVP Piloto</option>
+            <option value="R2">R2 · Seguimiento</option>
+            <option value="R3">R3 · Escala</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="filter-epic">Épica</label>
+          <select id="filter-epic">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="filter-actor">Actor</label>
+          <select id="filter-actor">
+            <option value="">Todos</option>
+            <option value="US-ED">US-ED · Estudiantes con discapacidad</option>
+            <option value="US-ES">US-ES · Estudiantes sin discapacidad</option>
+            <option value="US-PR">US-PR · Profesores y Orientación</option>
+            <option value="US-FA">US-FA · Familias</option>
+            <option value="US-TR">US-TR · Transversales</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="toolbar-bottom">
+        <div class="toggles-group">
+          <label class="toggle-chip" for="toggle-pending">
+            <input id="toggle-pending" type="checkbox" />
+            Solo pendientes
+          </label>
+          <label class="toggle-chip" for="toggle-unassigned">
+            <input id="toggle-unassigned" type="checkbox" />
+            Solo sin asignar
+          </label>
+          <button type="button" id="btn-clear-filters" class="btn btn-subtle" hidden>Limpiar filtros</button>
+        </div>
+
+        <div class="view-and-count">
+          <span id="results-summary" class="results-summary" aria-live="polite">0 historias visibles</span>
+          <div class="view-switcher" role="group" aria-label="Modo de visualización">
+            <button type="button" id="btn-view-kanban" class="view-btn" aria-pressed="true">Vista Kanban</button>
+            <button type="button" id="btn-view-list" class="view-btn" aria-pressed="false">Vista Lista</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="main-board">
+      <div id="kanban-view" class="kanban-wrapper" aria-label="Tablón Kanban por estado"></div>
+
+      <div id="list-view" class="list-view-container" hidden>
+        <table class="stories-table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Historia</th>
+              <th scope="col">Épica</th>
+              <th scope="col">Actor</th>
+              <th scope="col">Prioridad</th>
+              <th scope="col">Release</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Asignado a</th>
+            </tr>
+          </thead>
+          <tbody id="list-view-body"></tbody>
+        </table>
+      </div>
+
+      <div id="empty-global" class="empty-global" hidden>
+        <h2>No hay historias que coincidan con los filtros</h2>
+        <p>Prueba a limpiar la búsqueda o desactivar alguno de los filtros activos.</p>
+        <button type="button" id="btn-empty-reset" class="btn btn-primary">Restablecer filtros</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="board-footer">
+    <span><strong>Contigo</strong> · Tablón autocontenido y accesible (WCAG AA/AAA, HTML nativo + <code>&lt;dialog&gt;</code>)</span>
+    <span id="footer-meta">Fuente: <code>docs/USER_STORIES.md</code></span>
+  </footer>
+
+  <dialog id="story-dialog" class="story-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-shell">
+      <div class="dialog-header">
+        <div class="dialog-header-main">
+          <div class="dialog-badges" id="dialog-badges"></div>
+          <h2 id="dialog-title">Detalle de historia</h2>
+        </div>
+        <button type="button" id="dialog-close-top" class="dialog-close-x" aria-label="Cerrar ventana de detalle">×</button>
+      </div>
+
+      <div class="dialog-body" id="dialog-body"></div>
+
+      <div class="dialog-footer">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <button type="button" id="btn-copy-id" class="btn btn-subtle">Copiar ID</button>
+          <span id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></span>
+        </div>
+        <button type="button" id="dialog-close-bottom" class="btn btn-primary">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="./stories-data.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      var COLUMNS = [
+        {
+          key: 'PARA INICIAR',
+          label: 'PARA INICIAR',
+          subtitle: 'Listas para coger',
+          cssClass: 'col-para-iniciar',
+          pillClass: 'status-para-iniciar'
+        },
+        {
+          key: 'Parcial',
+          label: 'Parcial',
+          subtitle: 'Base con brechas',
+          cssClass: 'col-parcial',
+          pillClass: 'status-parcial'
+        },
+        {
+          key: 'EN CURSO',
+          label: 'EN CURSO',
+          subtitle: 'En desarrollo',
+          cssClass: 'col-en-curso',
+          pillClass: 'status-en-curso'
+        },
+        {
+          key: 'FINALIZADO',
+          label: 'FINALIZADO',
+          subtitle: 'Verificada vs DoD',
+          cssClass: 'col-finalizado',
+          pillClass: 'status-finalizado'
+        },
+        {
+          key: 'Implementado',
+          label: 'Implementado',
+          subtitle: 'En prototipo base',
+          cssClass: 'col-implementado',
+          pillClass: 'status-implementado'
+        }
+      ];
+
+      var ACTOR_NAMES = {
+        'US-ED': 'Estudiantes con discapacidad',
+        'US-ES': 'Estudiantes sin discapacidad',
+        'US-PR': 'Profesores y Orientación',
+        'US-FA': 'Familias',
+        'US-TR': 'Transversales'
+      };
+
+      var state = {
+        data: null,
+        sourceLabel: '',
+        sourceMode: 'pending', // 'live' | 'fallback' | 'file' | 'empty'
+        viewMode: 'kanban', // 'kanban' | 'list'
+        activeStory: null,
+        filters: {
+          search: '',
+          priority: '',
+          release: '',
+          epic: '',
+          actor: '',
+          onlyPending: false,
+          onlyUnassigned: false
+        }
+      };
+
+      var els = {
+        sourceStatus: document.getElementById('source-status'),
+        statusBanner: document.getElementById('status-banner'),
+        statusBannerText: document.getElementById('status-banner-text'),
+        btnReload: document.getElementById('btn-reload'),
+        inputMdFile: document.getElementById('input-md-file'),
+        kpiTotal: document.getElementById('kpi-total'),
+        kpiPending: document.getElementById('kpi-pending'),
+        kpiProgress: document.getElementById('kpi-progress'),
+        kpiDone: document.getElementById('kpi-done'),
+        kpiMustFree: document.getElementById('kpi-must-free'),
+        filterSearch: document.getElementById('filter-search'),
+        filterPriority: document.getElementById('filter-priority'),
+        filterRelease: document.getElementById('filter-release'),
+        filterEpic: document.getElementById('filter-epic'),
+        filterActor: document.getElementById('filter-actor'),
+        togglePending: document.getElementById('toggle-pending'),
+        toggleUnassigned: document.getElementById('toggle-unassigned'),
+        btnClearFilters: document.getElementById('btn-clear-filters'),
+        resultsSummary: document.getElementById('results-summary'),
+        btnViewKanban: document.getElementById('btn-view-kanban'),
+        btnViewList: document.getElementById('btn-view-list'),
+        kanbanView: document.getElementById('kanban-view'),
+        listView: document.getElementById('list-view'),
+        listViewBody: document.getElementById('list-view-body'),
+        emptyGlobal: document.getElementById('empty-global'),
+        btnEmptyReset: document.getElementById('btn-empty-reset'),
+        footerMeta: document.getElementById('footer-meta'),
+        dialog: document.getElementById('story-dialog'),
+        dialogBadges: document.getElementById('dialog-badges'),
+        dialogTitle: document.getElementById('dialog-title'),
+        dialogBody: document.getElementById('dialog-body'),
+        dialogCloseTop: document.getElementById('dialog-close-top'),
+        dialogCloseBottom: document.getElementById('dialog-close-bottom'),
+        btnCopyId: document.getElementById('btn-copy-id'),
+        copyFeedback: document.getElementById('copy-feedback')
+      };
+
+      function escapeHtml(text) {
+        return String(text == null ? '' : text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderInlineMarkdown(text) {
+        var safe = escapeHtml(text);
+        safe = safe.replace(/`([^`]+)`/g, '<code>$1</code>');
+        safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        safe = safe.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        return safe;
+      }
+
+      function stripMarkdownDecorators(text) {
+        return String(text == null ? '' : text)
+          .replace(/`/g, '')
+          .replace(/\*\*/g, '')
+          .trim();
+      }
+
+      function normalizeStatus(rawStatus) {
+        var clean = stripMarkdownDecorators(rawStatus).toLowerCase();
+        if (clean === 'para iniciar') return 'PARA INICIAR';
+        if (clean === 'parcial') return 'Parcial';
+        if (clean === 'en curso') return 'EN CURSO';
+        if (clean === 'finalizado') return 'FINALIZADO';
+        if (clean === 'implementado') return 'Implementado';
+        return stripMarkdownDecorators(rawStatus) || 'PARA INICIAR';
+      }
+
+      function normalizePriority(rawPriority) {
+        var clean = stripMarkdownDecorators(rawPriority).toLowerCase();
+        if (clean === 'must') return 'Must';
+        if (clean === 'should') return 'Should';
+        if (clean === 'could') return 'Could';
+        return stripMarkdownDecorators(rawPriority);
+      }
+
+      function normalizeRelease(rawRelease) {
+        var match = stripMarkdownDecorators(rawRelease).match(/R[1-3]/i);
+        return match ? match[0].toUpperCase() : stripMarkdownDecorators(rawRelease);
+      }
+
+      function computeIsAvailable(assignee) {
+        var clean = stripMarkdownDecorators(assignee).toLowerCase();
+        return clean === '' || clean === 'sin asignar';
+      }
+
+      /**
+       * Parsea docs/USER_STORIES.md al mismo contrato que window.CONTIGO_STORIES_DATA.
+       */
+      function parseUserStoriesMarkdown(mdText) {
+        var lines = String(mdText || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+        var epics = [];
+        var epicMap = Object.create(null);
+        var stories = [];
+
+        var inEpicsTable = false;
+        var currentActorGroup = '';
+        var currentEpicId = '';
+        var currentEpicTitle = '';
+        var currentStory = null;
+        var readingCriteria = false;
+
+        function finalizeStory() {
+          if (!currentStory) return;
+          if (typeof currentStory.isAvailable !== 'boolean') {
+            currentStory.isAvailable = computeIsAvailable(currentStory.assignee);
+          }
+          stories.push(currentStory);
+          currentStory = null;
+          readingCriteria = false;
+        }
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          var trimmed = line.trim();
+
+          // Detección de tabla de épicas en sección 2
+          if (/^##\s+2\./.test(trimmed)) {
+            inEpicsTable = true;
+            continue;
+          }
+          if (inEpicsTable && /^##\s+3\./.test(trimmed)) {
+            inEpicsTable = false;
+          }
+          if (inEpicsTable && /^\|/.test(trimmed)) {
+            if (/^\|\s*ID\s*Épica/i.test(trimmed) || /^\|\s*---/.test(trimmed)) {
+              continue;
+            }
+            var cells = trimmed.split('|').slice(1, -1).map(function (c) { return c.trim(); });
+            if (cells.length >= 5) {
+              var epicRow = {
+                id: stripMarkdownDecorators(cells[0]),
+                actor: stripMarkdownDecorators(cells[1]),
+                range: stripMarkdownDecorators(cells[2]),
+                objective: stripMarkdownDecorators(cells[3]),
+                release: stripMarkdownDecorators(cells[4])
+              };
+              if (/^EP-\d+/i.test(epicRow.id)) {
+                epics.push(epicRow);
+                epicMap[epicRow.id] = epicRow;
+              }
+            }
+            continue;
+          }
+
+          // Grupo de actor (### 3.x ...)
+          var actorMatch = trimmed.match(/^###\s+3\.\d+\s+(.+?)(?:\s+\([^)]*\))?$/);
+          if (actorMatch) {
+            finalizeStory();
+            currentActorGroup = stripMarkdownDecorators(actorMatch[1]);
+            continue;
+          }
+
+          // Fin de sección de historias (## 4. Roadmap ...)
+          if (/^##\s+4\./.test(trimmed)) {
+            finalizeStory();
+            break;
+          }
+
+          // Cabecera de Épica (#### EP-09 · Título)
+          var epicMatch = trimmed.match(/^####\s+(EP-\d+)\s*·\s*(.+)$/);
+          if (epicMatch) {
+            finalizeStory();
+            currentEpicId = epicMatch[1].trim();
+            currentEpicTitle = stripMarkdownDecorators(epicMatch[2]);
+            continue;
+          }
+
+          // Cabecera de Historia (##### `US-ED-10` · Título)
+          var storyMatch = trimmed.match(/^#####\s+`?(US-[A-Z]{2}-\d+)`?\s*·\s*(.+)$/);
+          if (storyMatch) {
+            finalizeStory();
+            var storyId = storyMatch[1].trim();
+            var prefixMatch = storyId.match(/^(US-[A-Z]{2})-/);
+            currentStory = {
+              id: storyId,
+              title: stripMarkdownDecorators(storyMatch[2]),
+              epicId: currentEpicId,
+              epicTitle: currentEpicTitle || (epicMap[currentEpicId] ? epicMap[currentEpicId].objective : ''),
+              actorGroup: currentActorGroup,
+              actorPrefix: prefixMatch ? prefixMatch[1] : '',
+              priority: '',
+              release: '',
+              status: 'PARA INICIAR',
+              statusDetail: '',
+              assignee: 'Sin asignar',
+              isAvailable: true,
+              story: '',
+              acceptanceCriteria: []
+            };
+            continue;
+          }
+
+          if (!currentStory) continue;
+
+          // Línea de metadatos: Prioridad | Release | Estado actual | Asignado a
+          if (/^-\s+\*\*Prioridad:\*\*/.test(trimmed)) {
+            readingCriteria = false;
+            var segments = trimmed.replace(/^-\s+/, '').split(/\s*\|\s*(?=\*\*)/);
+            for (var s = 0; s < segments.length; s++) {
+              var seg = segments[s].trim();
+              if (/^\*\*Prioridad:\*\*/.test(seg)) {
+                currentStory.priority = normalizePriority(seg.replace(/^\*\*Prioridad:\*\*\s*/, ''));
+              } else if (/^\*\*Release:\*\*/.test(seg)) {
+                currentStory.release = normalizeRelease(seg.replace(/^\*\*Release:\*\*\s*/, ''));
+              } else if (/^\*\*Estado actual:\*\*/.test(seg)) {
+                var rawEstado = seg.replace(/^\*\*Estado actual:\*\*\s*/, '').trim();
+                var estadoMatch = rawEstado.match(/^`([^`]+)`(?:\s*\((.*)\))?$/);
+                if (estadoMatch) {
+                  currentStory.status = normalizeStatus(estadoMatch[1]);
+                  currentStory.statusDetail = estadoMatch[2] ? estadoMatch[2].trim() : '';
+                } else {
+                  var plainMatch = rawEstado.match(/^([^(]+?)(?:\s*\((.*)\))?$/);
+                  currentStory.status = normalizeStatus(plainMatch ? plainMatch[1] : rawEstado);
+                  currentStory.statusDetail = plainMatch && plainMatch[2] ? plainMatch[2].trim() : '';
+                }
+              } else if (/^\*\*Asignado a:\*\*/.test(seg)) {
+                currentStory.assignee = stripMarkdownDecorators(seg.replace(/^\*\*Asignado a:\*\*\s*/, '')) || 'Sin asignar';
+                currentStory.isAvailable = computeIsAvailable(currentStory.assignee);
+              }
+            }
+            continue;
+          }
+
+          // Línea de Historia
+          if (/^-\s+\*\*Historia:\*\*/.test(trimmed)) {
+            readingCriteria = false;
+            currentStory.story = trimmed.replace(/^-\s+\*\*Historia:\*\*\s*/, '').trim();
+            continue;
+          }
+
+          // Cabecera de Criterios de aceptación
+          if (/^-\s+\*\*Criterios de aceptación:\*\*/.test(trimmed)) {
+            readingCriteria = true;
+            continue;
+          }
+
+          // Ítems numerados de criterios
+          if (readingCriteria) {
+            var critMatch = line.match(/^\s*\d+\.\s+(.*)$/);
+            if (critMatch) {
+              currentStory.acceptanceCriteria.push(critMatch[1].trim());
+            } else if (trimmed && !/^---$/.test(trimmed) && currentStory.acceptanceCriteria.length > 0) {
+              var lastIdx = currentStory.acceptanceCriteria.length - 1;
+              currentStory.acceptanceCriteria[lastIdx] += ' ' + trimmed;
+            }
+          }
+        }
+
+        finalizeStory();
+
+        return {
+          generatedAt: new Date().toISOString(),
+          sourceFile: 'docs/USER_STORIES.md',
+          epics: epics,
+          stories: stories
+        };
+      }
+
+      function normalizeLoadedData(rawData) {
+        if (!rawData || !Array.isArray(rawData.stories)) return null;
+        var epics = Array.isArray(rawData.epics) ? rawData.epics : [];
+        var stories = rawData.stories.map(function (st) {
+          var assignee = st.assignee ? String(st.assignee).trim() : 'Sin asignar';
+          var prefixMatch = String(st.id || '').match(/^(US-[A-Z]{2})-/);
+          return {
+            id: String(st.id || ''),
+            title: String(st.title || ''),
+            epicId: String(st.epicId || ''),
+            epicTitle: String(st.epicTitle || ''),
+            actorGroup: String(st.actorGroup || ''),
+            actorPrefix: st.actorPrefix ? String(st.actorPrefix) : (prefixMatch ? prefixMatch[1] : ''),
+            priority: normalizePriority(st.priority || ''),
+            release: normalizeRelease(st.release || ''),
+            status: normalizeStatus(st.status || 'PARA INICIAR'),
+            statusDetail: String(st.statusDetail || ''),
+            assignee: assignee,
+            isAvailable: typeof st.isAvailable === 'boolean' ? st.isAvailable : computeIsAvailable(assignee),
+            story: String(st.story || ''),
+            acceptanceCriteria: Array.isArray(st.acceptanceCriteria) ? st.acceptanceCriteria : []
+          };
+        });
+        return {
+          generatedAt: rawData.generatedAt || '',
+          sourceFile: rawData.sourceFile || 'docs/USER_STORIES.md',
+          epics: epics,
+          stories: stories
+        };
+      }
+
+      function formatTimestamp(isoString) {
+        if (!isoString) return '';
+        var date = new Date(isoString);
+        if (isNaN(date.getTime())) return isoString;
+        return date.toLocaleString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
+      function setSourceUI(mode, label, bannerHtml) {
+        state.sourceMode = mode;
+        state.sourceLabel = label;
+        els.sourceStatus.textContent = label;
+        els.sourceStatus.className = 'source-pill' +
+          (mode === 'live' || mode === 'file' ? ' is-live' : (mode === 'empty' ? ' is-warn' : ''));
+
+        if (bannerHtml) {
+          els.statusBannerText.innerHTML = bannerHtml;
+          els.statusBanner.classList.add('is-visible');
+        } else {
+          els.statusBannerText.innerHTML = '';
+          els.statusBanner.classList.remove('is-visible');
+        }
+
+        var stamp = state.data && state.data.generatedAt ? formatTimestamp(state.data.generatedAt) : '';
+        els.footerMeta.innerHTML = 'Fuente: <code>' + escapeHtml((state.data && state.data.sourceFile) || 'docs/USER_STORIES.md') + '</code>' +
+          (stamp ? ' · Actualizado: ' + escapeHtml(stamp) : '');
+      }
+
+      function populateEpicFilter() {
+        var previousValue = els.filterEpic.value;
+        var epics = (state.data && state.data.epics) ? state.data.epics.slice() : [];
+        if (epics.length === 0 && state.data && state.data.stories.length > 0) {
+          var seen = Object.create(null);
+          state.data.stories.forEach(function (st) {
+            if (st.epicId && !seen[st.epicId]) {
+              seen[st.epicId] = true;
+              epics.push({ id: st.epicId, objective: st.epicTitle || st.epicId });
+            }
+          });
+        }
+
+        epics.sort(function (a, b) {
+          return String(a.id).localeCompare(String(b.id), 'es', { numeric: true });
+        });
+
+        els.filterEpic.innerHTML = '<option value="">Todas (EP-01..EP-09)</option>';
+        epics.forEach(function (ep) {
+          var opt = document.createElement('option');
+          opt.value = ep.id;
+          var shortObj = ep.objective ? ep.objective.split(':')[0] : ep.id;
+          if (shortObj.length > 42) shortObj = shortObj.slice(0, 39) + '…';
+          opt.textContent = ep.id + ' · ' + shortObj;
+          els.filterEpic.appendChild(opt);
+        });
+
+        if (previousValue && epics.some(function (ep) { return ep.id === previousValue; })) {
+          els.filterEpic.value = previousValue;
+        }
+      }
+
+      function getFilteredStories() {
+        if (!state.data) return [];
+        var q = state.filters.search.trim().toLowerCase();
+        return state.data.stories.filter(function (st) {
+          if (state.filters.priority && st.priority !== state.filters.priority) return false;
+          if (state.filters.release && st.release !== state.filters.release) return false;
+          if (state.filters.epic && st.epicId !== state.filters.epic) return false;
+          if (state.filters.actor && st.actorPrefix !== state.filters.actor) return false;
+          if (state.filters.onlyPending && st.status !== 'PARA INICIAR' && st.status !== 'Parcial') return false;
+          if (state.filters.onlyUnassigned && !st.isAvailable) return false;
+
+          if (q) {
+            var haystack = [
+              st.id,
+              st.title,
+              st.story,
+              st.epicId,
+              st.epicTitle,
+              st.assignee,
+              st.statusDetail
+            ].join(' ').toLowerCase();
+            if (haystack.indexOf(q) === -1) return false;
+          }
+          return true;
+        });
+      }
+
+      function updateKPIs() {
+        var all = state.data ? state.data.stories : [];
+        var total = all.length;
+        var pending = 0;
+        var inProgress = 0;
+        var done = 0;
+        var mustFree = 0;
+
+        for (var i = 0; i < all.length; i++) {
+          var st = all[i];
+          if (st.status === 'PARA INICIAR' || st.status === 'Parcial') pending++;
+          else if (st.status === 'EN CURSO') inProgress++;
+          else if (st.status === 'FINALIZADO' || st.status === 'Implementado') done++;
+
+          if (st.priority === 'Must' && st.isAvailable) mustFree++;
+        }
+
+        els.kpiTotal.textContent = String(total);
+        els.kpiPending.textContent = String(pending);
+        els.kpiProgress.textContent = String(inProgress);
+        els.kpiDone.textContent = String(done);
+        els.kpiMustFree.textContent = String(mustFree);
+      }
+
+      function hasActiveFilters() {
+        var f = state.filters;
+        return Boolean(f.search || f.priority || f.release || f.epic || f.actor || f.onlyPending || f.onlyUnassigned);
+      }
+
+      function getPriorityBadgeClass(priority) {
+        if (priority === 'Must') return 'prio-must';
+        if (priority === 'Should') return 'prio-should';
+        return 'prio-could';
+      }
+
+      function getStatusPillClass(status) {
+        for (var i = 0; i < COLUMNS.length; i++) {
+          if (COLUMNS[i].key === status) return COLUMNS[i].pillClass;
+        }
+        return 'status-para-iniciar';
+      }
+
+      function renderKanban(filtered) {
+        els.kanbanView.innerHTML = '';
+
+        var totalAll = state.data ? state.data.stories.length : 0;
+        var filtering = hasActiveFilters();
+
+        COLUMNS.forEach(function (col) {
+          var colStories = filtered.filter(function (st) { return st.status === col.key; });
+          var colTotal = state.data
+            ? state.data.stories.filter(function (st) { return st.status === col.key; }).length
+            : 0;
+
+          var section = document.createElement('section');
+          section.className = 'kanban-column ' + col.cssClass;
+          section.setAttribute('aria-label', 'Columna ' + col.label + ' (' + colStories.length + ' historias)');
+
+          var header = document.createElement('div');
+          header.className = 'col-header';
+
+          var titleWrap = document.createElement('div');
+          titleWrap.className = 'col-title-wrap';
+
+          var h2 = document.createElement('h2');
+          h2.textContent = col.label;
+          var sub = document.createElement('span');
+          sub.className = 'col-subtitle';
+          sub.textContent = col.subtitle;
+          titleWrap.appendChild(h2);
+          titleWrap.appendChild(sub);
+
+          var countBadge = document.createElement('span');
+          countBadge.className = 'col-count';
+          countBadge.textContent = (filtering && totalAll > 0 && colStories.length !== colTotal)
+            ? colStories.length + '/' + colTotal
+            : String(colStories.length);
+
+          header.appendChild(titleWrap);
+          header.appendChild(countBadge);
+          section.appendChild(header);
+
+          var list = document.createElement('ul');
+          list.className = 'col-list';
+
+          if (colStories.length === 0) {
+            var emptyLi = document.createElement('li');
+            emptyLi.className = 'col-empty';
+            emptyLi.textContent = filtering ? 'Sin coincidencias aquí' : 'No hay historias en este estado';
+            list.appendChild(emptyLi);
+          } else {
+            colStories.forEach(function (st) {
+              var li = document.createElement('li');
+              var card = document.createElement('button');
+              card.type = 'button';
+              card.className = 'story-card' + (st.priority === 'Must' ? ' is-must' : '');
+              card.setAttribute('aria-label', st.id + ': ' + st.title + '. Prioridad ' + st.priority + '. ' + (st.isAvailable ? 'Sin asignar' : 'Asignado a ' + st.assignee));
+
+              card.innerHTML =
+                '<div class="card-top">' +
+                  '<span class="story-id">' + escapeHtml(st.id) + '</span>' +
+                  '<span class="badge ' + getPriorityBadgeClass(st.priority) + '">' + escapeHtml(st.priority || '—') + '</span>' +
+                '</div>' +
+                '<p class="card-title">' + escapeHtml(st.title) + '</p>' +
+                '<div class="card-meta">' +
+                  (st.release ? '<span class="badge tag-release">' + escapeHtml(st.release) + '</span>' : '') +
+                  (st.epicId ? '<span class="badge tag-epic">' + escapeHtml(st.epicId) + '</span>' : '') +
+                  (st.actorPrefix ? '<span class="badge tag-actor">' + escapeHtml(st.actorPrefix) + '</span>' : '') +
+                '</div>' +
+                '<div class="card-footer">' +
+                  '<span class="assignee-badge ' + (st.isAvailable ? 'assignee-free' : 'assignee-taken') + '">' +
+                    (st.isAvailable ? 'Sin asignar' : escapeHtml(st.assignee)) +
+                  '</span>' +
+                  '<span class="criteria-count">' + st.acceptanceCriteria.length + ' crit.</span>' +
+                '</div>';
+
+              card.addEventListener('click', function () {
+                openStoryDialog(st);
+              });
+
+              li.appendChild(card);
+              list.appendChild(li);
+            });
+          }
+
+          section.appendChild(list);
+          els.kanbanView.appendChild(section);
+        });
+      }
+
+      function renderList(filtered) {
+        els.listViewBody.innerHTML = '';
+        filtered.forEach(function (st) {
+          var tr = document.createElement('tr');
+
+          var tdId = document.createElement('td');
+          tdId.innerHTML = '<span class="story-id">' + escapeHtml(st.id) + '</span>';
+
+          var tdTitle = document.createElement('td');
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'table-open-btn';
+          btn.textContent = st.title;
+          btn.addEventListener('click', function () {
+            openStoryDialog(st);
+          });
+          tdTitle.appendChild(btn);
+
+          var tdEpic = document.createElement('td');
+          tdEpic.innerHTML = '<span class="badge tag-epic">' + escapeHtml(st.epicId || '—') + '</span>';
+
+          var tdActor = document.createElement('td');
+          tdActor.textContent = st.actorPrefix ? (st.actorPrefix + ' · ' + (ACTOR_NAMES[st.actorPrefix] || st.actorGroup)) : (st.actorGroup || '—');
+
+          var tdPrio = document.createElement('td');
+          tdPrio.innerHTML = '<span class="badge ' + getPriorityBadgeClass(st.priority) + '">' + escapeHtml(st.priority || '—') + '</span>';
+
+          var tdRel = document.createElement('td');
+          tdRel.innerHTML = '<span class="badge tag-release">' + escapeHtml(st.release || '—') + '</span>';
+
+          var tdStatus = document.createElement('td');
+          tdStatus.innerHTML = '<span class="status-pill ' + getStatusPillClass(st.status) + '">' + escapeHtml(st.status) + '</span>';
+
+          var tdAssignee = document.createElement('td');
+          tdAssignee.innerHTML = '<span class="assignee-badge ' + (st.isAvailable ? 'assignee-free' : 'assignee-taken') + '">' +
+            (st.isAvailable ? 'Sin asignar' : escapeHtml(st.assignee)) + '</span>';
+
+          tr.appendChild(tdId);
+          tr.appendChild(tdTitle);
+          tr.appendChild(tdEpic);
+          tr.appendChild(tdActor);
+          tr.appendChild(tdPrio);
+          tr.appendChild(tdRel);
+          tr.appendChild(tdStatus);
+          tr.appendChild(tdAssignee);
+          els.listViewBody.appendChild(tr);
+        });
+      }
+
+      function renderBoard() {
+        var all = state.data ? state.data.stories : [];
+        var filtered = getFilteredStories();
+        var filtering = hasActiveFilters();
+
+        els.btnClearFilters.hidden = !filtering;
+        els.resultsSummary.textContent = filtering
+          ? ('Mostrando ' + filtered.length + ' de ' + all.length + ' historias')
+          : (all.length + ' historias en total');
+
+        var showEmptyGlobal = all.length > 0 && filtered.length === 0;
+        els.emptyGlobal.hidden = !showEmptyGlobal;
+
+        if (state.viewMode === 'kanban') {
+          els.kanbanView.hidden = showEmptyGlobal;
+          els.listView.hidden = true;
+          if (!showEmptyGlobal) renderKanban(filtered);
+        } else {
+          els.kanbanView.hidden = true;
+          els.listView.hidden = showEmptyGlobal;
+          if (!showEmptyGlobal) renderList(filtered);
+        }
+      }
+
+      function openStoryDialog(story) {
+        state.activeStory = story;
+        els.copyFeedback.textContent = '';
+
+        var actorFull = ACTOR_NAMES[story.actorPrefix] || story.actorGroup || story.actorPrefix || 'Sin definir';
+        els.dialogBadges.innerHTML =
+          '<span class="story-id">' + escapeHtml(story.id) + '</span>' +
+          '<span class="badge ' + getPriorityBadgeClass(story.priority) + '">' + escapeHtml(story.priority || '—') + '</span>' +
+          (story.release ? '<span class="badge tag-release">' + escapeHtml(story.release) + '</span>' : '') +
+          (story.epicId ? '<span class="badge tag-epic">' + escapeHtml(story.epicId) + '</span>' : '') +
+          '<span class="status-pill ' + getStatusPillClass(story.status) + '">' + escapeHtml(story.status) + '</span>';
+
+        els.dialogTitle.textContent = story.title;
+
+        var criteriaHtml = story.acceptanceCriteria.length > 0
+          ? '<ol class="criteria-list">' + story.acceptanceCriteria.map(function (c) {
+              return '<li>' + renderInlineMarkdown(c) + '</li>';
+            }).join('') + '</ol>'
+          : '<p class="meta-box-detail">No hay criterios de aceptación registrados.</p>';
+
+        els.dialogBody.innerHTML =
+          '<div class="meta-grid">' +
+            '<div class="meta-box">' +
+              '<span class="meta-box-label">Estado y nota técnica</span>' +
+              '<div class="meta-box-value">' + escapeHtml(story.status) + '</div>' +
+              (story.statusDetail
+                ? '<div class="meta-box-detail">' + renderInlineMarkdown(story.statusDetail) + '</div>'
+                : '<div class="meta-box-detail">Sin observaciones adicionales.</div>') +
+            '</div>' +
+            '<div class="meta-box">' +
+              '<span class="meta-box-label">Asignado a</span>' +
+              '<div class="meta-box-value">' +
+                '<span class="assignee-badge ' + (story.isAvailable ? 'assignee-free' : 'assignee-taken') + '">' +
+                  (story.isAvailable ? 'Sin asignar (Disponible)' : escapeHtml(story.assignee)) +
+                '</span>' +
+              '</div>' +
+              '<div class="meta-box-detail">Actor: ' + escapeHtml(actorFull) + (story.actorPrefix ? ' (<code>' + escapeHtml(story.actorPrefix) + '</code>)' : '') + '</div>' +
+            '</div>' +
+            '<div class="meta-box">' +
+              '<span class="meta-box-label">Épica</span>' +
+              '<div class="meta-box-value">' + escapeHtml(story.epicId || '—') + '</div>' +
+              '<div class="meta-box-detail">' + escapeHtml(story.epicTitle || '—') + '</div>' +
+            '</div>' +
+            '<div class="meta-box">' +
+              '<span class="meta-box-label">Prioridad y Release</span>' +
+              '<div class="meta-box-value">Prioridad ' + escapeHtml(story.priority || '—') + ' · Release ' + escapeHtml(story.release || '—') + '</div>' +
+              '<div class="meta-box-detail">' + (story.priority === 'Must' ? 'Imprescindible para el piloto real.' : (story.priority === 'Should' ? 'Alto valor operativo.' : 'Mejora incremental.')) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<section class="detail-section" aria-label="Historia de usuario">' +
+            '<h3>Historia de usuario</h3>' +
+            '<p class="story-quote">' + renderInlineMarkdown(story.story || 'Sin descripción.') + '</p>' +
+          '</section>' +
+          '<section class="detail-section" aria-label="Criterios de aceptación">' +
+            '<h3>Criterios de aceptación (' + story.acceptanceCriteria.length + ')</h3>' +
+            criteriaHtml +
+          '</section>';
+
+        if (typeof els.dialog.showModal === 'function') {
+          els.dialog.showModal();
+          els.dialogCloseTop.focus();
+        } else {
+          els.dialog.setAttribute('open', 'open');
+        }
+      }
+
+      function closeStoryDialog() {
+        if (typeof els.dialog.close === 'function' && els.dialog.open) {
+          els.dialog.close();
+        } else {
+          els.dialog.removeAttribute('open');
+        }
+      }
+
+      function applyLoadedData(parsedData, mode, label, bannerHtml) {
+        state.data = parsedData;
+        updateKPIs();
+        populateEpicFilter();
+        setSourceUI(mode, label, bannerHtml);
+        renderBoard();
+      }
+
+      async function loadFromFetchOrFallback() {
+        setSourceUI('pending', 'Cargando USER_STORIES.md…', '');
+        try {
+          var res = await fetch('./USER_STORIES.md', { cache: 'no-store' });
+          if (!res.ok) {
+            throw new Error('HTTP ' + res.status);
+          }
+          var mdText = await res.text();
+          var parsed = parseUserStoriesMarkdown(mdText);
+          if (!parsed || parsed.stories.length === 0) {
+            throw new Error('No se encontraron historias en USER_STORIES.md');
+          }
+          applyLoadedData(parsed, 'live', 'En vivo: USER_STORIES.md (' + parsed.stories.length + ')', '');
+          return;
+        } catch (err) {
+          var fallback = normalizeLoadedData(window.CONTIGO_STORIES_DATA);
+          if (fallback && fallback.stories.length > 0) {
+            applyLoadedData(
+              fallback,
+              'fallback',
+              'Offline: stories-data.js (' + fallback.stories.length + ')',
+              ''
+            );
+            return;
+          }
+
+          applyLoadedData(
+            { generatedAt: '', sourceFile: 'docs/USER_STORIES.md', epics: [], stories: [] },
+            'empty',
+            'Sin datos locales',
+            '<span>No se pudo leer <code>./USER_STORIES.md</code> mediante <code>fetch</code> (habitual al abrir vía <code>file://</code>) ni se encontró <code>window.CONTIGO_STORIES_DATA</code>. Usa el botón <strong>Cargar USER_STORIES.md</strong> para seleccionar <code>docs/USER_STORIES.md</code> manualmente.</span>'
+          );
+        }
+      }
+
+      function clearAllFilters() {
+        state.filters.search = '';
+        state.filters.priority = '';
+        state.filters.release = '';
+        state.filters.epic = '';
+        state.filters.actor = '';
+        state.filters.onlyPending = false;
+        state.filters.onlyUnassigned = false;
+
+        els.filterSearch.value = '';
+        els.filterPriority.value = '';
+        els.filterRelease.value = '';
+        els.filterEpic.value = '';
+        els.filterActor.value = '';
+        els.togglePending.checked = false;
+        els.toggleUnassigned.checked = false;
+
+        renderBoard();
+      }
+
+      function setViewMode(mode) {
+        state.viewMode = mode;
+        els.btnViewKanban.setAttribute('aria-pressed', mode === 'kanban' ? 'true' : 'false');
+        els.btnViewList.setAttribute('aria-pressed', mode === 'list' ? 'true' : 'false');
+        renderBoard();
+      }
+
+      // Wire events
+      els.filterSearch.addEventListener('input', function (e) {
+        state.filters.search = e.target.value;
+        renderBoard();
+      });
+      els.filterPriority.addEventListener('change', function (e) {
+        state.filters.priority = e.target.value;
+        renderBoard();
+      });
+      els.filterRelease.addEventListener('change', function (e) {
+        state.filters.release = e.target.value;
+        renderBoard();
+      });
+      els.filterEpic.addEventListener('change', function (e) {
+        state.filters.epic = e.target.value;
+        renderBoard();
+      });
+      els.filterActor.addEventListener('change', function (e) {
+        state.filters.actor = e.target.value;
+        renderBoard();
+      });
+      els.togglePending.addEventListener('change', function (e) {
+        state.filters.onlyPending = e.target.checked;
+        renderBoard();
+      });
+      els.toggleUnassigned.addEventListener('change', function (e) {
+        state.filters.onlyUnassigned = e.target.checked;
+        renderBoard();
+      });
+
+      els.btnClearFilters.addEventListener('click', clearAllFilters);
+      els.btnEmptyReset.addEventListener('click', clearAllFilters);
+
+      els.btnViewKanban.addEventListener('click', function () { setViewMode('kanban'); });
+      els.btnViewList.addEventListener('click', function () { setViewMode('list'); });
+
+      els.btnReload.addEventListener('click', loadFromFetchOrFallback);
+
+      els.inputMdFile.addEventListener('change', function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          var parsed = parseUserStoriesMarkdown(ev.target.result);
+          if (parsed.stories.length === 0) {
+            setSourceUI(
+              'empty',
+              'Archivo sin historias válidas',
+              '<span>El archivo seleccionado (<code>' + escapeHtml(file.name) + '</code>) no contiene historias con el formato esperado de <code>USER_STORIES.md</code>.</span>'
+            );
+            return;
+          }
+          parsed.sourceFile = file.name;
+          applyLoadedData(parsed, 'file', 'Archivo: ' + file.name + ' (' + parsed.stories.length + ')', '');
+        };
+        reader.readAsText(file, 'utf-8');
+        e.target.value = '';
+      });
+
+      els.dialogCloseTop.addEventListener('click', closeStoryDialog);
+      els.dialogCloseBottom.addEventListener('click', closeStoryDialog);
+      els.dialog.addEventListener('click', function (e) {
+        if (e.target === els.dialog) closeStoryDialog();
+      });
+
+      els.btnCopyId.addEventListener('click', function () {
+        if (!state.activeStory) return;
+        var textToCopy = state.activeStory.id + ' · ' + state.activeStory.title;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy).then(function () {
+            els.copyFeedback.textContent = 'Copiado: ' + state.activeStory.id;
+          }).catch(function () {
+            els.copyFeedback.textContent = state.activeStory.id;
+          });
+        } else {
+          els.copyFeedback.textContent = state.activeStory.id;
+        }
+      });
+
+      // Exponer parser para verificación o diagnóstico si se requiere
+      window.ContigoStoriesBoard = {
+        parseUserStoriesMarkdown: parseUserStoriesMarkdown,
+        reload: loadFromFetchOrFallback
+      };
+
+      loadFromFetchOrFallback();
+    })();
+  </script>
+</body>
+</html>

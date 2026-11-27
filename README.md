@@ -54,7 +54,11 @@ Hackcesibles/
 │       └── hero-illustration.webp      # Ilustración principal de portada (extraída y cacheable)
 ├── docs/
 │   ├── ARCHITECTURE.md                 # Arquitectura modular, flujo de pantallas y gestión de estado
-│   └── ACCESSIBILITY.md                # Matriz de accesibilidad (WCAG, TEA, CAA, teclado y voz)
+│   ├── ACCESSIBILITY.md                # Matriz de accesibilidad (WCAG, TEA, CAA, HTML nativo y voz)
+│   ├── CUSTOMER_JOURNEY.md             # Modelado del Customer Journey por actor y Service Blueprint
+│   ├── USER_STORIES.md                 # Backlog de épicas, historias de usuario y criterios de aceptación
+│   ├── guia-producto-contigo.html      # Versión HTML semántica y accesible de la guía visual de producto
+│   └── Contigo_Guia_Producto_y_Features.pdf  # Guía visual accesible en PDF (features por actor y blueprint)
 └── src/
     ├── styles/
     │   ├── main.css                    # Punto de entrada CSS (importación ordenada en cascada)
@@ -148,7 +152,12 @@ De forma opcional, desde **Ajustes (⚙️) → API Gemini** o desde el botón *
 ## Documentación adicional
 
 - [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — Diagramas de arquitectura, capas y ciclo de vida de módulos.
-- [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md) — Especificación de apoyos, estándares WCAG y atajos de teclado.
+- [`docs/ACCESSIBILITY.md`](./docs/ACCESSIBILITY.md) — Especificación de apoyos, estándares WCAG, principio HTML nativo + WAI-ARIA y atajos de teclado.
+- [`docs/CUSTOMER_JOURNEY.md`](./docs/CUSTOMER_JOURNEY.md) — Customer Journey por actor, Service Blueprint, flujo sin *«¿por qué?»* y matriz de brechas.
+- [`docs/USER_STORIES.md`](./docs/USER_STORIES.md) — Backlog de épicas, historias de usuario con criterios de aceptación y roadmap.
+- [`docs/stories-board.html`](./docs/stories-board.html) — Tablón Kanban visual de historias de usuario (sincronizable con `node scripts/sync-stories-board.mjs`).
+- [`docs/guia-producto-contigo.html`](./docs/guia-producto-contigo.html) — Versión HTML semántica y accesible de la guía visual de producto.
+- [`docs/Contigo_Guia_Producto_y_Features.pdf`](./docs/Contigo_Guia_Producto_y_Features.pdf) — Guía visual de producto y features en PDF accesible y etiquetado.
 
 ---
 
