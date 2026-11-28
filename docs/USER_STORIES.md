@@ -116,7 +116,7 @@ Este documento transforma el modelado del [Customer Journey](./CUSTOMER_JOURNEY.
   3. **Dado** que activo el modo `sorda`, **cuando** el sistema emite cualquier confirmación o toast, **entonces** se muestra en la franja visual superior (`#visual-alert-strip`) sin reproducir audio.
 
 ##### `US-ED-02` · Persistencia de perfil de accesibilidad y enrutado inteligente tras Paso 0B
-- **Prioridad:** `Must` | **Release:** `R1` | **Estado actual:** `PARA INICIAR` (`src/js/modules/accessibility.js` no persiste ajustes y `applyDisabilitySupport()` siempre envía a `1-role` sin orientar el modo) | **Asignado a:** Sin asignar
+- **Prioridad:** `Must` | **Release:** `R1` | **Estado actual:** `FINALIZADO` (Verificado con 21 pruebas de npm y en Edge: recarga y reapertura, rutas por rol, Adaptado, relato guiado y CAA, ajustes y restablecimiento sin perder el borrador, teclado y Esc, siete idiomas a 320 px con lectura fácil y letra de 22 px, perfil dañado y almacenamiento bloqueado) | **Asignado a:** Codex
 - **Historia:** Como **estudiante con discapacidad que entra de forma recurrente**, quiero que mis preferencias de accesibilidad se recuerden en mi dispositivo y que el sistema me recomiende directamente el Modo Adaptado, exploración guiada o Tablero CAA si seleccioné apoyo cognitivo, TEA o sin habla, para no repetir configuraciones ni perderme entre pasos intermedios.
 - **Criterios de aceptación:**
   1. **Dado** que configuré mis apoyos en Paso 0B o en `#gear-modal`, **cuando** recargo o vuelvo a abrir la aplicación (salvo modo privado/borrado explícito), **entonces** se restauran automáticamente tamaño de fuente, velocidad de voz y apoyos activos.

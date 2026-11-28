@@ -116,6 +116,9 @@ export default {
   mode_ad_desc: 'Con dibujos fáciles',
   mode_no_title: '2. No adaptado',
   mode_no_desc: 'Chat con voz y anónimo',
+  mode_recommended: 'Te recomendamos esta opción',
+  mode_caa_title: '3. Tablero de comunicación',
+  mode_guided_title: '4. No sé por qué',
 
   s3_badge: 'Pantalla 3',
   s3_title: '¿Qué pasa?',

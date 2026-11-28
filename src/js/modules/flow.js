@@ -7,7 +7,7 @@ import { addNotice, pages, state, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
 import { t, translateCause, translateFeeling } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
-import { applyDisabilitySupport, applyPreferences } from './accessibility.js';
+import { chooseVoice, finishAccessibilitySetup, setDisabilitySupport, startTalk } from './accessibility.js';
 import { addCaaWord } from './caa.js';
 import { setTeacherFilter } from './teacher-panel.js';
 
@@ -34,10 +34,10 @@ function choose(button) {
   switch (button.dataset.action) {
     case 'go-back':
       return go(pages.pop() || 'home', false);
+    case 'start-talk':
+      return startTalk();
     case 'choose-voice':
-      if ($('gear-voice-guide')) $('gear-voice-guide').checked = val === 'si';
-      applyPreferences();
-      return go('0-disability');
+      return chooseVoice(val === 'si');
     case 'choose-user-type':
       state.role = val;
       if ($('q-user-type')) $('q-user-type').value = val;
@@ -47,6 +47,10 @@ function choose(button) {
     case 'choose-mode':
       state.mode = val;
       return go('3-situation-type');
+    case 'choose-guided-story':
+      state.mode = 'adaptado';
+      state.branch = 'victima';
+      return go('daily-story');
     case 'choose-branch':
       state.branch = val;
       if (val !== 'cuestionario' && $('q-branch')) $('q-branch').value = val;
@@ -71,7 +75,9 @@ export function initFlow() {
     if (data.go) return go(data.go);
     if (data.action) return choose(button);
 
-    if (data.disType || button.classList.contains('parent-signal-btn')) {
+    if (data.disType) return setDisabilitySupport(data.disType, button.getAttribute('aria-pressed') !== 'true');
+
+    if (button.classList.contains('parent-signal-btn')) {
       button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'));
     }
 
@@ -123,8 +129,8 @@ export function initFlow() {
       (btn) => parts.includes(btn.dataset.key) || parts.includes(btn.dataset.disType)
     );
     if (!matches.length) return message(t('flow_dis_error'));
-    matches.forEach((btn) => btn.setAttribute('aria-pressed', 'true'));
-    applyDisabilitySupport();
+    matches.forEach((btn) => setDisabilitySupport(btn.dataset.disType, true));
+    finishAccessibilitySetup();
   });
 
   // Pantalla Adaptado 3: envío al profesor

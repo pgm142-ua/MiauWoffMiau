@@ -116,6 +116,9 @@ export default {
   mode_ad_desc: 'Amb dibuixos fàcils',
   mode_no_title: '2. No adaptat',
   mode_no_desc: 'Xat amb veu i anònim',
+  mode_recommended: 'Et recomanem aquesta opció',
+  mode_caa_title: '3. Tauler de comunicació',
+  mode_guided_title: '4. No sé per què',
 
   s3_badge: 'Pantalla 3',
   s3_title: 'Què passa?',

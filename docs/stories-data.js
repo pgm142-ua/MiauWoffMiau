@@ -1,7 +1,7 @@
 // Archivo generado automáticamente por scripts/sync-stories-board.mjs
 // Fuente: docs/USER_STORIES.md — No editar manualmente.
 window.CONTIGO_STORIES_DATA = {
-  "generatedAt": "2026-11-27T20:12:07.239Z",
+  "generatedAt": "2026-11-28T14:02:38.035Z",
   "sourceFile": "docs/USER_STORIES.md",
   "epics": [
     {
@@ -217,10 +217,10 @@ window.CONTIGO_STORIES_DATA = {
       "actorPrefix": "US-ED",
       "priority": "Must",
       "release": "R1",
-      "status": "PARA INICIAR",
-      "statusDetail": "src/js/modules/accessibility.js no persiste ajustes y applyDisabilitySupport() siempre envía a 1-role sin orientar el modo",
-      "assignee": "Sin asignar",
-      "isAvailable": true,
+      "status": "FINALIZADO",
+      "statusDetail": "Verificado con 21 pruebas de npm y en Edge: recarga y reapertura, rutas por rol, Adaptado, relato guiado y CAA, ajustes y restablecimiento sin perder el borrador, teclado y Esc, siete idiomas a 320 px con lectura fácil y letra de 22 px, perfil dañado y almacenamiento bloqueado",
+      "assignee": "Codex",
+      "isAvailable": false,
       "story": "Como estudiante con discapacidad que entra de forma recurrente, quiero que mis preferencias de accesibilidad se recuerden en mi dispositivo y que el sistema me recomiende directamente el Modo Adaptado, exploración guiada o Tablero CAA si seleccioné apoyo cognitivo, TEA o sin habla, para no repetir configuraciones ni perderme entre pasos intermedios.",
       "acceptanceCriteria": [
         "1. Dado que configuré mis apoyos en Paso 0B o en #gear-modal, cuando recargo o vuelvo a abrir la aplicación (salvo modo privado/borrado explícito), entonces se restauran automáticamente tamaño de fuente, velocidad de voz y apoyos activos.",

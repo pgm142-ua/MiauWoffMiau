@@ -246,6 +246,7 @@
 .contrast .emotion-card:has(:checked),
 .contrast .choice-card.sel,
 .contrast .choice-card.selected,
+.contrast .choice-card:has(.choice-recommendation:not(.hidden)),
 .contrast .choice-card[aria-pressed="true"],
 .contrast .caa-tile.on,
 .contrast .caa-tile.sel,

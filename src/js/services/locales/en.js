@@ -116,6 +116,9 @@ export default {
   mode_ad_desc: 'With simple pictures',
   mode_no_title: '2. Standard',
   mode_no_desc: 'Anonymous voice chat',
+  mode_recommended: 'We recommend this option',
+  mode_caa_title: '3. Communication board',
+  mode_guided_title: '4. I don’t know why',
 
   s3_badge: 'Screen 3',
   s3_title: 'What is happening?',

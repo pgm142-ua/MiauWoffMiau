@@ -116,6 +116,9 @@ export default {
   mode_ad_desc: 'برسومات وصور بسيطة',
   mode_no_title: '2. غير مكيّف',
   mode_no_desc: 'محادثة بالصوت ومجهولة الهوية',
+  mode_recommended: 'نوصيك بهذا الخيار',
+  mode_caa_title: '٣. لوحة التواصل',
+  mode_guided_title: '٤. لا أعرف لماذا',
 
   s3_badge: 'الشاشة 3',
   s3_title: 'ماذا يحدث؟',

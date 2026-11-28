@@ -173,7 +173,7 @@
           <p class="lead" data-i18n="home_lead">Este es un sitio tranquilo para contar cómo estás. Vamos despacio, una cosa cada vez.</p>
 
           <div class="home-cta-row">
-            <button type="button" class="hero-cta" data-go="0-voice">
+            <button type="button" class="hero-cta" data-action="start-talk">
               <span data-i18n="home_cta">Empezar</span> <svg class="i" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </button>
             <button type="button" class="hero-cta-secondary" data-go="2-mode">
@@ -390,12 +390,27 @@
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-picto"/></svg></span>
           <span class="choice-title" data-i18n="mode_ad_title">1. Adaptado</span>
           <span class="choice-desc" data-i18n="mode_ad_desc">Con dibujos fáciles</span>
+          <span id="mode-adapted-recommendation" class="choice-recommendation hidden" data-i18n="mode_recommended">Te recomendamos esta opción</span>
         </button>
 
         <button type="button" class="choice-card" data-action="choose-mode" data-value="no_adaptado" data-key="2">
           <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-chat"/></svg></span>
           <span class="choice-title" data-i18n="mode_no_title">2. No adaptado</span>
           <span class="choice-desc" data-i18n="mode_no_desc">Chat con voz y anónimo</span>
+        </button>
+
+        <button type="button" id="mode-caa" class="choice-card hidden" data-go="caa" data-key="3">
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-picto"/></svg></span>
+          <span class="choice-title" data-i18n="mode_caa_title">3. Tablero de comunicación</span>
+          <span class="choice-desc" data-i18n="caa_title">Habla tocando dibujos</span>
+          <span class="choice-recommendation" data-i18n="mode_recommended">Te recomendamos esta opción</span>
+        </button>
+
+        <button type="button" id="mode-guided-story" class="choice-card hidden" data-action="choose-guided-story" data-key="4">
+          <span class="choice-emoji" aria-hidden="true"><svg width="40" height="40"><use href="#i-chat"/></svg></span>
+          <span class="choice-title" data-i18n="mode_guided_title">4. No sé por qué</span>
+          <span class="choice-desc" data-i18n="story_entry_btn">Contar mi día</span>
+          <span id="mode-guided-recommendation" class="choice-recommendation hidden" data-i18n="mode_recommended">Te recomendamos esta opción</span>
         </button>
       </div>
 
