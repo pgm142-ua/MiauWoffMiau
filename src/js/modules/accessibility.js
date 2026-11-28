@@ -6,6 +6,7 @@
 import { $, all, on, show, visible } from '../core/dom.js';
 import { background, closeModal, go, openModal, visiblePage } from '../core/router.js';
 import { abortGemini } from '../services/gemini.js';
+import { read, save } from '../core/storage.js';
 import { onLanguageChange, t } from '../services/i18n.js';
 import {
   abortSpeechRecognition,
@@ -33,6 +34,29 @@ const BODY_CLASS_TOGGLES = [
 ];
 
 let fontLevel = 0;
+
+function persistPreferences() {
+  const preferences = {
+    fontLevel,
+    speechRate: $('gear-speech-rate')?.value || '1',
+    keyboardMenu: $('gear-keyboard-menu')?.checked ?? true,
+  };
+  ADAPTATION_TOGGLE_IDS.concat(['gear-voice-guide']).forEach((id) => {
+    if ($(id)) preferences[id] = $(id).checked;
+  });
+  save('preferences', preferences);
+}
+
+function restorePreferences() {
+  const preferences = read('preferences');
+  if (!preferences) return;
+  fontLevel = Number(preferences.fontLevel || 0);
+  if ($('gear-speech-rate')) $('gear-speech-rate').value = String(preferences.speechRate || '1');
+  if ($('gear-keyboard-menu')) $('gear-keyboard-menu').checked = preferences.keyboardMenu !== false;
+  Object.entries(preferences).forEach(([key, value]) => {
+    if (key.startsWith('gear-') && $(key)) $(key).checked = Boolean(value);
+  });
+}
 
 function extractReadableText(section) {
   if (!section) return '';
@@ -110,6 +134,7 @@ export function applyPreferences() {
     countBadge.textContent = String(activeCount);
   }
   show('a11y-active-count', activeCount > 0);
+  persistPreferences();
 }
 
 export function applyDisabilitySupport() {
@@ -131,7 +156,16 @@ export function applyDisabilitySupport() {
   });
 
   applyPreferences();
-  go('1-role');
+  const mute = $('gear-mute-mode')?.checked;
+  const cognitive = $('gear-easy-read')?.checked;
+  const tea = $('gear-reduced-motion')?.checked;
+  if (mute) {
+    go('caa');
+  } else if (cognitive || tea) {
+    go('adapted-1');
+  } else {
+    go('1-role');
+  }
 }
 
 export function quickExit() {
@@ -151,6 +185,7 @@ export function quickExit() {
 }
 
 export function initAccessibility() {
+  restorePreferences();
   on('btn-safe-exit', quickExit);
   on('return-from-safe-exit', () => {
     const safeExit = $('safe-exit-screen');

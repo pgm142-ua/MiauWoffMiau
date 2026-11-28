@@ -10,6 +10,7 @@ import {
   checkServerAiAvailability,
   clearGeminiConfig,
   detectSuggestedPlace,
+  detectCrisis,
   getAiMode,
   setGeminiConfig,
   testGeminiConnection,
@@ -764,7 +765,10 @@ export function initChat() {
     const place = reportState.where || value('anon-place') || 'patio';
     const recipient = reportState.to || value('anon-recipient') || 'guidance';
 
-    const code = addNotice(text, place, recipient, '', { contextKey: 'chat_anon_context' });
+    const code = addNotice(text, place, recipient, '', {
+      contextKey: 'chat_anon_context',
+      priority: detectCrisis(text) ? 'critica' : 'normal',
+    });
     lastAnonCode = code;
     state.place = place;
     uiState.lastReport = text;

@@ -3,7 +3,7 @@
  */
 
 import { $, all, on, put, show, submit, value } from '../core/dom.js';
-import { addNotice, pages, state, uiState } from '../core/state.js';
+import { addNotice, guidedReport, pages, state, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
 import { t, translateCause, translateFeeling } from '../services/i18n.js';
 import { message, say } from '../services/speech.js';
@@ -41,7 +41,15 @@ function choose(button) {
     case 'choose-user-type':
       state.role = val;
       if ($('q-user-type')) $('q-user-type').value = val;
-      if (val === 'profesor') return go('teacher-panel');
+      if (val === 'profesor') {
+        const access = window.prompt('Código de acceso docente (demo: CONTIGO)');
+        if (access !== 'CONTIGO') {
+          message('Acceso no válido. Solo el personal autorizado puede entrar.');
+          return;
+        }
+        sessionStorage.setItem('contigo.staffRole', 'docente');
+        return go('teacher-panel');
+      }
       if (val === 'padres') return go('parents');
       return go('2-mode');
     case 'choose-mode':
@@ -51,12 +59,29 @@ function choose(button) {
       state.branch = val;
       if (val !== 'cuestionario' && $('q-branch')) $('q-branch').value = val;
       if (val === 'cuestionario') return go('questionnaire');
+      if (val === 'ayuda-inmediata') {
+        const code = addNotice(
+          'Ayuda inmediata: estudiante mal y no sabe explicar por qué.',
+          state.place || 'patio',
+          'guidance',
+          'Ayuda inmediata',
+          { priority: 'critica', contextKey: 'role_victim' }
+        );
+        uiState.lastReport = 'Ayuda inmediata sin causa definida';
+        put('adapted-safe-code', code);
+        show('adapted-sent-confirm', true);
+        say(t('ad3_sent_spoken'));
+        go('adapted-3');
+        return;
+      }
       return go(state.mode === 'adaptado' ? 'adapted-1' : 'no-adapted');
     case 'adapted-feeling':
       state.feeling = val;
+      if (val === 'unknown' || val === 'sensory') return go('guided-help');
       return go('adapted-2');
     case 'adapted-cause':
       state.cause = val;
+      if (val === 'unknown') return go('guided-help');
       return go('adapted-3');
   }
 }
@@ -82,6 +107,32 @@ export function initFlow() {
         el.setAttribute('aria-pressed', String(active));
       });
       state.place = data.adaptedPlace;
+    }
+
+    if (data.guidedSensation) {
+      const active = button.getAttribute('aria-pressed') === 'true';
+      button.setAttribute('aria-pressed', String(!active));
+      guidedReport.sensations = guidedReport.sensations.filter((item) => item !== data.guidedSensation);
+      if (!active) guidedReport.sensations.push(data.guidedSensation);
+    }
+
+    if (data.guidedRoutine) {
+      all('[data-guided-routine]').forEach((el) => {
+        el.setAttribute('aria-pressed', String(el === button));
+        el.classList.toggle('selected', el === button);
+      });
+      guidedReport.routine = data.guidedRoutine;
+    }
+
+    if (data.guidedAnswer) {
+      const scene = button.closest('[data-guided-scene]');
+      if (!scene) return;
+      const sceneId = scene.dataset.guidedScene;
+      scene.querySelectorAll('[data-guided-answer]').forEach((el) => {
+        el.setAttribute('aria-pressed', String(el === button));
+        el.classList.toggle('selected', el === button);
+      });
+      guidedReport.scenes[sceneId] = data.guidedAnswer;
     }
 
     if (data.text) {
@@ -151,4 +202,45 @@ export function initFlow() {
   });
 
   on('btn-speak-for-me', () => say(uiState.lastReport || t('ad3_speak_fallback')));
+
+  on('btn-send-guided-help', () => {
+    const sensationLabels = {
+      'me-duele-tripa-cabeza': 'Me duele la tripa o la cabeza',
+      'mucho-ruido-luz': 'Demasiado ruido o luz',
+      'quiero-esconderme': 'Quiere esconderse o irse',
+      'corazon-fuerte': 'Corazón latiendo fuerte',
+      'no-me-salen-palabras': 'No le salen las palabras',
+      'no-lo-se': 'No lo sabe',
+    };
+    const sceneLabels = {
+      'burlas-risas': 'Burlas o risas',
+      exclusion: 'Exclusión',
+      'agresion-cosas': 'Empujones o daño a objetos',
+      'ruido-gente': 'Ruido o mucha gente',
+      'movil-mensajes': 'Problema por móvil o mensajes',
+    };
+    const answerLabels = { si: 'Sí', no: 'No', 'no-lo-se': 'No lo sé' };
+    const sensations = guidedReport.sensations
+      .map((value) => sensationLabels[value] || value)
+      .join(', ') || 'No indicada';
+    const scenes = Object.entries(guidedReport.scenes)
+      .map(([scene, answer]) => `${sceneLabels[scene] || scene}: ${answerLabels[answer] || answer}`)
+      .join(' · ') || 'No respondida';
+    const routine = guidedReport.routine || 'No lo sabe';
+
+    uiState.lastReport =
+      'Malestar sin causa definida · ' +
+      `Señales: ${sensations} · Rutina: ${routine} · Escenas: ${scenes}`;
+    const code = addNotice(
+      uiState.lastReport,
+      state.place || 'patio',
+      'guidance',
+      'Estudiante con discapacidad · Sin causa definida',
+      { priority: 'normal', structuredHelp: true }
+    );
+    put('adapted-safe-code', code);
+    show('adapted-sent-confirm', true);
+    say(t('ad3_sent_spoken'));
+    go('adapted-3');
+  });
 }

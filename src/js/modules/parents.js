@@ -2,7 +2,7 @@
  * Módulo del Espacio Familias (detección temprana desde casa).
  */
 
-import { all, submit, value } from '../core/dom.js';
+import { $, all, put, show, submit, value } from '../core/dom.js';
 import { addNotice, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
 import { t } from '../services/i18n.js';
@@ -16,8 +16,16 @@ export function initParents() {
     const fullText = [...signals, note].filter(Boolean).join(' · ') || t('par_default_note');
 
     uiState.lastReport = t('par_report_prefix', { child, text: fullText });
-    addNotice(uiState.lastReport, 'patio', 'tutor_guidance', t('par_context_fmt', { child }));
+    const place = $('parent-place')?.value || 'patio';
+    const recipient = $('parent-recipient')?.value || 'guidance';
+    const code = addNotice(
+      uiState.lastReport,
+      place,
+      recipient,
+      t('par_context_fmt', { child })
+    );
     message(t('par_sent_toast'));
-    go('feedback');
+    put('last-family-safe-code', code);
+    show('family-safe-confirm', true);
   });
 }

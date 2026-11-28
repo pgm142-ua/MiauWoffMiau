@@ -120,3 +120,19 @@ test('JS modules keep native dialog/progress/ARIA contracts consistent', async (
   assert.match(teacherJs, /select\.setAttribute\('aria-label'/);
   assert.doesNotMatch(dailyStoryJs, /role',\s*'listitem'/);
 });
+
+test('guided help route includes sensations, routine, and Yes/No/Unknown scenes', async () => {
+  const [html, flowJs, teacherJs] = await Promise.all([
+    fs.readFile(path.join(ROOT_DIR, 'index.html'), 'utf8'),
+    fs.readFile(path.join(ROOT_DIR, 'src/js/modules/flow.js'), 'utf8'),
+    fs.readFile(path.join(ROOT_DIR, 'src/js/modules/teacher-panel.js'), 'utf8'),
+  ]);
+
+  assert.match(html, /<section\b[^>]*\bid="screen-guided-help"/i);
+  assert.match(html, /data-guided-sensation="me-duele-tripa-cabeza"/i);
+  assert.match(html, /data-guided-routine="recreo"/i);
+  assert.equal((html.match(/data-guided-answer="no-lo-se"/gi) || []).length >= 5, true);
+  assert.match(flowJs, /go\('guided-help'\)/);
+  assert.match(flowJs, /btn-send-guided-help/);
+  assert.match(teacherJs, /Malestar sin causa definida/);
+});

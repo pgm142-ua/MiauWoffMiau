@@ -154,34 +154,6 @@ export function offlineReply(text) {
   return result.reply;
 }
 
-async function callGeminiApi(key, modelName, contents, signal) {
-  const res = await fetch(
-    'https://generativelanguage.googleapis.com/v1beta/models/' +
-      encodeURIComponent(modelName) +
-      ':generateContent',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': key,
-      },
-      signal,
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: t('gemini_system_prompt') }] },
-        contents,
-      }),
-    }
-  );
-  if (!res.ok) throw Error('Error ' + res.status);
-  const data = await res.json();
-  return (
-    data.candidates?.[0]?.content?.parts
-      ?.map((p) => p.text || '')
-      .join('')
-      .trim() || offlineReply('')
-  );
-}
-
 export async function askGemini(userMessage, options = {}) {
   const lang = options.lang || getLang();
   const branch = options.branch || '';
@@ -248,7 +220,15 @@ export async function askGemini(userMessage, options = {}) {
 }
 
 export async function testGeminiConnection(key, modelName) {
-  return callGeminiApi(key, modelName, [{ role: 'user', parts: [{ text: t('gemini_test_ping') }] }]);
+  const response = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ message: t('gemini_test_ping'), lang: getLang() }),
+  });
+  if (!response.ok) throw Error('Error ' + response.status);
+  const data = await response.json();
+  if (!data.reply) throw Error('Empty reply');
+  return data.reply;
 }
 
 /* ==========================================================================
@@ -893,43 +873,21 @@ export async function analyzeDailyStory(storyText, lang = 'es') {
   const normalizedLang = normalizeLang(lang);
   const text = String(storyText ?? '').trim();
 
-  if (!config.key || !text) {
+  if (!text) {
     return analyzeDailyStoryLocal(text, normalizedLang);
   }
 
   controller = new AbortController();
   try {
-    const res = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/' +
-        encodeURIComponent(config.model) +
-        ':generateContent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': config.key,
-        },
-        signal: controller.signal,
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: buildStorySystemPrompt(normalizedLang) }],
-          },
-          contents: [{ role: 'user', parts: [{ text }] }],
-          generationConfig: {
-            responseMimeType: 'application/json',
-            temperature: 0.2,
-          },
-        }),
-      }
-    );
+    const res = await fetch('/api/daily-story', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      signal: controller.signal,
+      body: JSON.stringify({ text, lang: normalizedLang }),
+    });
     if (!res.ok) throw new Error('Error ' + res.status);
     const data = await res.json();
-    const rawText = data.candidates?.[0]?.content?.parts
-      ?.map((p) => p.text || '')
-      .join('')
-      .trim();
-    const parsed = extractJsonObject(rawText);
-    return normalizeGeminiAnalysis(parsed, text, normalizedLang);
+    return normalizeGeminiAnalysis(data.analysis || null, text, normalizedLang);
   } catch {
     return analyzeDailyStoryLocal(text, normalizedLang);
   }

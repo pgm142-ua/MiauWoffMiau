@@ -169,9 +169,10 @@ export function initCaa() {
 
   on('btn-caa-send-teacher', () => {
     if (!words.length) return message(t('caa_empty_toast'));
+    const place = $('caa-place')?.value || 'patio';
     const code = addNotice(
       t('caa_notice_prefix', { sentence: words.join(' ') }),
-      'patio',
+      place,
       'teacher',
       '',
       { contextKey: 'caa_context' }

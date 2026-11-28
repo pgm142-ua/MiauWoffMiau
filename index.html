@@ -198,6 +198,10 @@
               <span class="d" style="background:var(--primary-t)" aria-hidden="true"><svg class="i"><use href="#i-steps"/></svg></span>
               <span data-i18n="home_chip_questionnaire">Cuestionario</span>
             </button>
+            <button type="button" class="chip" data-go="safe-status">
+              <span class="d" style="background:var(--sky-t)" aria-hidden="true"><svg class="i"><use href="#i-lock"/></svg></span>
+              <span>Consultar código SAFE</span>
+            </button>
           </nav>
 
           <div class="home-adults">
@@ -216,6 +220,21 @@
           <svg class="buddy" aria-hidden="true"><use href="#buddy"/></svg>
           <div class="calma-bubble" data-i18n-html="home_bubble">Soy <b>Nube</b>. Te acompaño. Puedes parar cuando quieras.</div>
         </div>
+      </div>
+    </section>
+
+    <section id="screen-safe-status" class="card step-section hidden" aria-labelledby="title-safe-status">
+      <div class="step-badge">Seguimiento privado</div>
+      <h1 id="title-safe-status">Consultar mi aviso</h1>
+      <p class="lead-text">Introduce el código SAFE recibido. No hace falta indicar tu nombre.</p>
+      <form id="form-safe-status" class="quick-text-bar">
+        <label for="safe-status-code" class="sr-only">Código SAFE</label>
+        <input id="safe-status-code" class="form-control" type="text" maxlength="12" autocomplete="off" placeholder="Ej. SAFE-342" />
+        <button type="submit" class="btn btn-primary">Consultar</button>
+      </form>
+      <div id="safe-status-result" class="info-banner hidden" role="status" aria-live="polite"></div>
+      <div class="nav-actions">
+        <button type="button" class="btn btn-ghost" data-action="go-back">Volver</button>
       </div>
     </section>
 
@@ -432,6 +451,11 @@
           <span class="choice-title" data-i18n="br_cue_title">3. Cuestionario</span>
           <span class="choice-desc" data-i18n="br_cue_desc">Hazme preguntas</span>
         </button>
+        <button type="button" class="choice-card" data-action="choose-branch" data-value="ayuda-inmediata" data-key="4">
+          <span class="choice-emoji" aria-hidden="true">🆘</span>
+          <span class="choice-title">4. Estoy mal y no sé por qué</span>
+          <span class="choice-desc">Pedir ayuda sin explicarlo</span>
+        </button>
       </div>
 
       <div class="nav-actions">
@@ -478,6 +502,16 @@
           <span class="visual-art" aria-hidden="true"><svg class="face"><use href="#f-angry"/></svg></span>
           <span class="visual-title" data-i18n="feel_4">4. Enfadado/a</span>
           <span class="visual-sub" data-i18n="feel_4_sub">Me molestan o me bloqueo</span>
+        </button>
+        <button type="button" class="visual-card fc" data-action="adapted-feeling" data-value="unknown" data-key="5">
+          <span class="visual-art" aria-hidden="true">❓</span>
+          <span class="visual-title">5. No lo sé</span>
+          <span class="visual-sub">Solo sé que estoy mal</span>
+        </button>
+        <button type="button" class="visual-card fc" data-action="adapted-feeling" data-value="sensory" data-key="6">
+          <span class="visual-art" aria-hidden="true">🔊</span>
+          <span class="visual-title">6. Demasiado ruido o luz</span>
+          <span class="visual-sub">Mi cuerpo está incómodo</span>
         </button>
       </div>
 
@@ -542,6 +576,11 @@
           <span class="choice-title" data-i18n="c_otr">6. Otra cosa</span>
           <span class="choice-desc" data-i18n="c_otr_d">Otro motivo</span>
         </button>
+        <button type="button" class="choice-card" data-action="adapted-cause" data-value="unknown" data-key="7">
+          <span class="choice-emoji" aria-hidden="true">❓</span>
+          <span class="choice-title">7. No lo sé</span>
+          <span class="choice-desc">Enviar sin causa definida</span>
+        </button>
       </div>
 
       <div class="story-entry-banner">
@@ -558,6 +597,88 @@
         <button type="button" class="btn btn-ghost" data-action="go-back">
           <svg class="i" aria-hidden="true"><use href="#i-arrow-left"/></svg> <span data-i18n="back">Volver</span>
         </button>
+      </div>
+    </section>
+
+    <section id="screen-guided-help" class="card step-section hidden" aria-labelledby="title-guided-help">
+      <div class="step-badge">Ayuda · Sin causa definida</div>
+      <h1 id="title-guided-help">¿Qué ha pasado?</h1>
+      <p class="lead-text">Puedes elegir varias respuestas. No hace falta saberlo todo.</p>
+
+      <div class="soft-box">
+        <strong class="form-label">¿Qué notas en tu cuerpo o entorno?</strong>
+        <div class="chip-grid" role="group" aria-label="Señales corporales y sensoriales">
+          <button type="button" class="chip-btn" data-guided-sensation="me-duele-tripa-cabeza" aria-pressed="false">Me duele la tripa o la cabeza</button>
+          <button type="button" class="chip-btn" data-guided-sensation="mucho-ruido-luz" aria-pressed="false">Hay mucho ruido o luz</button>
+          <button type="button" class="chip-btn" data-guided-sensation="quiero-esconderme" aria-pressed="false">Quiero esconderme o irme</button>
+          <button type="button" class="chip-btn" data-guided-sensation="corazon-fuerte" aria-pressed="false">Mi corazón late fuerte</button>
+          <button type="button" class="chip-btn" data-guided-sensation="no-me-salen-palabras" aria-pressed="false">No me salen las palabras</button>
+          <button type="button" class="chip-btn" data-guided-sensation="no-lo-se" aria-pressed="false">No lo sé</button>
+        </div>
+      </div>
+
+      <div class="soft-box">
+        <strong class="form-label">¿Cuándo empezó?</strong>
+        <div class="chip-grid" role="group" aria-label="Momento de la rutina">
+          <button type="button" class="chip-btn" data-guided-routine="entrada" aria-pressed="false">Entrada</button>
+          <button type="button" class="chip-btn" data-guided-routine="clase" aria-pressed="false">Clase</button>
+          <button type="button" class="chip-btn" data-guided-routine="recreo" aria-pressed="false">Recreo / Patio</button>
+          <button type="button" class="chip-btn" data-guided-routine="pasillo" aria-pressed="false">Pasillo / Baño</button>
+          <button type="button" class="chip-btn" data-guided-routine="comedor" aria-pressed="false">Comedor</button>
+          <button type="button" class="chip-btn" data-guided-routine="salida" aria-pressed="false">Salida</button>
+          <button type="button" class="chip-btn" data-guided-routine="no-lo-se" aria-pressed="false">No lo sé</button>
+        </div>
+      </div>
+
+      <div class="soft-box" role="group" aria-label="Escenas que pueden haber ocurrido">
+        <strong class="form-label">Responde solo si puedes</strong>
+        <div class="guided-scenes">
+          <div class="guided-scene" data-guided-scene="burlas-risas">
+            <span>¿Te han reído o hecho burlas?</span>
+            <div class="report-actions">
+              <button type="button" class="chip-btn" data-guided-answer="si">Sí</button>
+              <button type="button" class="chip-btn" data-guided-answer="no">No</button>
+              <button type="button" class="chip-btn" data-guided-answer="no-lo-se">No lo sé</button>
+            </div>
+          </div>
+          <div class="guided-scene" data-guided-scene="exclusion">
+            <span>¿Te dejaron solo/a o no te dejaron jugar?</span>
+            <div class="report-actions">
+              <button type="button" class="chip-btn" data-guided-answer="si">Sí</button>
+              <button type="button" class="chip-btn" data-guided-answer="no">No</button>
+              <button type="button" class="chip-btn" data-guided-answer="no-lo-se">No lo sé</button>
+            </div>
+          </div>
+          <div class="guided-scene" data-guided-scene="agresion-cosas">
+            <span>¿Hubo empujones o rompieron tus cosas?</span>
+            <div class="report-actions">
+              <button type="button" class="chip-btn" data-guided-answer="si">Sí</button>
+              <button type="button" class="chip-btn" data-guided-answer="no">No</button>
+              <button type="button" class="chip-btn" data-guided-answer="no-lo-se">No lo sé</button>
+            </div>
+          </div>
+          <div class="guided-scene" data-guided-scene="ruido-gente">
+            <span>¿Había demasiado ruido o mucha gente?</span>
+            <div class="report-actions">
+              <button type="button" class="chip-btn" data-guided-answer="si">Sí</button>
+              <button type="button" class="chip-btn" data-guided-answer="no">No</button>
+              <button type="button" class="chip-btn" data-guided-answer="no-lo-se">No lo sé</button>
+            </div>
+          </div>
+          <div class="guided-scene" data-guided-scene="movil-mensajes">
+            <span>¿Pasó por el móvil o mensajes?</span>
+            <div class="report-actions">
+              <button type="button" class="chip-btn" data-guided-answer="si">Sí</button>
+              <button type="button" class="chip-btn" data-guided-answer="no">No</button>
+              <button type="button" class="chip-btn" data-guided-answer="no-lo-se">No lo sé</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button type="button" class="btn btn-ghost" data-action="go-back">Volver</button>
+        <button type="button" id="btn-send-guided-help" class="btn btn-primary">Enviar ayuda sin causa definida</button>
       </div>
     </section>
 
@@ -1175,6 +1296,7 @@
           <div id="urgent-help-alert" class="urgent-alert hidden" role="alert" data-i18n-html="q_urgent_alert">
             <strong>Importante:</strong> Si estás en peligro ahora mismo, acude a un adulto cercano o llama al <strong>112</strong> / <strong>900 018 018</strong>.
           </div>
+          <div id="q-safe-confirm" class="info-banner hidden" role="status"></div>
         </fieldset>
 
         <div class="form-group">
@@ -1258,6 +1380,24 @@
             <label for="parent-note" class="form-label" data-i18n="par_note_label">Nota para el tutor u orientación</label>
             <input type="text" id="parent-note" class="form-control" placeholder="Ej. Lleva tres días sin querer salir al patio..." data-i18n-placeholder="par_note_ph" />
           </div>
+          <div class="form-group">
+            <label for="parent-place" class="form-label">Lugar observado</label>
+            <select id="parent-place" class="form-control">
+              <option value="patio">Patio / Recreo</option>
+              <option value="hallways">Pasillos / Baños</option>
+              <option value="class">En clase</option>
+              <option value="digital">Móvil / Redes</option>
+              <option value="entrance">Entrada / Salida</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="parent-recipient" class="form-label">Destinatario</label>
+            <select id="parent-recipient" class="form-control">
+              <option value="tutor">Tutor/a</option>
+              <option value="guidance">Orientación</option>
+              <option value="director">Dirección / Convivencia</option>
+            </select>
+          </div>
         </div>
 
         <div class="nav-actions">
@@ -1272,6 +1412,9 @@
           </div>
         </div>
       </form>
+      <div id="family-safe-confirm" class="info-banner hidden" role="status">
+        Aviso enviado. Código familiar: <strong id="last-family-safe-code"></strong>
+      </div>
     </section>
 
     <!-- ================================================================
@@ -1410,6 +1553,16 @@
         </div>
       </div>
       <div id="caa-sent-feedback" class="info-banner hidden" role="status"></div>
+      <div class="form-group" style="max-width: 420px;">
+        <label for="caa-place" class="form-label">¿Dónde ocurre?</label>
+        <select id="caa-place" class="form-control">
+          <option value="patio">Patio / Recreo</option>
+          <option value="hallways">Pasillos / Baños</option>
+          <option value="class">En clase</option>
+          <option value="digital">Móvil / Redes</option>
+          <option value="entrance">Entrada / Salida</option>
+        </select>
+      </div>
 
       <div class="caa-tabs" role="tablist" aria-label="Categorías de pictogramas" data-i18n-aria-label="caa_tabs_aria">
         <button type="button" id="caa-tab-todos" class="caa-tab on" data-caa-tab="todos" role="tab" aria-selected="true" aria-controls="caa-panel" tabindex="0"><i aria-hidden="true" style="background:var(--primary)"></i><span data-i18n="caa_tab_all">Todos</span></button>

@@ -2,7 +2,7 @@
  * Módulo del Cuestionario Completo paso a paso y detección de peligro inmediato.
  */
 
-import { $, show, submit, value } from '../core/dom.js';
+import { $, put, show, submit, value } from '../core/dom.js';
 import { addNotice, uiState } from '../core/state.js';
 import { go } from '../core/router.js';
 import { t, translateCause, translatePlace } from '../services/i18n.js';
@@ -45,15 +45,20 @@ export function initQuestionnaire() {
 
     const isAnon = formData.get('qq_delivery') === 'anonimo';
     const school = value('q-school');
-    addNotice(
+    const isUrgent = formData.get('qq_safety') === 'danger';
+    const code = addNotice(
       uiState.lastReport,
       place,
       'guidance_tutor',
       isAnon ? '' : school || '',
-      isAnon ? { contextKey: 'q_anon_sender' } : school ? {} : { contextKey: 'q_default_sender' }
+      {
+        ...(isAnon ? { contextKey: 'q_anon_sender' } : school ? {} : { contextKey: 'q_default_sender' }),
+        priority: isUrgent ? 'critica' : 'normal',
+      }
     );
 
     message(t('q_sent_toast'));
-    go('feedback');
+    put('q-safe-confirm', `Cuestionario enviado. Código seguro: ${code}${isUrgent ? ' · Prioridad crítica' : ''}`);
+    show('q-safe-confirm', true);
   });
 }

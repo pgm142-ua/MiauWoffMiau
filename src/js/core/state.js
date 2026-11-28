@@ -25,6 +25,12 @@ export const uiState = {
   filter: 'todos',
 };
 
+export const guidedReport = {
+  sensations: [],
+  routine: '',
+  scenes: {},
+};
+
 const defaultInbox = [
   {
     id: 'SAFE-104',
@@ -71,8 +77,33 @@ const defaultDiary = [
   },
 ];
 
-export const diary = read('diario') || defaultDiary;
-export const inbox = read('panel') || defaultInbox;
+export const diary = (read('diario') || defaultDiary).filter((item) => {
+  const age = Date.now() - new Date(item.date).getTime();
+  return !Number.isFinite(age) || age < 30 * 24 * 60 * 60 * 1000;
+});
+export const inbox = (read('panel') || defaultInbox).filter((item) => {
+  const age = Date.now() - new Date(item.date).getTime();
+  return !Number.isFinite(age) || age < 30 * 24 * 60 * 60 * 1000;
+});
+
+save('diario', diary);
+save('panel', inbox);
+
+let reportApiAvailable = null;
+
+async function syncReportToServer(item) {
+  if (reportApiAvailable === false) return;
+  try {
+    const response = await fetch('/api/reports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(item),
+    });
+    reportApiAvailable = response.ok;
+  } catch {
+    reportApiAvailable = false;
+  }
+}
 
 export function updateTeacherBadge() {
   put('home-teacher-count', inbox.length);
@@ -93,10 +124,16 @@ export function addNotice(
     context,
     recipient,
     status: 'pendiente',
+    priority: extra.priority || 'normal',
+    createdAt: new Date().toISOString(),
+    statusHistory: [
+      { status: 'pendiente', date: new Date().toISOString(), note: 'Aviso recibido' },
+    ],
     date: new Date().toISOString(),
     ...extra,
   });
   save('panel', inbox);
   updateTeacherBadge();
+  syncReportToServer(inbox[0]);
   return code;
 }

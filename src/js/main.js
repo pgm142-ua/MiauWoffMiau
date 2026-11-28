@@ -17,12 +17,14 @@ import { initFlow } from './modules/flow.js';
 import { initParents } from './modules/parents.js';
 import { initQuestionnaire } from './modules/questionnaire.js';
 import { initTeacherPanel } from './modules/teacher-panel.js';
+import { initSafeStatus } from './modules/safe-status.js';
 
 function bootstrap() {
   initI18n();
   initCaa();
   initDiary();
   initTeacherPanel();
+  initSafeStatus();
   initChat();
   initDailyStory();
   initQuestionnaire();

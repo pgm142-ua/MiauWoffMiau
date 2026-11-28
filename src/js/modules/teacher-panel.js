@@ -24,6 +24,11 @@ export function drawInbox() {
   const area = $('teacher-inbox-list');
   if (!area) return;
   area.replaceChildren();
+  if (sessionStorage.getItem('contigo.staffRole') !== 'docente') {
+    area.append(node('p', 'Acceso restringido. Selecciona Profesor/a e introduce el código de centro.'));
+    updateTeacherBadge();
+    return;
+  }
   updateTeacherBadge();
 
   all('[data-teacher-filter]').forEach((btn) =>
@@ -58,9 +63,32 @@ export function drawInbox() {
     select.value = item.status;
     select.onchange = () => {
       item.status = select.value;
+      item.statusHistory = item.statusHistory || [];
+      item.statusHistory.push({
+        status: select.value,
+        date: new Date().toISOString(),
+        note: 'Actualizado por docente',
+      });
       save('panel', inbox);
+      fetch('/api/reports', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: item.id, status: item.status }),
+      }).catch(() => {});
       drawInbox();
     };
+    if (item.priority === 'critica') {
+      card.style.border = '3px solid #b42318';
+    }
+    if (item.structuredHelp) {
+      card.append(
+        node('strong', 'Malestar sin causa definida'),
+        node(
+          'small',
+          'Pauta segura: acoger sin exigir explicación, ofrecer espacio tranquilo, usar Sí/No/No lo sé y observar el momento y lugar señalado.'
+        )
+      );
+    }
 
     card.append(
       node(
@@ -73,6 +101,7 @@ export function drawInbox() {
       ),
       node('small', t('tp_item_meta', { place: placeLabel, sender: senderLabel })),
       node('p', bodyText),
+      node('small', item.priority === 'critica' ? 'PRIORIDAD CRÍTICA · Revisar ahora' : 'Prioridad normal'),
       select
     );
     area.append(card);

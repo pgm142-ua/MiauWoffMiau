@@ -765,6 +765,38 @@
   margin: 12px 0;
 }
 
+.guided-scenes {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.guided-scene {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.guided-scene .report-actions {
+  margin: 0;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 760px) {
+  .guided-scene {
+    grid-template-columns: 1fr;
+  }
+
+  .guided-scene .report-actions {
+    flex-wrap: wrap;
+  }
+}
+
 .chat-input-row {
   display: flex;
   flex-wrap: nowrap;
